@@ -15,6 +15,9 @@
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%236b2530' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z'/%3E%3C/svg%3E">
 
+<!-- Model Viewer -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -143,24 +146,17 @@
     pointer-events: none;
   }
 
-  .iframe-wrap {
+  /* Model Viewer */
+  .model-viewer {
     position: absolute;
     inset: 0;
-    overflow: hidden;
     z-index: 1;
-  }
-
-  .iframe-wrap iframe {
-    width: 160%;
-    height: 160%;
-    border: none;
-    transform: scale(0.5);
-    transform-origin: center center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -85%;
-    margin-left: -80%;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    --poster-color: transparent;
+    --progress-bar-color: transparent;
+    --progress-mask: transparent;
   }
 
   /* Скелетон 3D */
@@ -194,10 +190,8 @@
   .skeleton-phone::before {
     content: "";
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 90px;
-    height: 90px;
+    top: 20px; left: 20px;
+    width: 90px; height: 90px;
     border-radius: 22px;
     background: rgba(255,255,255,0.05);
   }
@@ -207,7 +201,7 @@
     100% { background-position: -200% 0; }
   }
 
-  /* Заглушка если 3D не загрузилась */
+  /* Заглушка если 3D нет */
   .viewer-fallback {
     position: absolute;
     inset: 0;
@@ -231,8 +225,7 @@
 
   .top-badge {
     position: absolute;
-    top: 22px;
-    left: 22px;
+    top: 22px; left: 22px;
     z-index: 3;
     display: flex;
     gap: 8px;
@@ -291,8 +284,7 @@
   }
 
   .share-btn {
-    width: 42px;
-    height: 42px;
+    width: 42px; height: 42px;
     border-radius: 12px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
@@ -343,7 +335,7 @@
     margin-top: 3px;
   }
 
-  /* ===== ОПЦИИ ВЫБОРА ===== */
+  /* ===== ОПЦИИ ===== */
   .option-block {
     display: flex;
     flex-direction: column;
@@ -372,10 +364,8 @@
     flex-wrap: wrap;
   }
 
-  /* Кружочки для цвета */
   .color-dot {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid transparent;
@@ -387,7 +377,6 @@
   .color-dot:hover { transform: scale(1.1); }
   .color-dot.active { border-color: #fff; transform: scale(1.12); }
 
-  /* Кнопки-плашки для остальных опций */
   .option-btn {
     padding: 12px 18px;
     background: rgba(255,255,255,0.04);
@@ -486,8 +475,7 @@
   .acc-head:hover { color: #fff; }
 
   .acc-head svg {
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     stroke: rgba(255,255,255,0.5);
     fill: none;
     stroke-width: 2;
@@ -512,14 +500,9 @@
     max-height: 300px;
   }
 
-  .acc-body-inner {
-    padding: 0 0 14px;
-  }
+  .acc-body-inner { padding: 0 0 14px; }
 
-  .acc-body-inner ul {
-    list-style: none;
-    padding: 0;
-  }
+  .acc-body-inner ul { list-style: none; padding: 0; }
 
   .acc-body-inner li {
     padding: 4px 0 4px 20px;
@@ -536,7 +519,7 @@
     background: #d46b7c;
   }
 
-  /* ===== КНОПКИ ДЕЙСТВИЙ ===== */
+  /* ===== ДЕЙСТВИЯ ===== */
   .actions {
     display: flex;
     flex-direction: column;
@@ -651,7 +634,7 @@
     fill: currentColor;
   }
 
-  /* ===== ПОХОЖИЕ ТОВАРЫ ===== */
+  /* ===== ПОХОЖИЕ ===== */
   .similar-section {
     max-width: 1180px;
     margin: 60px auto 0;
@@ -714,12 +697,18 @@
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .similar-spec {
     font-size: 12px;
     color: rgba(255,255,255,0.4);
     margin-bottom: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .similar-price {
@@ -740,8 +729,7 @@
   }
 
   .not-found-icon {
-    width: 80px;
-    height: 80px;
+    width: 80px; height: 80px;
     margin: 0 auto 24px;
     border-radius: 24px;
     background: linear-gradient(135deg, rgba(122, 42, 56, 0.5), rgba(74, 21, 32, 0.5));
@@ -863,7 +851,6 @@
   <!-- ОСНОВНОЙ КОНТЕНТ -->
   <div id="mainContent" style="display:none;">
 
-    <!-- ХЛЕБНЫЕ КРОШКИ -->
     <div class="breadcrumbs-bar" id="breadcrumbs">
       <a href="index.html">Главная</a>
       <span>·</span>
@@ -872,20 +859,32 @@
       <span id="bcProduct" style="color: rgba(255,255,255,0.7);"></span>
     </div>
 
-    <!-- КАРТОЧКА -->
     <div class="card">
       <div class="viewer" id="viewer">
-        <!-- Скелетон 3D -->
+        <!-- Model Viewer -->
+        <model-viewer
+          id="modelViewer"
+          class="model-viewer"
+          alt="3D модель товара"
+          auto-rotate
+          autoplay
+          camera-controls
+          touch-action="pan-y"
+          shadow-intensity="1"
+          exposure="1"
+          interaction-prompt="none"
+          rotation-per-second="20deg">
+        </model-viewer>
+
+        <!-- Скелетон -->
         <div class="viewer-skeleton" id="viewerSkeleton">
           <div class="skeleton-phone"></div>
         </div>
 
-        <!-- Заглушка если 3D нет -->
+        <!-- Fallback с фото -->
         <div class="viewer-fallback" id="viewerFallback">
           <img id="fallbackPhoto" src="" alt="">
         </div>
-
-        <div class="iframe-wrap" id="iframeWrap"></div>
 
         <div class="top-badge">
           <div class="badge" id="colorBadge">Товар</div>
@@ -904,20 +903,16 @@
           </button>
         </div>
 
-        <!-- Характеристики -->
         <div class="specs-list" id="specsList"></div>
 
-        <!-- Опции -->
         <div id="optionsContainer"></div>
 
-        <!-- Цена -->
         <div class="price-block">
           <div class="price" id="priceDisplay">— ₽</div>
           <div class="old-price" id="oldPriceDisplay">— ₽</div>
           <div class="discount" id="discountDisplay">−0%</div>
         </div>
 
-        <!-- Аккордеон -->
         <div class="accordion">
           <div class="acc-item">
             <div class="acc-head">
@@ -984,7 +979,6 @@
       </div>
     </div>
 
-    <!-- ПОХОЖИЕ ТОВАРЫ -->
     <div class="similar-section" id="similarSection" style="display:none;">
       <h2 class="similar-title">Похожие товары</h2>
       <div class="similar-grid" id="similarGrid"></div>
@@ -1008,12 +1002,13 @@
     const db = firebase.database();
   </script>
 
-    <script>
+  <!-- ЧАСТЬ 2 — JS -->
+  <script>
     // ===== НАСТРОЙКИ =====
     const WHATSAPP_NUMBER = '79991234567';
     const STORAGE_KEY = 'isakha_cart';
 
-    // Цветовые схемы для каждой опции «Цвет»
+    // Цветовые схемы
     const COLOR_MAP = {
       'burgundy': { bg: 'linear-gradient(135deg, #6b2530, #2e0e15)', hex: '#6b2530' },
       'бордовый': { bg: 'linear-gradient(135deg, #6b2530, #2e0e15)', hex: '#6b2530' },
@@ -1022,7 +1017,6 @@
       'glacier': { bg: 'linear-gradient(135deg, #7a9bc4, #3d5a80)', hex: '#7a9bc4' },
       'glacier blue': { bg: 'linear-gradient(135deg, #7a9bc4, #3d5a80)', hex: '#7a9bc4' },
       'голубой': { bg: 'linear-gradient(135deg, #7a9bc4, #3d5a80)', hex: '#7a9bc4' },
-      'blue': { bg: 'linear-gradient(135deg, #7a9bc4, #3d5a80)', hex: '#7a9bc4' },
       'black': { bg: 'linear-gradient(135deg, #3a3a42, #0a0a0c)', hex: '#1a1a1c' },
       'чёрный': { bg: 'linear-gradient(135deg, #3a3a42, #0a0a0c)', hex: '#1a1a1c' },
       'черный': { bg: 'linear-gradient(135deg, #3a3a42, #0a0a0c)', hex: '#1a1a1c' },
@@ -1042,15 +1036,14 @@
       'желтый': { bg: 'linear-gradient(135deg, #f5e070, #c8b040)', hex: '#dcc858' }
     };
 
-    // Тёмные цвета (для выбора правильного контраста)
     const DARK_COLORS = ['burgundy', 'бордовый', 'black', 'чёрный', 'черный', 'purple', 'фиолетовый'];
 
     // ===== ЭЛЕМЕНТЫ =====
     const loadingScreen = document.getElementById('loadingScreen');
     const notFound = document.getElementById('notFound');
     const mainContent = document.getElementById('mainContent');
-    const iframeWrap = document.getElementById('iframeWrap');
     const viewer = document.getElementById('viewer');
+    const modelViewer = document.getElementById('modelViewer');
     const viewerSkeleton = document.getElementById('viewerSkeleton');
     const viewerFallback = document.getElementById('viewerFallback');
     const fallbackPhoto = document.getElementById('fallbackPhoto');
@@ -1074,9 +1067,8 @@
     const similarSection = document.getElementById('similarSection');
     const similarGrid = document.getElementById('similarGrid');
 
-    // Текущий товар
     let currentProduct = null;
-    let currentSelections = {}; // { optionName: value }
+    let currentSelections = {};
     let currentPrice = 0;
     let allProducts = {};
 
@@ -1100,7 +1092,6 @@
     function getColorStyle(value) {
       const key = (value || '').toLowerCase().trim();
       if (COLOR_MAP[key]) return COLOR_MAP[key];
-      // Генерируем цвет по хешу
       let hash = 0;
       for (let i = 0; i < key.length; i++) hash = key.charCodeAt(i) + ((hash << 5) - hash);
       const hue = Math.abs(hash) % 360;
@@ -1108,6 +1099,27 @@
         bg: `linear-gradient(135deg, hsl(${hue}, 40%, 45%), hsl(${hue}, 40%, 25%))`,
         hex: `hsl(${hue}, 40%, 35%)`
       };
+    }
+
+    // Формирование имени файла модели по названию товара и цвета
+    function getModelFilename(productName, colorValue) {
+      // "iPhone 18 Pro Max" → "iphone-18-pro-max"
+      const nameSlug = (productName || '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9а-яё\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+
+      // "Glacier Blue" → "glacier"
+      const colorSlug = (colorValue || '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9а-яё\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+
+      return `${nameSlug}-${colorSlug}.glb`;
     }
 
     // ===== АККОРДЕОН =====
@@ -1138,7 +1150,6 @@
         } catch (e) {}
       }
 
-      // Fallback: копируем ссылку
       try {
         await navigator.clipboard.writeText(url);
         shareBtn.style.color = '#4ade80';
@@ -1160,8 +1171,9 @@
 
     function updateCartCount() {
       const cart = getCart();
-      if (cart.length > 0) {
-        cartCount.textContent = cart.length;
+      const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+      if (totalQty > 0) {
+        cartCount.textContent = totalQty;
         cartCount.classList.remove('hidden');
       } else {
         cartCount.classList.add('hidden');
@@ -1177,14 +1189,13 @@
       } catch (e) {}
     }
 
-    // ===== ЗАГРУЗКА ТОВАРА =====
+    // ===== ЗАГРУЗКА =====
     const params = new URLSearchParams(window.location.search);
     const productId = params.get('id');
 
     if (!productId) {
       showNotFound();
     } else {
-      // Загружаем товар и все товары (для похожих) параллельно
       Promise.all([
         db.ref('products/' + productId).once('value'),
         db.ref('products').once('value')
@@ -1210,30 +1221,25 @@
       notFound.style.display = 'block';
     }
 
-    // ===== ОТРИСОВКА ТОВАРА =====
+    // ===== ОТРИСОВКА =====
     function renderProduct() {
       const p = currentProduct;
 
       loadingScreen.style.display = 'none';
       mainContent.style.display = 'block';
 
-      // Заголовок
       document.title = p.name + ' — iSakha';
       productTitle.textContent = p.name;
       bcProduct.textContent = p.name;
 
-      // Подзаголовок: категория + первая характеристика
       const subtitleParts = [];
       if (p.category) subtitleParts.push(p.category);
       if (p.specs && p.specs.length) {
         const firstSpec = p.specs[0];
-        if (firstSpec.label && firstSpec.value) {
-          subtitleParts.push(firstSpec.value);
-        }
+        if (firstSpec.label && firstSpec.value) subtitleParts.push(firstSpec.value);
       }
       productSubtitle.textContent = subtitleParts.join(' · ');
 
-      // Бейдж (первая опция «Цвет» или название)
       const colorOption = (p.options || []).find(o => isColorOption(o.name));
       if (colorOption && colorOption.values && colorOption.values.length) {
         colorBadge.textContent = colorOption.values[0].value;
@@ -1243,28 +1249,16 @@
         colorBadge.textContent = 'Товар';
       }
 
-      // Характеристики
       renderSpecs(p.specs || []);
-
-      // Опции
       renderOptions(p.options || []);
-
-      // Применяем первый выбор по умолчанию
       applyDefaultSelections();
-
-      // Цена
       recalcPrice();
 
       // 3D-модель
-      render3DModel(p);
+      renderModel();
 
-      // WhatsApp кнопка
       updateWhatsappLink();
-
-      // Похожие товары
       renderSimilar();
-
-      // Стили фона (если есть цвет)
       applyColorStyles();
     }
 
@@ -1288,14 +1282,14 @@
         return;
       }
 
-      optionsContainer.innerHTML = options.map((opt, i) => {
+      optionsContainer.innerHTML = options.map(opt => {
         const isColor = isColorOption(opt.name);
-        const valuesHtml = (opt.values || []).map((v, j) => {
+        const valuesHtml = (opt.values || []).map(v => {
           if (isColor) {
             const style = getColorStyle(v.value);
             return `<div class="color-dot" data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}" style="background: ${style.bg};" title="${escapeHtml(v.value)}"></div>`;
           } else {
-            const price = v.price && v.price > 0 ? `<small>${formatPrice(v.price)}</small>` : '';
+            const price = v.price && v.price > 0 ? `<small>+${formatPrice(v.price)}</small>` : '';
             return `<button class="option-btn" data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}">${escapeHtml(v.value)}${price}</button>`;
           }
         }).join('');
@@ -1308,36 +1302,24 @@
         `;
       }).join('');
 
-      // Обработчики
       optionsContainer.querySelectorAll('.color-dot, .option-btn').forEach(el => {
         el.addEventListener('click', () => {
           const optName = el.dataset.option;
           const value = el.dataset.value;
 
-          // Снимаем active с других в этой группе
           optionsContainer.querySelectorAll(`[data-option="${CSS.escape(optName)}"]`).forEach(x => x.classList.remove('active'));
           el.classList.add('active');
 
           currentSelections[optName] = value;
 
-          // Обновляем label
           const labelEl = optionsContainer.querySelector(`.option-value-label[data-for="${CSS.escape(optName)}"]`);
           if (labelEl) labelEl.textContent = value;
 
-          // Обновляем бейдж если это цвет
           if (isColorOption(optName)) {
             colorBadge.textContent = value;
             applyColorStyles(value);
-            // Меняем 3D-модель если для цвета есть своя
-            const colorOpt = (currentProduct.options || []).find(o => isColorOption(o.name));
-            if (colorOpt && colorOpt.values) {
-              const colorVal = colorOpt.values.find(cv => cv.value === value);
-              if (colorVal && colorVal.model) {
-                render3DModel({ ...currentProduct, model: colorVal.model });
-              } else if (currentProduct.model) {
-                render3DModel(currentProduct);
-              }
-            }
+            // ПЕРЕКЛЮЧАЕМ 3D-МОДЕЛЬ
+            renderModel();
           }
 
           recalcPrice();
@@ -1353,11 +1335,9 @@
           const firstValue = opt.values[0];
           currentSelections[opt.name] = firstValue.value;
 
-          // Активируем первую опцию в UI
           const firstEl = optionsContainer.querySelector(`[data-option="${CSS.escape(opt.name)}"][data-value="${CSS.escape(firstValue.value)}"]`);
           if (firstEl) firstEl.classList.add('active');
 
-          // Обновляем label
           const labelEl = optionsContainer.querySelector(`.option-value-label[data-for="${CSS.escape(opt.name)}"]`);
           if (labelEl) labelEl.textContent = firstValue.value;
         }
@@ -1370,14 +1350,11 @@
 
       let price = p.price || 0;
 
-      // Прибавляем цены выбранных опций
       (p.options || []).forEach(opt => {
         const selected = currentSelections[opt.name];
         if (!selected) return;
         const value = (opt.values || []).find(v => v.value === selected);
-        if (value && value.price) {
-          price += value.price;
-        }
+        if (value && value.price) price += value.price;
       });
 
       currentPrice = price;
@@ -1391,73 +1368,53 @@
     }
 
     // ===== 3D-МОДЕЛЬ =====
-    function render3DModel(product) {
-      const model = product.model;
+    function renderModel() {
+      const p = currentProduct;
+      if (!p) return;
 
       // Показываем скелетон
       viewerSkeleton.classList.remove('hidden');
       viewerFallback.classList.remove('show');
 
-      // Если модели нет — показываем fallback с фото
-      if (!model) {
-        viewerSkeleton.classList.add('hidden');
-        if (product.photo) {
-          fallbackPhoto.src = product.photo;
-          viewerFallback.classList.add('show');
-        }
-        iframeWrap.innerHTML = '';
-        return;
+      // Определяем файл модели
+      let modelFile = '';
+      const colorOption = (p.options || []).find(o => isColorOption(o.name));
+      const selectedColor = colorOption ? currentSelections[colorOption.name] : null;
+
+      if (selectedColor) {
+        // У нас есть выбранный цвет — формируем имя файла
+        modelFile = getModelFilename(p.name, selectedColor);
+      } else if (p.model) {
+        // Иначе — берём общую модель из админки (если указана)
+        modelFile = p.model;
       }
 
-      iframeWrap.innerHTML = `
-        <div class="sketchfab-embed-wrapper">
-          <iframe
-            title="${escapeHtml(product.name)}"
-            frameborder="0"
-            allowfullscreen
-            mozallowfullscreen="true"
-            webkitallowfullscreen="true"
-            allow="autoplay; fullscreen; xr-spatial-tracking"
-            xr-spatial-tracking
-            execution-while-out-of-viewport
-            execution-while-not-rendered
-            web-share
-            src="${escapeHtml(model)}">
-          </iframe>
-        </div>
-      `;
+      // Если файл модели есть — показываем его
+      if (modelFile) {
+        modelViewer.src = modelFile;
 
-      const iframe = iframeWrap.querySelector('iframe');
-      if (!iframe) return;
+        modelViewer.addEventListener('load', () => {
+          setTimeout(() => viewerSkeleton.classList.add('hidden'), 500);
+        }, { once: true });
 
-      iframe.style.cssText = `
-        width: 160%;
-        height: 160%;
-        border: none;
-        transform: scale(0.5);
-        transform-origin: center center;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -85%;
-        margin-left: -80%;
-      `;
-
-      // Скрываем скелетон когда iframe загрузится
-      iframe.addEventListener('load', () => {
-        setTimeout(() => viewerSkeleton.classList.add('hidden'), 800);
-      });
-
-      // Если долго не грузится — показываем fallback
-      setTimeout(() => {
-        if (!viewerSkeleton.classList.contains('hidden')) {
-          viewerSkeleton.classList.add('hidden');
-          if (product.photo) {
-            fallbackPhoto.src = product.photo;
-            viewerFallback.classList.add('show');
+        // Если модель не загрузилась за 6 сек — показываем fallback с фото
+        setTimeout(() => {
+          if (!viewerSkeleton.classList.contains('hidden')) {
+            viewerSkeleton.classList.add('hidden');
+            if (p.photo) {
+              fallbackPhoto.src = p.photo;
+              viewerFallback.classList.add('show');
+            }
           }
+        }, 6000);
+      } else {
+        // Нет модели — показываем фото
+        viewerSkeleton.classList.add('hidden');
+        if (p.photo) {
+          fallbackPhoto.src = p.photo;
+          viewerFallback.classList.add('show');
         }
-      }, 6000);
+      }
     }
 
     // ===== СТИЛИ ПОД ЦВЕТ =====
@@ -1473,17 +1430,14 @@
       const style = getColorStyle(colorValue);
       const isDark = DARK_COLORS.includes(colorValue.toLowerCase().trim());
 
-      // Меняем фон зрителя на градиент с оттенком цвета
       viewer.style.setProperty('--viewer-bg',
         `radial-gradient(circle at 50% 35%, ${style.hex}33 0%, #10080c 45%, #08080a 100%)`);
 
-      // Меняем бейдж
       colorBadge.style.setProperty('--badge-bg',
         isDark ? 'rgba(40, 20, 25, 0.9)' : 'rgba(255, 255, 255, 0.15)');
       colorBadge.style.setProperty('--badge-color',
         isDark ? '#f5d5d8' : '#fff');
 
-      // Кнопка корзины
       document.documentElement.style.setProperty('--btn-grad',
         `linear-gradient(135deg, ${style.hex}, ${adjustColor(style.hex, -30)})`);
       document.documentElement.style.setProperty('--btn-shadow',
@@ -1491,9 +1445,7 @@
     }
 
     function adjustColor(hex, percent) {
-      // Если hsl — просто темнее
       if (hex.startsWith('hsl')) return hex;
-
       const num = parseInt(hex.replace('#', ''), 16);
       const R = Math.max(0, Math.min(255, (num >> 16) + percent));
       const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + percent));
@@ -1516,32 +1468,29 @@
       btnWhatsapp.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
     }
 
-    // ===== ДОБАВИТЬ В КОРЗИНУ =====
+    // ===== В КОРЗИНУ =====
     btnCart.addEventListener('click', () => {
       const p = currentProduct;
       if (!p) return;
 
-      // Собираем «снимок» товара
       const item = {
         id: p.id,
         name: p.name,
         price: currentPrice,
         photo: p.photo || '',
+        qty: 1,
         specs: p.specs || [],
         options: {},
-        // Старые поля для совместимости
         color: '',
         colorName: '',
         storage: '',
         sim: ''
       };
 
-      // Записываем выбранные опции
       Object.entries(currentSelections).forEach(([optName, value]) => {
         item.options[optName] = value;
       });
 
-      // Для совместимости со старым форматом — заполняем color/storage/sim
       const colorOpt = (p.options || []).find(o => isColorOption(o.name));
       if (colorOpt && currentSelections[colorOpt.name]) {
         item.colorName = currentSelections[colorOpt.name];
@@ -1562,7 +1511,6 @@
 
       playBuySound();
 
-      // Анимации
       const ripple = document.createElement('div');
       ripple.className = 'buy-ripple';
       btnCart.appendChild(ripple);
@@ -1587,21 +1535,19 @@
       setTimeout(() => cartCount.classList.remove('pop'), 400);
     });
 
-    // ===== ПОХОЖИЕ ТОВАРЫ =====
+    // ===== ПОХОЖИЕ =====
     function renderSimilar() {
       const p = currentProduct;
       if (!p) return;
 
-      // Берём товары той же категории, кроме текущего
       let similar = Object.entries(allProducts)
-        .filter(([id, prod]) => id !== p.id)
+        .filter(([id]) => id !== p.id)
         .filter(([id, prod]) => {
           if (!p.category) return true;
           return (prod.category || '') === p.category;
         })
         .slice(0, 4);
 
-      // Если мало — добиваем остальными
       if (similar.length < 2 && p.category) {
         const extra = Object.entries(allProducts)
           .filter(([id, prod]) => id !== p.id && (prod.category || '') !== p.category)

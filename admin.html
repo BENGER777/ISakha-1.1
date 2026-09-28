@@ -13,6 +13,7 @@
 
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
     background: #08080a;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
@@ -30,6 +31,7 @@
     position: relative;
     overflow: hidden;
   }
+
   .login-screen::before {
     content: "";
     position: absolute;
@@ -40,6 +42,7 @@
     filter: blur(80px);
     pointer-events: none;
   }
+
   .login-card {
     position: relative;
     z-index: 1;
@@ -51,6 +54,7 @@
     width: 100%;
     box-shadow: 0 40px 100px rgba(0,0,0,0.7);
   }
+
   .login-logo {
     font-size: 26px;
     font-weight: 700;
@@ -60,7 +64,9 @@
     margin-bottom: 8px;
     justify-content: center;
   }
+
   .login-logo svg { width: 24px; height: 28px; fill: #7a2a38; }
+
   .login-sub {
     text-align: center;
     font-size: 13px;
@@ -71,6 +77,7 @@
   }
 
   .form-group { margin-bottom: 18px; }
+
   .form-label {
     display: block;
     font-size: 12px;
@@ -80,6 +87,7 @@
     font-weight: 600;
     margin-bottom: 8px;
   }
+
   .form-input {
     width: 100%;
     padding: 14px 18px;
@@ -92,11 +100,13 @@
     outline: none;
     transition: all 0.2s;
   }
+
   .form-input:focus {
     border-color: rgba(212, 107, 124, 0.6);
     background: rgba(255,255,255,0.06);
     box-shadow: 0 0 0 3px rgba(122, 42, 56, 0.2);
   }
+
   .form-input::placeholder { color: rgba(255,255,255,0.3); }
   textarea.form-input { resize: vertical; min-height: 70px; font-family: inherit; }
 
@@ -115,10 +125,12 @@
     box-shadow: 0 12px 36px rgba(122, 42, 56, 0.5);
     margin-top: 8px;
   }
+
   .btn-login:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 16px 48px rgba(122, 42, 56, 0.7);
   }
+
   .btn-login:disabled { opacity: 0.5; cursor: wait; }
 
   .error-msg {
@@ -131,6 +143,7 @@
     margin-top: 14px;
     display: none;
   }
+
   .error-msg.show { display: block; }
 
   /* ===== АДМИНКА ===== */
@@ -146,6 +159,7 @@
     top: 0;
     z-index: 100;
   }
+
   .admin-header-inner {
     max-width: 1280px;
     margin: 0 auto;
@@ -154,6 +168,7 @@
     justify-content: space-between;
     gap: 20px;
   }
+
   .admin-logo {
     font-size: 20px;
     font-weight: 700;
@@ -161,7 +176,9 @@
     align-items: center;
     gap: 8px;
   }
+
   .admin-logo svg { width: 20px; height: 24px; fill: #7a2a38; }
+
   .admin-user {
     display: flex;
     align-items: center;
@@ -169,6 +186,7 @@
     font-size: 13px;
     color: rgba(255,255,255,0.5);
   }
+
   .btn-logout {
     padding: 8px 16px;
     background: rgba(255,255,255,0.05);
@@ -180,13 +198,13 @@
     font-family: inherit;
     transition: all 0.2s;
   }
+
   .btn-logout:hover {
     background: rgba(255, 90, 90, 0.1);
     border-color: rgba(255, 90, 90, 0.4);
     color: #ff8080;
   }
 
-  /* Вкладки */
   .admin-tabs {
     max-width: 1280px;
     margin: 0 auto;
@@ -196,6 +214,7 @@
     flex-wrap: wrap;
     align-items: center;
   }
+
   .tab-btn {
     padding: 12px 24px;
     background: transparent;
@@ -209,13 +228,16 @@
     transition: all 0.2s;
     position: relative;
   }
+
   .tab-btn:hover { background: rgba(255,255,255,0.05); color: #fff; }
+
   .tab-btn.active {
     background: linear-gradient(135deg, #7a2a38, #4a1520);
     border-color: transparent;
     color: #fff;
     box-shadow: 0 8px 24px rgba(122, 42, 56, 0.4);
   }
+
   .tab-btn .tab-badge {
     display: inline-flex;
     align-items: center;
@@ -230,6 +252,7 @@
     font-size: 11px;
     font-weight: 700;
   }
+
   .tab-btn .tab-badge.hidden { display: none; }
 
   .admin-content {
@@ -237,10 +260,10 @@
     margin: 0 auto;
     padding: 30px 40px 80px;
   }
+
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
-  /* Тулбар */
   .toolbar {
     display: flex;
     gap: 12px;
@@ -248,11 +271,13 @@
     margin-bottom: 24px;
     flex-wrap: wrap;
   }
+
   .search-box {
     flex: 1;
     min-width: 200px;
     position: relative;
   }
+
   .search-box svg {
     position: absolute;
     left: 14px;
@@ -265,6 +290,7 @@
     stroke-width: 2;
     pointer-events: none;
   }
+
   .search-box input {
     width: 100%;
     padding: 12px 16px 12px 42px;
@@ -277,10 +303,12 @@
     outline: none;
     transition: all 0.2s;
   }
+
   .search-box input:focus {
     border-color: rgba(212, 107, 124, 0.6);
     background: rgba(255,255,255,0.04);
   }
+
   .search-box input::placeholder { color: rgba(255,255,255,0.3); }
 
   .btn-toolbar {
@@ -299,10 +327,9 @@
     gap: 8px;
     white-space: nowrap;
   }
-  .btn-toolbar:hover {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-  }
+
+  .btn-toolbar:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
   .btn-toolbar svg {
     width: 16px;
     height: 16px;
@@ -329,6 +356,7 @@
     transition: all 0.2s;
     box-shadow: 0 8px 24px rgba(122, 42, 56, 0.4);
   }
+
   .btn-add:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 32px rgba(122, 42, 56, 0.6);
@@ -336,13 +364,14 @@
 
   .empty-state {
     text-align: center;
-    padding: 80px 20px;
+    padding: 60px 20px;
     background: #101014;
     border: 1px dashed rgba(255,255,255,0.1);
     border-radius: 20px;
     color: rgba(255,255,255,0.4);
     font-size: 15px;
   }
+
   .empty-state svg {
     width: 48px;
     height: 48px;
@@ -354,6 +383,7 @@
 
   /* ===== ТОВАРЫ ===== */
   .admin-products { display: grid; gap: 14px; }
+
   .admin-product {
     display: grid;
     grid-template-columns: 80px 1fr auto auto;
@@ -366,14 +396,17 @@
     transition: all 0.2s;
     position: relative;
   }
+
   .admin-product:hover { border-color: rgba(180, 80, 100, 0.3); }
   .admin-product.unavailable { opacity: 0.5; }
+
   .admin-product.unavailable .ap-name::after {
     content: " · скрыт";
     color: #ff8080;
     font-size: 12px;
     font-weight: 500;
   }
+
   .ap-thumb {
     width: 80px;
     height: 80px;
@@ -385,8 +418,11 @@
     background: radial-gradient(circle, #2a1a24 0%, #0a0a0c 100%);
     overflow: hidden;
   }
+
   .ap-thumb img { width: 100%; height: 100%; object-fit: contain; }
+
   .ap-info { min-width: 0; }
+
   .ap-name {
     font-size: 16px;
     font-weight: 600;
@@ -395,6 +431,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
   .ap-spec {
     font-size: 13px;
     color: rgba(255,255,255,0.45);
@@ -402,12 +439,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
   .ap-price {
     font-size: 18px;
     font-weight: 700;
     white-space: nowrap;
   }
+
   .ap-actions { display: flex; gap: 8px; }
+
   .btn-icon {
     width: 38px;
     height: 38px;
@@ -422,17 +462,21 @@
     justify-content: center;
     transition: all 0.2s;
   }
+
   .btn-icon:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
   .btn-icon.danger:hover {
     background: rgba(255, 90, 90, 0.15);
     border-color: rgba(255, 90, 90, 0.4);
     color: #ff8080;
   }
+
   .btn-icon.success:hover {
     background: rgba(74, 222, 128, 0.15);
     border-color: rgba(74, 222, 128, 0.4);
     color: #4ade80;
   }
+
   .btn-icon svg {
     width: 16px; height: 16px;
     fill: none;
@@ -444,6 +488,7 @@
 
   /* ===== ЗАКАЗЫ ===== */
   .admin-orders { display: grid; gap: 14px; }
+
   .order-card {
     padding: 22px;
     background: #101014;
@@ -451,6 +496,7 @@
     border-radius: 18px;
     transition: all 0.2s;
   }
+
   .order-card:hover { border-color: rgba(180, 80, 100, 0.3); }
   .order-card[data-status="new"] { border-left: 3px solid #4ade80; }
   .order-card[data-status="work"] { border-left: 3px solid #f5b944; }
@@ -467,6 +513,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.06);
     flex-wrap: wrap;
   }
+
   .order-date {
     font-size: 12px;
     color: rgba(255,255,255,0.4);
@@ -474,15 +521,18 @@
     text-transform: uppercase;
     margin-bottom: 6px;
   }
+
   .order-name {
     font-size: 17px;
     font-weight: 700;
     margin-bottom: 4px;
   }
+
   .order-contact {
     font-size: 13px;
     color: rgba(255,255,255,0.6);
   }
+
   .order-contact a { color: #d46b7c; text-decoration: none; }
   .order-contact a:hover { text-decoration: underline; }
 
@@ -492,6 +542,7 @@
     align-items: flex-end;
     gap: 10px;
   }
+
   .order-total {
     font-size: 22px;
     font-weight: 800;
@@ -499,6 +550,7 @@
     color: #d46b7c;
     white-space: nowrap;
   }
+
   .status-badge {
     display: inline-flex;
     align-items: center;
@@ -511,6 +563,7 @@
     user-select: none;
     transition: all 0.2s;
   }
+
   .status-badge[data-status="new"] { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
   .status-badge[data-status="work"] { background: rgba(245, 185, 68, 0.15); color: #f5b944; }
   .status-badge[data-status="done"] { background: rgba(122, 42, 56, 0.3); color: #d46b7c; }
@@ -521,6 +574,7 @@
     flex-direction: column;
     gap: 8px;
   }
+
   .order-item {
     display: flex;
     justify-content: space-between;
@@ -528,6 +582,7 @@
     font-size: 14px;
     padding: 8px 0;
   }
+
   .order-item-name { color: rgba(255,255,255,0.8); }
   .order-item-spec { color: rgba(255,255,255,0.4); font-size: 12px; margin-top: 2px; }
   .order-item-price { color: #fff; font-weight: 600; white-space: nowrap; }
@@ -539,6 +594,7 @@
     font-size: 13px;
     color: rgba(255,255,255,0.5);
   }
+
   .order-comment {
     margin-top: 10px;
     padding: 10px 14px;
@@ -548,6 +604,7 @@
     font-size: 13px;
     color: rgba(255,255,255,0.7);
   }
+
   .order-actions {
     margin-top: 14px;
     padding-top: 14px;
@@ -556,6 +613,7 @@
     gap: 8px;
     flex-wrap: wrap;
   }
+
   .order-action-btn {
     padding: 8px 14px;
     background: rgba(255,255,255,0.05);
@@ -568,6 +626,7 @@
     font-family: inherit;
     transition: all 0.2s;
   }
+
   .order-action-btn:hover {
     background: rgba(255,255,255,0.1);
     color: #fff;
@@ -586,7 +645,9 @@
     padding: 24px;
     overflow-y: auto;
   }
+
   .modal-overlay.show { display: flex; }
+
   .modal-box {
     background: #101014;
     border: 1px solid rgba(255,255,255,0.08);
@@ -596,17 +657,20 @@
     width: 100%;
     margin: auto;
   }
+
   .modal-box h3 {
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 24px;
     letter-spacing: -0.5px;
   }
+
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
   }
+
   .modal-actions {
     display: flex;
     gap: 10px;
@@ -617,6 +681,7 @@
     padding: 16px 0 0;
     margin-bottom: -8px;
   }
+
   .btn-cancel {
     flex: 1;
     padding: 14px;
@@ -629,7 +694,9 @@
     cursor: pointer;
     font-family: inherit;
   }
+
   .btn-cancel:hover { background: rgba(255,255,255,0.1); }
+
   .btn-save {
     flex: 1;
     padding: 14px;
@@ -643,10 +710,12 @@
     font-family: inherit;
     box-shadow: 0 8px 24px rgba(122, 42, 56, 0.4);
   }
+
   .btn-save:hover {
     transform: translateY(-1px);
     box-shadow: 0 12px 32px rgba(122, 42, 56, 0.6);
   }
+
   .btn-save:disabled { opacity: 0.5; cursor: wait; }
 
   /* ===== КОНСТРУКТОР ===== */
@@ -662,6 +731,7 @@
     align-items: center;
     justify-content: space-between;
   }
+
   .section-title-sm button {
     padding: 6px 12px;
     background: rgba(212, 107, 124, 0.15);
@@ -674,6 +744,7 @@
     font-family: inherit;
     transition: all 0.2s;
   }
+
   .section-title-sm button:hover {
     background: rgba(212, 107, 124, 0.25);
   }
@@ -685,6 +756,7 @@
     margin-bottom: 10px;
     align-items: center;
   }
+
   .spec-row input {
     padding: 12px 14px;
     background: rgba(255,255,255,0.04);
@@ -696,9 +768,11 @@
     outline: none;
     width: 100%;
   }
+
   .spec-row input:focus {
     border-color: rgba(212, 107, 124, 0.6);
   }
+
   .spec-row .btn-remove {
     width: 38px;
     height: 38px;
@@ -713,6 +787,7 @@
     justify-content: center;
     transition: all 0.2s;
   }
+
   .spec-row .btn-remove:hover {
     background: rgba(255, 90, 90, 0.2);
   }
@@ -724,6 +799,7 @@
     border-radius: 14px;
     margin-bottom: 12px;
   }
+
   .option-block-header {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -731,6 +807,7 @@
     margin-bottom: 12px;
     align-items: center;
   }
+
   .option-block-header input {
     padding: 12px 14px;
     background: rgba(255,255,255,0.04);
@@ -742,16 +819,49 @@
     outline: none;
     width: 100%;
   }
+
+  .option-block-header .btn-remove {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255, 90, 90, 0.1);
+    border: 1px solid rgba(255, 90, 90, 0.3);
+    color: #ff8080;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .option-block-header .btn-remove:hover {
+    background: rgba(255, 90, 90, 0.2);
+  }
+
   .option-values {
     display: grid;
     gap: 8px;
   }
+
   .option-value-row {
     display: grid;
     grid-template-columns: 1fr 1fr auto;
     gap: 8px;
     align-items: center;
   }
+
+  .option-value-row.color-row {
+    grid-template-columns: 56px 1fr 1fr auto;
+  }
+
+  .option-value-row .color-picker {
+    display: none;
+  }
+
+  .option-value-row.color-row .color-picker {
+    display: block;
+  }
+
   .option-value-row input {
     padding: 10px 14px;
     background: rgba(255,255,255,0.03);
@@ -763,9 +873,11 @@
     outline: none;
     width: 100%;
   }
+
   .option-value-row input:focus {
     border-color: rgba(212, 107, 124, 0.4);
   }
+
   .option-value-row .btn-remove {
     width: 32px;
     height: 32px;
@@ -779,8 +891,75 @@
     justify-content: center;
     transition: all 0.2s;
   }
+
   .option-value-row .btn-remove:hover {
     background: rgba(255, 90, 90, 0.2);
+  }
+
+  /* Цветовой кружок */
+  .color-picker {
+    width: 56px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    background: transparent;
+    padding: 3px;
+    transition: all 0.2s;
+  }
+
+  .color-picker:hover {
+    border-color: rgba(212, 107, 124, 0.6);
+  }
+
+  .color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  .color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 6px;
+  }
+
+  .color-picker::-moz-color-swatch {
+    border: none;
+    border-radius: 6px;
+  }
+
+  /* Выпадающий список моделей */
+  .model-select {
+    width: 100%;
+    padding: 10px 32px 10px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff80' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    grid-column: 1 / -1;
+  }
+
+  .model-select:focus {
+    border-color: rgba(212, 107, 124, 0.6);
+    background-color: rgba(255,255,255,0.05);
+  }
+
+  .model-select option {
+    background: #101014;
+    color: #fff;
+  }
+
+  .model-select.model-empty {
+    border-color: rgba(255, 90, 90, 0.4);
+    color: #ff8080;
   }
 
   .btn-add-row {
@@ -797,6 +976,7 @@
     transition: all 0.2s;
     margin-top: 8px;
   }
+
   .btn-add-row:hover {
     background: rgba(255,255,255,0.06);
     border-color: rgba(212, 107, 124, 0.5);
@@ -815,17 +995,20 @@
     cursor: pointer;
     user-select: none;
   }
+
   .toggle-row input {
     width: 18px;
     height: 18px;
     accent-color: #7a2a38;
     cursor: pointer;
   }
+
   .toggle-row-label {
     font-size: 14px;
     font-weight: 600;
     color: rgba(255,255,255,0.85);
   }
+
   .toggle-row-hint {
     font-size: 12px;
     color: rgba(255,255,255,0.4);
@@ -853,7 +1036,9 @@
     max-width: 400px;
     cursor: pointer;
   }
+
   .toast.show { transform: translateY(0); }
+
   .toast-icon {
     width: 36px;
     height: 36px;
@@ -864,6 +1049,7 @@
     justify-content: center;
     flex-shrink: 0;
   }
+
   .toast-icon svg {
     width: 20px; height: 20px;
     fill: none;
@@ -877,20 +1063,27 @@
     .admin-header { padding: 14px 20px; }
     .admin-tabs { padding: 20px 20px 0; }
     .admin-content { padding: 20px 20px 60px; }
+
     .admin-product {
       grid-template-columns: 60px 1fr;
       gap: 14px;
       padding: 14px;
     }
+
     .ap-thumb { width: 60px; height: 60px; }
     .ap-price { font-size: 15px; grid-column: 2; }
     .ap-actions { grid-column: 2; }
+
     .form-row { grid-template-columns: 1fr; }
     .order-total { font-size: 18px; }
+
     .spec-row { grid-template-columns: 1fr; gap: 6px; }
     .spec-row .btn-remove { width: 100%; }
+
     .option-value-row { grid-template-columns: 1fr; gap: 6px; }
+    .option-value-row.color-row { grid-template-columns: 56px 1fr 1fr auto; }
     .option-value-row .btn-remove { width: 100%; }
+
     .toast { bottom: 20px; right: 20px; left: 20px; max-width: none; }
   }
 </style>
@@ -1006,32 +1199,28 @@
         <input type="text" class="form-input" id="pPhoto" placeholder="https://...">
       </div>
 
-      <!-- 3D-модель -->
       <div class="section-title-sm">
         <span>3D-модель (общая)</span>
       </div>
       <div class="form-group">
         <input type="text" class="form-input" id="pModel" placeholder="Ссылка на Sketchfab или iframe-код">
         <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;">
-          Можно вставить: ссылку на модель, готовый iframe-код или ID модели. Всё преобразуется автоматически.
+          Можно вставить: ссылку, готовый iframe-код или ID модели. Всё преобразуется автоматически.
         </div>
       </div>
 
-      <!-- Характеристики -->
       <div class="section-title-sm">
         <span>Характеристики</span>
         <button type="button" onclick="addSpec()">+ Добавить</button>
       </div>
       <div id="specsContainer"></div>
 
-      <!-- Опции выбора (цвет, память и т.д.) -->
       <div class="section-title-sm">
         <span>Опции выбора (цвет, память, SIM)</span>
         <button type="button" onclick="addOption()">+ Добавить опцию</button>
       </div>
       <div id="optionsContainer"></div>
 
-      <!-- В наличии -->
       <label class="toggle-row">
         <input type="checkbox" id="pAvailable" checked>
         <div>
@@ -1058,7 +1247,9 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+
   <script>
+    // ===== FIREBASE =====
     const firebaseConfig = {
       apiKey: "AIzaSyAEyfipwLGvrFaRlQ6catsNFotIm9Az-8U",
       authDomain: "isakha-a113f.firebaseapp.com",
@@ -1071,9 +1262,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const auth = firebase.auth();
-  </script>
 
-    <script>
     // ===== УТИЛИТЫ =====
     function formatPrice(n) {
       return (n || 0).toLocaleString('ru-RU') + ' ₽';
@@ -1093,37 +1282,31 @@
       }[c]));
     }
 
-    // Преобразование ссылки/кода/ID в правильный URL Sketchfab
     function convertModelUrl(input) {
       if (!input) return '';
       input = input.trim();
 
-      // Если это уже iframe-код — вытаскиваем src
       const iframeMatch = input.match(/src=["']([^"']+)["']/);
       if (iframeMatch) return iframeMatch[1];
 
-      // Если уже правильный URL — возвращаем как есть
       if (input.includes('sketchfab.com/models/') && input.includes('/embed')) {
         return input;
       }
 
-      // Если ссылка на модель без /embed
       const modelMatch = input.match(/sketchfab\.com\/models\/([a-zA-Z0-9]+)/);
       if (modelMatch) {
         const id = modelMatch[1];
         return `https://sketchfab.com/models/${id}/embed?autospin=1&autostart=1&transparent=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_stop=0&ui_watermark=0&ui_hint=0`;
       }
 
-      // Если просто ID модели (32 символа)
       if (/^[a-zA-Z0-9]{32}$/.test(input)) {
         return `https://sketchfab.com/models/${input}/embed?autospin=1&autostart=1&transparent=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_stop=0&ui_watermark=0&ui_hint=0`;
       }
 
-      // Возвращаем как есть
       return input;
     }
 
-    // ===== ВХОД =====
+    // ===== ЛОГИН =====
     const loginScreen = document.getElementById('loginScreen');
     const adminWrap = document.getElementById('adminWrap');
     const loginEmail = document.getElementById('loginEmail');
@@ -1179,6 +1362,7 @@
         loginScreen.style.display = 'none';
         adminWrap.classList.add('show');
         userEmail.textContent = user.email;
+        loadAvailableModels();
         loadProducts();
         loadOrders();
       } else {
@@ -1189,9 +1373,7 @@
     });
 
     btnLogout.addEventListener('click', () => {
-      if (confirm('Выйти из админки?')) {
-        auth.signOut();
-      }
+      if (confirm('Выйти из админки?')) auth.signOut();
     });
 
     // ===== ВКЛАДКИ =====
@@ -1203,6 +1385,25 @@
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
       });
     });
+
+    // ===== СПИСОК МОДЕЛЕЙ ИЗ GITHUB =====
+    let availableModels = [];
+
+    async function loadAvailableModels() {
+      try {
+        const res = await fetch('https://api.github.com/repos/benger777/ISakha-1.1/contents/');
+        if (!res.ok) throw new Error('GitHub API error');
+        const files = await res.json();
+        availableModels = files
+          .filter(f => f.type === 'file' && f.name.toLowerCase().endsWith('.glb'))
+          .map(f => f.name)
+          .sort();
+        console.log('Доступные модели:', availableModels);
+      } catch (err) {
+        console.warn('Не удалось загрузить список моделей:', err);
+        availableModels = [];
+      }
+    }
 
     // ===== ТОВАРЫ =====
     let productsCache = {};
@@ -1220,10 +1421,8 @@
       const list = document.getElementById('productsList');
       let items = Object.entries(productsCache).map(([id, p]) => ({ id, ...p }));
 
-      // Сортировка — новые сверху
       items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-      // Поиск
       if (searchProductsQuery) {
         const q = searchProductsQuery.toLowerCase();
         items = items.filter(p =>
@@ -1281,20 +1480,18 @@
       `;
     }
 
-    // Поиск товаров
     document.getElementById('searchProducts').addEventListener('input', (e) => {
       searchProductsQuery = e.target.value.trim();
       renderProducts();
     });
 
-    // Вкл/выкл наличие
     window.toggleAvailable = (id) => {
       const p = productsCache[id];
       if (!p) return;
       db.ref('products/' + id).update({ available: p.available === false ? true : false });
     };
 
-    // ===== МОДАЛКА ТОВАРА =====
+    // ===== МОДАЛКА =====
     const productModal = document.getElementById('productModal');
 
     document.getElementById('btnAddProduct').addEventListener('click', () => {
@@ -1324,7 +1521,6 @@
       document.getElementById('pModel').value = p.model || '';
       document.getElementById('pAvailable').checked = p.available !== false;
 
-      // Характеристики
       const specsContainer = document.getElementById('specsContainer');
       specsContainer.innerHTML = '';
       if (p.specs && p.specs.length) {
@@ -1333,13 +1529,10 @@
         addSpec();
       }
 
-      // Опции
       const optionsContainer = document.getElementById('optionsContainer');
       optionsContainer.innerHTML = '';
       if (p.options && p.options.length) {
-        p.options.forEach(o => {
-          addOption(o.name || '', o.values || []);
-        });
+        p.options.forEach(o => addOption(o.name || '', o.values || []));
       }
 
       productModal.classList.add('show');
@@ -1381,7 +1574,7 @@
       return specs;
     }
 
-    // ===== ОПЦИИ ВЫБОРА =====
+    // ===== ОПЦИИ =====
     window.addOption = function(name = '', values = []) {
       const container = document.getElementById('optionsContainer');
       const block = document.createElement('div');
@@ -1398,9 +1591,29 @@
       `;
       container.appendChild(block);
 
+      const optNameInput = block.querySelector('.opt-name');
+      optNameInput.addEventListener('input', () => {
+        const isColor = ['цвет', 'color'].includes(optNameInput.value.trim().toLowerCase());
+        block.querySelectorAll('.option-value-row').forEach(r => {
+          r.classList.toggle('color-row', isColor);
+        });
+      });
+
+      // Сразу проставляем класс для цвета
+      const isColorInitially = ['цвет', 'color'].includes((name || '').toLowerCase());
+      if (isColorInitially) {
+        block.querySelectorAll('.option-value-row').forEach(r => r.classList.add('color-row'));
+      }
+
       const valuesContainer = block.querySelector('.option-values');
       if (values.length) {
-        values.forEach(v => addOptionValueToContainer(valuesContainer, v.value || '', v.price || '', v.model || ''));
+        values.forEach(v => addOptionValueToContainer(
+          valuesContainer,
+          v.value || '',
+          v.price || '',
+          v.hex || '',
+          v.model || ''
+        ));
       } else {
         addOptionValueToContainer(valuesContainer);
       }
@@ -1412,15 +1625,37 @@
       addOptionValueToContainer(valuesContainer);
     };
 
-    function addOptionValueToContainer(container, value = '', price = '', model = '') {
+    function addOptionValueToContainer(container, value = '', price = '', hex = '', model = '') {
+      const block = container.closest('.option-block');
+      const optNameInput = block ? block.querySelector('.opt-name') : null;
+      const optName = optNameInput ? optNameInput.value.trim().toLowerCase() : '';
+      const isColor = (optName === 'цвет' || optName === 'color');
+
       const row = document.createElement('div');
-      row.className = 'option-value-row';
+      row.className = 'option-value-row' + (isColor ? ' color-row' : '');
+
+      const defaultHex = hex || '#7a2a38';
+
+      let modelOptionsHtml = '';
+      if (isColor) {
+        if (availableModels.length === 0) {
+          modelOptionsHtml = `<option value="">Нет .glb файлов</option>`;
+        } else {
+          modelOptionsHtml = `<option value="">— Авто —</option>` +
+            availableModels.map(m =>
+              `<option value="${escapeHtml(m)}" ${m === model ? 'selected' : ''}>${escapeHtml(m)}</option>`
+            ).join('');
+        }
+      }
+
       row.innerHTML = `
-        <input type="text" placeholder="Значение (Burgundy)" value="${escapeHtml(value)}" class="ov-value">
-        <input type="number" placeholder="Цена (или оставь пусто)" value="${price}" class="ov-price">
+        <input type="color" class="color-picker" value="${defaultHex}">
+        <input type="text" placeholder="Значение (Blue)" value="${escapeHtml(value)}" class="ov-value">
+        <input type="number" placeholder="Цена" value="${price}" class="ov-price">
         <button type="button" class="btn-remove" onclick="this.parentElement.remove()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
+        ${isColor ? `<select class="model-select ${availableModels.length === 0 ? 'model-empty' : ''}">${modelOptionsHtml}</select>` : ''}
       `;
       container.appendChild(row);
     }
@@ -1431,11 +1666,22 @@
       blocks.forEach(block => {
         const name = block.querySelector('.opt-name').value.trim();
         if (!name) return;
+        const isColor = ['цвет', 'color'].includes(name.toLowerCase());
         const values = [];
         block.querySelectorAll('.option-value-row').forEach(row => {
           const value = row.querySelector('.ov-value').value.trim();
           const price = parseInt(row.querySelector('.ov-price').value, 10) || 0;
-          if (value) values.push({ value, price });
+          const hexEl = row.querySelector('.color-picker');
+          const hex = hexEl ? hexEl.value : '';
+          const modelSelect = row.querySelector('.model-select');
+          const model = modelSelect ? modelSelect.value : '';
+
+          if (value) {
+            const item = { value, price };
+            if (isColor && hex) item.hex = hex;
+            if (isColor && model) item.model = model;
+            values.push(item);
+          }
         });
         if (values.length) options.push({ name, values });
       });
@@ -1497,7 +1743,6 @@
       db.ref('orders').on('value', snap => {
         const orders = snap.val() || {};
 
-        // Проверка на новые заказы
         if (!firstOrdersLoad) {
           Object.entries(orders).forEach(([id, o]) => {
             if (!knownOrderIds[id]) {
@@ -1507,7 +1752,6 @@
           });
         }
 
-        // Обновляем список известных заказов
         knownOrderIds = {};
         Object.keys(orders).forEach(id => knownOrderIds[id] = true);
 
@@ -1523,10 +1767,8 @@
       const badge = document.getElementById('ordersBadge');
       let items = Object.entries(ordersCache).map(([id, o]) => ({ id, ...o }));
 
-      // Сортировка — новые сверху
       items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-      // Поиск
       if (searchOrdersQuery) {
         const q = searchOrdersQuery.toLowerCase();
         items = items.filter(o =>
@@ -1535,7 +1777,6 @@
         );
       }
 
-      // Счётчик новых
       const newCount = Object.values(ordersCache).filter(o => (o.status || 'new') === 'new').length;
       if (newCount > 0) {
         badge.textContent = newCount;
@@ -1615,13 +1856,11 @@
       `;
     }
 
-    // Поиск заказов
     document.getElementById('searchOrders').addEventListener('input', (e) => {
       searchOrdersQuery = e.target.value.trim();
       renderOrders();
     });
 
-    // Циклическое переключение статуса
     window.cycleStatus = (id) => {
       const o = ordersCache[id];
       if (!o) return;
@@ -1645,7 +1884,7 @@
         return;
       }
 
-      let csv = '\uFEFF'; // BOM для Excel
+      let csv = '\uFEFF';
       csv += 'Дата;Имя;Телефон;Адрес;Статус;Товары;Сумма;Комментарий\n';
 
       orders.forEach(o => {
@@ -1693,7 +1932,6 @@
 
     document.getElementById('toast').addEventListener('click', () => {
       document.getElementById('toast').classList.remove('show');
-      // Переключиться на вкладку заказов
       document.querySelector('.tab-btn[data-tab="orders"]').click();
     });
 

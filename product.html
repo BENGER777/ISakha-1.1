@@ -15,7 +15,6 @@
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%236b2530' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z'/%3E%3C/svg%3E">
 
-<!-- Model Viewer -->
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
 <style>
@@ -29,7 +28,6 @@
     padding: 32px 24px 80px;
   }
 
-  /* ===== КНОПКИ СВЕРХУ ===== */
   .top-actions {
     position: fixed;
     top: 24px;
@@ -87,7 +85,6 @@
 
   .cart-btn .count.hidden { display: none; }
 
-  /* ===== ХЛЕБНЫЕ КРОШКИ ===== */
   .breadcrumbs-bar {
     max-width: 1180px;
     margin: 40px auto 20px;
@@ -107,7 +104,6 @@
 
   .breadcrumbs-bar a:hover { color: #fff; }
 
-  /* ===== КАРТОЧКА ===== */
   .card {
     display: grid;
     grid-template-columns: 1.05fr 1fr;
@@ -122,7 +118,6 @@
       0 0 0 1px rgba(255,255,255,0.05);
   }
 
-  /* ===== 3D ===== */
   .viewer {
     position: relative;
     background: var(--viewer-bg,
@@ -146,7 +141,6 @@
     pointer-events: none;
   }
 
-  /* Model Viewer */
   .model-viewer {
     position: absolute;
     inset: 0;
@@ -159,7 +153,6 @@
     --progress-mask: transparent;
   }
 
-  /* Скелетон 3D */
   .viewer-skeleton {
     position: absolute;
     inset: 0;
@@ -201,7 +194,6 @@
     100% { background-position: -200% 0; }
   }
 
-  /* Заглушка если 3D нет */
   .viewer-fallback {
     position: absolute;
     inset: 0;
@@ -246,12 +238,6 @@
     transition: background 0.5s ease, color 0.5s ease;
   }
 
-  .badge.new {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-  }
-
-  /* ===== ИНФО ===== */
   .info {
     padding: 44px 40px;
     display: flex;
@@ -312,7 +298,6 @@
     stroke-linejoin: round;
   }
 
-  /* ===== ХАРАКТЕРИСТИКИ ===== */
   .specs-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -335,7 +320,6 @@
     margin-top: 3px;
   }
 
-  /* ===== ОПЦИИ ===== */
   .option-block {
     display: flex;
     flex-direction: column;
@@ -413,7 +397,6 @@
     color: rgba(255,255,255,0.7);
   }
 
-  /* ===== ЦЕНА ===== */
   .price-block {
     display: flex;
     align-items: baseline;
@@ -446,7 +429,6 @@
     border-radius: 8px;
   }
 
-  /* ===== АККОРДЕОН ===== */
   .accordion {
     border-top: 1px solid rgba(255,255,255,0.07);
     border-bottom: 1px solid rgba(255,255,255,0.07);
@@ -519,7 +501,6 @@
     background: #d46b7c;
   }
 
-  /* ===== ДЕЙСТВИЯ ===== */
   .actions {
     display: flex;
     flex-direction: column;
@@ -634,7 +615,6 @@
     fill: currentColor;
   }
 
-  /* ===== ПОХОЖИЕ ===== */
   .similar-section {
     max-width: 1180px;
     margin: 60px auto 0;
@@ -717,7 +697,6 @@
     letter-spacing: -0.3px;
   }
 
-  /* ===== 404 ===== */
   .not-found {
     max-width: 500px;
     margin: 120px auto;
@@ -783,7 +762,6 @@
     box-shadow: 0 16px 48px rgba(122, 42, 56, 0.7);
   }
 
-  /* ===== АДАПТИВ ===== */
   @media (max-width: 860px) {
     body { padding: 20px 16px 60px; }
 
@@ -815,7 +793,6 @@
 </head>
 <body>
 
-  <!-- КНОПКИ СВЕРХУ -->
   <div class="top-actions">
     <button class="back-btn" id="btnBack">
       <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -828,14 +805,12 @@
     </a>
   </div>
 
-  <!-- ЗАГРУЗКА -->
   <div id="loadingScreen" style="max-width:500px; margin:120px auto; text-align:center; padding:60px 40px;">
     <div style="display:inline-block; width:40px; height:40px; border:3px solid rgba(255,255,255,0.1); border-top-color:#d46b7c; border-radius:50%; animation:spin 1s linear infinite;"></div>
     <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
     <p style="margin-top:20px; color:rgba(255,255,255,0.4); font-size:14px;">Загрузка товара...</p>
   </div>
 
-  <!-- 404 -->
   <div class="not-found" id="notFound" style="display:none;">
     <div class="not-found-icon">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M11 17h.01"/></svg>
@@ -848,7 +823,6 @@
     </a>
   </div>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <div id="mainContent" style="display:none;">
 
     <div class="breadcrumbs-bar" id="breadcrumbs">
@@ -861,7 +835,6 @@
 
     <div class="card">
       <div class="viewer" id="viewer">
-        <!-- Model Viewer -->
         <model-viewer
           id="modelViewer"
           class="model-viewer"
@@ -876,19 +849,16 @@
           rotation-per-second="20deg">
         </model-viewer>
 
-        <!-- Скелетон -->
         <div class="viewer-skeleton" id="viewerSkeleton">
           <div class="skeleton-phone"></div>
         </div>
 
-        <!-- Fallback с фото -->
         <div class="viewer-fallback" id="viewerFallback">
           <img id="fallbackPhoto" src="" alt="">
         </div>
 
         <div class="top-badge">
           <div class="badge" id="colorBadge">Товар</div>
-          <div class="badge new">Новинка 2026</div>
         </div>
       </div>
 
@@ -914,22 +884,6 @@
         </div>
 
         <div class="accordion">
-          <div class="acc-item">
-            <div class="acc-head">
-              Гарантия
-              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-            </div>
-            <div class="acc-body">
-              <div class="acc-body-inner">
-                <ul>
-                  <li>Официальная гарантия 1 год</li>
-                  <li>Сервис в Якутске</li>
-                  <li>Замена при заводском браке</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
           <div class="acc-item">
             <div class="acc-head">
               Доставка
@@ -1002,13 +956,11 @@
     const db = firebase.database();
   </script>
 
-  <!-- ЧАСТЬ 2 — JS -->
   <script>
     // ===== НАСТРОЙКИ =====
     const WHATSAPP_NUMBER = '79991234567';
     const STORAGE_KEY = 'isakha_cart';
 
-    // Цветовые схемы
     const COLOR_MAP = {
       'burgundy': { bg: 'linear-gradient(135deg, #6b2530, #2e0e15)', hex: '#6b2530' },
       'бордовый': { bg: 'linear-gradient(135deg, #6b2530, #2e0e15)', hex: '#6b2530' },
@@ -1038,7 +990,6 @@
 
     const DARK_COLORS = ['burgundy', 'бордовый', 'black', 'чёрный', 'черный', 'purple', 'фиолетовый'];
 
-    // ===== ЭЛЕМЕНТЫ =====
     const loadingScreen = document.getElementById('loadingScreen');
     const notFound = document.getElementById('notFound');
     const mainContent = document.getElementById('mainContent');
@@ -1072,7 +1023,6 @@
     let currentPrice = 0;
     let allProducts = {};
 
-    // ===== УТИЛИТЫ =====
     function formatPrice(n) {
       return (n || 0).toLocaleString('ru-RU') + ' ₽';
     }
@@ -1089,9 +1039,35 @@
       return n === 'цвет' || n === 'color';
     }
 
-    function getColorStyle(value) {
+    function adjustColor(hex, percent) {
+      if (hex.startsWith('hsl')) return hex;
+      const num = parseInt(hex.replace('#', ''), 16);
+      const R = Math.max(0, Math.min(255, (num >> 16) + percent));
+      const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + percent));
+      const B = Math.max(0, Math.min(255, (num & 0x0000FF) + percent));
+      return '#' + ((R << 16) | (G << 8) | B).toString(16).padStart(6, '0');
+    }
+
+    function isDarkHex(hex) {
+      if (!hex || !hex.startsWith('#')) return false;
+      const c = hex.replace('#', '');
+      const r = parseInt(c.substr(0, 2), 16);
+      const g = parseInt(c.substr(2, 2), 16);
+      const b = parseInt(c.substr(4, 2), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness < 128;
+    }
+
+    function getColorStyle(value, customHex) {
+      if (customHex) {
+        return {
+          bg: `linear-gradient(135deg, ${customHex}, ${adjustColor(customHex, -25)})`,
+          hex: customHex
+        };
+      }
       const key = (value || '').toLowerCase().trim();
       if (COLOR_MAP[key]) return COLOR_MAP[key];
+
       let hash = 0;
       for (let i = 0; i < key.length; i++) hash = key.charCodeAt(i) + ((hash << 5) - hash);
       const hue = Math.abs(hash) % 360;
@@ -1101,20 +1077,15 @@
       };
     }
 
-    // Формирование имени файла модели по названию товара и цвета
     function getModelFilename(productName, colorValue) {
-      // "iPhone 18 Pro Max" → "iphone-18-pro-max"
       const nameSlug = (productName || '')
-        .toLowerCase()
-        .trim()
+        .toLowerCase().trim()
         .replace(/[^a-z0-9а-яё\s-]/g, '')
         .replace(/\s+/g, '-')
         .replace(/-+/g, '-');
 
-      // "Glacier Blue" → "glacier"
       const colorSlug = (colorValue || '')
-        .toLowerCase()
-        .trim()
+        .toLowerCase().trim()
         .replace(/[^a-z0-9а-яё\s-]/g, '')
         .replace(/\s+/g, '-')
         .replace(/-+/g, '-');
@@ -1122,14 +1093,12 @@
       return `${nameSlug}-${colorSlug}.glb`;
     }
 
-    // ===== АККОРДЕОН =====
     document.querySelectorAll('.acc-head').forEach(head => {
       head.addEventListener('click', () => {
         head.parentElement.classList.toggle('open');
       });
     });
 
-    // ===== НАЗАД =====
     btnBack.addEventListener('click', () => {
       if (document.referrer && document.referrer.includes(location.host)) {
         history.back();
@@ -1138,7 +1107,6 @@
       }
     });
 
-    // ===== ПОДЕЛИТЬСЯ =====
     shareBtn.addEventListener('click', async () => {
       const url = location.href;
       const title = currentProduct ? currentProduct.name : 'iSakha';
@@ -1159,7 +1127,6 @@
       }
     });
 
-    // ===== КОРЗИНА =====
     function getCart() {
       try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
       catch (e) { return []; }
@@ -1180,7 +1147,6 @@
       }
     }
 
-    // ===== ЗВУК =====
     function playBuySound() {
       try {
         const audio = new Audio('apple-pay.mp3');
@@ -1189,7 +1155,6 @@
       } catch (e) {}
     }
 
-    // ===== ЗАГРУЗКА =====
     const params = new URLSearchParams(window.location.search);
     const productId = params.get('id');
 
@@ -1221,7 +1186,6 @@
       notFound.style.display = 'block';
     }
 
-    // ===== ОТРИСОВКА =====
     function renderProduct() {
       const p = currentProduct;
 
@@ -1253,10 +1217,7 @@
       renderOptions(p.options || []);
       applyDefaultSelections();
       recalcPrice();
-
-      // 3D-модель
       renderModel();
-
       updateWhatsappLink();
       renderSimilar();
       applyColorStyles();
@@ -1286,8 +1247,8 @@
         const isColor = isColorOption(opt.name);
         const valuesHtml = (opt.values || []).map(v => {
           if (isColor) {
-            const style = getColorStyle(v.value);
-            return `<div class="color-dot" data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}" style="background: ${style.bg};" title="${escapeHtml(v.value)}"></div>`;
+            const style = getColorStyle(v.value, v.hex);
+            return `<div class="color-dot" data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}" data-hex="${escapeHtml(v.hex || '')}" data-model="${escapeHtml(v.model || '')}" style="background: ${style.bg};" title="${escapeHtml(v.value)}"></div>`;
           } else {
             const price = v.price && v.price > 0 ? `<small>+${formatPrice(v.price)}</small>` : '';
             return `<button class="option-btn" data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}">${escapeHtml(v.value)}${price}</button>`;
@@ -1306,6 +1267,7 @@
         el.addEventListener('click', () => {
           const optName = el.dataset.option;
           const value = el.dataset.value;
+          const hex = el.dataset.hex || '';
 
           optionsContainer.querySelectorAll(`[data-option="${CSS.escape(optName)}"]`).forEach(x => x.classList.remove('active'));
           el.classList.add('active');
@@ -1317,8 +1279,7 @@
 
           if (isColorOption(optName)) {
             colorBadge.textContent = value;
-            applyColorStyles(value);
-            // ПЕРЕКЛЮЧАЕМ 3D-МОДЕЛЬ
+            applyColorStyles(value, hex);
             renderModel();
           }
 
@@ -1367,68 +1328,106 @@
       discountDisplay.textContent = '−' + discount + '%';
     }
 
-    // ===== 3D-МОДЕЛЬ =====
+    // ===== 3D-МОДЕЛЬ С ФИКСОМ =====
+    let modelLoadTimer = null;
+
     function renderModel() {
       const p = currentProduct;
       if (!p) return;
 
-      // Показываем скелетон
-      viewerSkeleton.classList.remove('hidden');
-      viewerFallback.classList.remove('show');
+      // Отменяем старый таймер — фикс бага
+      if (modelLoadTimer) {
+        clearTimeout(modelLoadTimer);
+        modelLoadTimer = null;
+      }
 
-      // Определяем файл модели
+      viewerFallback.classList.remove('show');
+      viewerSkeleton.classList.remove('hidden');
+
+      // Определяем модель: сначала из выбранной опции, потом общая
       let modelFile = '';
       const colorOption = (p.options || []).find(o => isColorOption(o.name));
       const selectedColor = colorOption ? currentSelections[colorOption.name] : null;
 
-      if (selectedColor) {
-        // У нас есть выбранный цвет — формируем имя файла
-        modelFile = getModelFilename(p.name, selectedColor);
+      if (selectedColor && colorOption) {
+        const colorValue = (colorOption.values || []).find(v => v.value === selectedColor);
+        // Приоритет 1: модель, выбранная в админке
+        if (colorValue && colorValue.model) {
+          modelFile = colorValue.model;
+        } else {
+          // Приоритет 2: автоимя
+          modelFile = getModelFilename(p.name, selectedColor);
+        }
       } else if (p.model) {
-        // Иначе — берём общую модель из админки (если указана)
         modelFile = p.model;
       }
 
-      // Если файл модели есть — показываем его
-      if (modelFile) {
-        modelViewer.src = modelFile;
-
-        modelViewer.addEventListener('load', () => {
-          setTimeout(() => viewerSkeleton.classList.add('hidden'), 500);
-        }, { once: true });
-
-        // Если модель не загрузилась за 6 сек — показываем fallback с фото
-        setTimeout(() => {
-          if (!viewerSkeleton.classList.contains('hidden')) {
-            viewerSkeleton.classList.add('hidden');
-            if (p.photo) {
-              fallbackPhoto.src = p.photo;
-              viewerFallback.classList.add('show');
-            }
-          }
-        }, 6000);
-      } else {
-        // Нет модели — показываем фото
+      if (!modelFile) {
         viewerSkeleton.classList.add('hidden');
         if (p.photo) {
           fallbackPhoto.src = p.photo;
           viewerFallback.classList.add('show');
         }
+        return;
       }
+
+      let loaded = false;
+
+      if (modelViewer._onLoad) modelViewer.removeEventListener('load', modelViewer._onLoad);
+      if (modelViewer._onError) modelViewer.removeEventListener('error', modelViewer._onError);
+
+      modelViewer._onLoad = () => {
+        loaded = true;
+        if (modelLoadTimer) {
+          clearTimeout(modelLoadTimer);
+          modelLoadTimer = null;
+        }
+        viewerFallback.classList.remove('show');
+        setTimeout(() => viewerSkeleton.classList.add('hidden'), 300);
+      };
+
+      modelViewer._onError = () => {
+        loaded = true;
+        if (modelLoadTimer) {
+          clearTimeout(modelLoadTimer);
+          modelLoadTimer = null;
+        }
+        viewerSkeleton.classList.add('hidden');
+        if (p.photo) {
+          fallbackPhoto.src = p.photo;
+          viewerFallback.classList.add('show');
+        }
+      };
+
+      modelViewer.addEventListener('load', modelViewer._onLoad);
+      modelViewer.addEventListener('error', modelViewer._onError);
+
+      modelViewer.src = modelFile;
+
+      modelLoadTimer = setTimeout(() => {
+        if (!loaded) {
+          viewerSkeleton.classList.add('hidden');
+          if (p.photo) {
+            fallbackPhoto.src = p.photo;
+            viewerFallback.classList.add('show');
+          }
+        }
+      }, 10000);
     }
 
-    // ===== СТИЛИ ПОД ЦВЕТ =====
-    function applyColorStyles(colorValue) {
-      if (!colorValue) {
+    function applyColorStyles(colorValue, customHex) {
+      if (!colorValue && !customHex) {
         const colorOption = (currentProduct.options || []).find(o => isColorOption(o.name));
         if (colorOption && colorOption.values && colorOption.values.length) {
-          colorValue = colorOption.values[0].value;
+          const first = colorOption.values[0];
+          colorValue = first.value;
+          customHex = first.hex || '';
         }
       }
-      if (!colorValue) return;
+      if (!colorValue && !customHex) return;
 
-      const style = getColorStyle(colorValue);
-      const isDark = DARK_COLORS.includes(colorValue.toLowerCase().trim());
+      const style = getColorStyle(colorValue, customHex);
+      const isDark = customHex ? isDarkHex(customHex) : DARK_COLORS.includes((colorValue || '').toLowerCase().trim());
 
       viewer.style.setProperty('--viewer-bg',
         `radial-gradient(circle at 50% 35%, ${style.hex}33 0%, #10080c 45%, #08080a 100%)`);
@@ -1444,16 +1443,6 @@
         `${style.hex}66`);
     }
 
-    function adjustColor(hex, percent) {
-      if (hex.startsWith('hsl')) return hex;
-      const num = parseInt(hex.replace('#', ''), 16);
-      const R = Math.max(0, Math.min(255, (num >> 16) + percent));
-      const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + percent));
-      const B = Math.max(0, Math.min(255, (num & 0x0000FF) + percent));
-      return '#' + ((R << 16) | (G << 8) | B).toString(16).padStart(6, '0');
-    }
-
-    // ===== WHATSAPP =====
     function updateWhatsappLink() {
       const p = currentProduct;
       if (!p) return;
@@ -1468,7 +1457,6 @@
       btnWhatsapp.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
     }
 
-    // ===== В КОРЗИНУ =====
     btnCart.addEventListener('click', () => {
       const p = currentProduct;
       if (!p) return;
@@ -1494,7 +1482,8 @@
       const colorOpt = (p.options || []).find(o => isColorOption(o.name));
       if (colorOpt && currentSelections[colorOpt.name]) {
         item.colorName = currentSelections[colorOpt.name];
-        item.color = getColorStyle(currentSelections[colorOpt.name]).hex;
+        const colorVal = (colorOpt.values || []).find(v => v.value === currentSelections[colorOpt.name]);
+        item.color = colorVal && colorVal.hex ? colorVal.hex : getColorStyle(currentSelections[colorOpt.name]).hex;
       }
       const storageOpt = (p.options || []).find(o => o.name.toLowerCase().includes('памят'));
       if (storageOpt && currentSelections[storageOpt.name]) {
@@ -1535,7 +1524,6 @@
       setTimeout(() => cartCount.classList.remove('pop'), 400);
     });
 
-    // ===== ПОХОЖИЕ =====
     function renderSimilar() {
       const p = currentProduct;
       if (!p) return;
@@ -1583,7 +1571,6 @@
       }).join('');
     }
 
-    // ===== СТАРТ =====
     updateCartCount();
   </script>
 </body>

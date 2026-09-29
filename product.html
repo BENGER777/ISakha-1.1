@@ -45,7 +45,7 @@
     --border: rgba(0, 0, 0, 0.08);
     --border-input: rgba(0, 0, 0, 0.1);
     --border-hover: rgba(0, 0, 0, 0.2);
-    --viewer-bg: radial-gradient(circle at 50% 35%, #ffffff 0%, #ebebed 55%, #dedee0 100%);
+    --viewer-bg: radial-gradient(circle at 50% 35%, #ffffff 0%, #f0eef2 55%, #e2e0e5 100%);
     --btn-secondary-bg: rgba(255,255,255,0.9);
     --shadow-card: 0 40px 100px rgba(0,0,0,0.15);
   }
@@ -1485,9 +1485,16 @@
 
       const style = getColorStyle(colorValue, customHex);
       const isDark = customHex ? isDarkHex(customHex) : DARK_COLORS.includes((colorValue || '').toLowerCase().trim());
+      const isLightTheme = document.documentElement.classList.contains('light-theme');
 
-      viewer.style.setProperty('--viewer-bg',
-        `radial-gradient(circle at 50% 35%, ${style.hex}33 0%, #10080c 45%, #08080a 100%)`);
+      // Фон витрины — зависит от темы
+      if (isLightTheme) {
+        viewer.style.setProperty('--viewer-bg',
+          `radial-gradient(circle at 50% 35%, #ffffff 0%, #f0eef2 55%, #e2e0e5 100%)`);
+      } else {
+        viewer.style.setProperty('--viewer-bg',
+          `radial-gradient(circle at 50% 35%, ${style.hex}33 0%, #10080c 45%, #08080a 100%)`);
+      }
 
       colorBadge.style.setProperty('--badge-bg',
         isDark ? 'rgba(40, 20, 25, 0.9)' : 'rgba(255, 255, 255, 0.15)');
@@ -1627,6 +1634,15 @@
         `;
       }).join('');
     }
+
+    // Переприменяем стили при смене темы
+    const themeObserver = new MutationObserver(() => {
+      if (currentProduct) applyColorStyles();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
 
     updateCartCount();
   </script>

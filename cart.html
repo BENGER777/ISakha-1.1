@@ -11,28 +11,73 @@
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%236b2530' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z'/%3E%3C/svg%3E">
 
+<script src="theme.js"></script>
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: #08080a;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-    color: #fff;
-    overflow-x: hidden;
-    min-height: 100vh;
+
+  :root {
+    --bg-primary: #08080a;
+    --bg-card: #101014;
+    --bg-input: rgba(255, 255, 255, 0.04);
+    --bg-hover: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --text-muted: rgba(255, 255, 255, 0.4);
+    --text-faint: rgba(255, 255, 255, 0.3);
+    --border: rgba(255, 255, 255, 0.05);
+    --border-input: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+    --header-bg: rgba(8, 8, 10, 0.7);
+    --viewer-bg: radial-gradient(circle at 50% 45%, #2a1a24 0%, #0a0a0c 100%);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --overlay-bg: rgba(0, 0, 0, 0.75);
+    --mobile-menu-bg: #101014;
+    --modal-bg: #101014;
   }
 
-  /* ===== ШАПКА ===== */
+  html.light-theme {
+    --bg-primary: #f5f5f7;
+    --bg-card: #ffffff;
+    --bg-input: rgba(0, 0, 0, 0.04);
+    --bg-hover: rgba(0, 0, 0, 0.06);
+    --text-primary: #1a1a1c;
+    --text-secondary: #6a6a72;
+    --text-muted: #8a8a92;
+    --text-faint: #b0b0b8;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-input: rgba(0, 0, 0, 0.1);
+    --border-hover: rgba(0, 0, 0, 0.2);
+    --header-bg: rgba(245, 245, 247, 0.85);
+    --viewer-bg: radial-gradient(circle at 50% 45%, #ffffff 0%, #ebebed 100%);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --mobile-menu-bg: #ffffff;
+    --modal-bg: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+
   header {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
     padding: 18px 40px;
-    background: rgba(8, 8, 10, 0.7);
+    background: var(--header-bg);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    transition: padding 0.3s;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s, padding 0.3s, border-color 0.3s;
   }
+
   .header-inner {
     max-width: 1280px;
     margin: 0 auto;
@@ -41,46 +86,83 @@
     justify-content: space-between;
     gap: 24px;
   }
+
   .logo {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.5px;
-    color: #fff;
+    color: var(--text-primary);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
+    transition: color 0.3s;
   }
+
   .logo svg { width: 22px; height: 26px; fill: #7a2a38; }
+
   .nav { display: flex; gap: 28px; }
+
   .nav a {
-    color: rgba(255,255,255,0.65);
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
     transition: color 0.15s;
   }
-  .nav a:hover { color: #fff; }
+
+  .nav a:hover { color: var(--text-primary); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .theme-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s, background 0.3s, border-color 0.3s, color 0.3s;
+    flex-shrink: 0;
+  }
+
+  .theme-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+  }
+
+  .theme-btn svg { width: 20px; height: 20px; }
+
   .cart-link {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 10px 18px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
     border-radius: 12px;
-    color: rgba(255,255,255,0.85);
+    color: var(--text-primary);
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.15s;
+    transition: all 0.15s, background 0.3s, border-color 0.3s;
   }
+
   .cart-link:hover {
-    background: rgba(255,255,255,0.08);
-    color: #fff;
-    border-color: rgba(255,255,255,0.2);
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
   }
+
   .cart-link svg { width: 16px; height: 16px; fill: currentColor; }
+
   .cart-link .count {
     min-width: 20px; height: 20px;
     padding: 0 6px;
@@ -93,15 +175,15 @@
     align-items: center;
     justify-content: center;
   }
+
   .cart-link .count.hidden { display: none; }
 
-  /* Бургер */
   .burger-btn {
     display: none;
     width: 42px; height: 42px;
     border-radius: 12px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
     cursor: pointer;
     align-items: center;
     justify-content: center;
@@ -110,14 +192,17 @@
     padding: 0;
     transition: all 0.2s;
   }
-  .burger-btn:hover { background: rgba(255,255,255,0.1); }
+
+  .burger-btn:hover { background: var(--bg-hover); }
+
   .burger-btn span {
     display: block;
     width: 18px; height: 2px;
-    background: #fff;
+    background: var(--text-primary);
     border-radius: 2px;
-    transition: all 0.3s;
+    transition: all 0.3s, background 0.3s;
   }
+
   .burger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger-btn.open span:nth-child(2) { opacity: 0; }
   .burger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -126,20 +211,22 @@
     position: fixed;
     top: 0; right: 0; bottom: 0;
     width: 280px; max-width: 80vw;
-    background: #101014;
-    border-left: 1px solid rgba(255,255,255,0.08);
+    background: var(--mobile-menu-bg);
+    border-left: 1px solid var(--border-input);
     z-index: 200;
     padding: 80px 28px 40px;
     transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
+
   .mobile-menu.open { transform: translateX(0); }
+
   .mobile-menu a {
     padding: 14px 18px;
-    color: rgba(255,255,255,0.8);
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 15px;
     font-weight: 500;
@@ -149,10 +236,12 @@
     align-items: center;
     gap: 12px;
   }
+
   .mobile-menu a:hover, .mobile-menu a.active {
-    background: rgba(122, 42, 56, 0.3);
-    color: #fff;
+    background: rgba(122, 42, 56, 0.15);
+    color: var(--text-primary);
   }
+
   .mobile-menu a svg {
     width: 18px; height: 18px;
     stroke: currentColor;
@@ -162,25 +251,27 @@
     stroke-linejoin: round;
     opacity: 0.7;
   }
+
   .mobile-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: var(--overlay-bg);
     backdrop-filter: blur(4px);
     z-index: 199;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s;
   }
+
   .mobile-overlay.open { opacity: 1; pointer-events: auto; }
 
-  /* ===== ЗАГОЛОВОК ===== */
   .page-hero {
     padding: 140px 40px 40px;
     max-width: 1280px;
     margin: 0 auto;
     position: relative;
   }
+
   .page-hero::before {
     content: "";
     position: absolute;
@@ -191,22 +282,30 @@
     pointer-events: none;
     z-index: 0;
   }
+
+  html.light-theme .page-hero::before {
+    background: radial-gradient(circle, rgba(122, 42, 56, 0.15), transparent 65%);
+  }
+
   .breadcrumbs {
     display: flex;
     gap: 8px;
     align-items: center;
     font-size: 13px;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     margin-bottom: 20px;
     position: relative;
     z-index: 1;
   }
+
   .breadcrumbs a {
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     text-decoration: none;
     transition: color 0.15s;
   }
-  .breadcrumbs a:hover { color: #fff; }
+
+  .breadcrumbs a:hover { color: var(--text-primary); }
+
   .page-title {
     font-size: clamp(36px, 5vw, 56px);
     font-weight: 700;
@@ -215,16 +314,19 @@
     margin-bottom: 8px;
     position: relative;
     z-index: 1;
-    background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+    background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    transition: background 0.3s;
   }
+
   .page-subtitle {
     font-size: 16px;
-    color: rgba(255,255,255,0.5);
+    color: var(--text-secondary);
     position: relative;
     z-index: 1;
+    transition: color 0.3s;
   }
 
   .cart-wrap {
@@ -233,16 +335,17 @@
     padding: 20px 40px 120px;
   }
 
-  /* Пустая корзина */
   .empty {
     text-align: center;
     padding: 80px 20px;
-    background: #101014;
-    border: 1px solid rgba(255,255,255,0.05);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 28px;
     position: relative;
     overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
   }
+
   .empty::before {
     content: "";
     position: absolute;
@@ -253,6 +356,11 @@
     filter: blur(60px);
     pointer-events: none;
   }
+
+  html.light-theme .empty::before {
+    background: radial-gradient(circle, rgba(122, 42, 56, 0.12), transparent 65%);
+  }
+
   .empty-icon {
     width: 80px; height: 80px;
     margin: 0 auto 24px;
@@ -265,6 +373,11 @@
     position: relative;
     z-index: 1;
   }
+
+  html.light-theme .empty-icon {
+    background: linear-gradient(135deg, rgba(122, 42, 56, 0.15), rgba(74, 21, 32, 0.1));
+  }
+
   .empty-icon svg {
     width: 36px; height: 36px;
     fill: none;
@@ -273,6 +386,7 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+
   .empty h2 {
     font-size: 24px;
     font-weight: 700;
@@ -280,14 +394,19 @@
     margin-bottom: 10px;
     position: relative;
     z-index: 1;
+    color: var(--text-primary);
+    transition: color 0.3s;
   }
+
   .empty p {
     font-size: 15px;
-    color: rgba(255,255,255,0.5);
+    color: var(--text-secondary);
     margin-bottom: 28px;
     position: relative;
     z-index: 1;
+    transition: color 0.3s;
   }
+
   .btn-primary {
     padding: 16px 32px;
     background: linear-gradient(135deg, #7a2a38, #4a1520);
@@ -307,12 +426,12 @@
     position: relative;
     z-index: 1;
   }
+
   .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 16px 48px rgba(122, 42, 56, 0.7);
   }
 
-  /* Сетка */
   .cart-layout {
     display: grid;
     grid-template-columns: 1fr 380px;
@@ -320,7 +439,6 @@
     align-items: start;
   }
 
-  /* Список товаров */
   .cart-items {
     display: flex;
     flex-direction: column;
@@ -337,7 +455,8 @@
 
   .cart-count-text {
     font-size: 14px;
-    color: rgba(255,255,255,0.5);
+    color: var(--text-secondary);
+    transition: color 0.3s;
   }
 
   .clear-cart-btn {
@@ -355,10 +474,12 @@
     align-items: center;
     gap: 6px;
   }
+
   .clear-cart-btn:hover {
     background: rgba(255, 90, 90, 0.1);
     border-color: rgba(255, 90, 90, 0.5);
   }
+
   .clear-cart-btn svg {
     width: 14px; height: 14px;
     stroke: currentColor;
@@ -373,21 +494,23 @@
     grid-template-columns: 100px 1fr auto;
     gap: 20px;
     padding: 18px;
-    background: #101014;
-    border: 1px solid rgba(255,255,255,0.05);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 20px;
     align-items: center;
-    transition: all 0.3s;
+    transition: all 0.3s, background 0.3s, border-color 0.3s;
     opacity: 0;
     transform: translateY(20px);
   }
+
   .cart-item.visible {
     opacity: 1;
     transform: translateY(0);
   }
+
   .cart-item:hover {
     border-color: rgba(180, 80, 100, 0.3);
-    box-shadow: 0 10px 40px rgba(122, 42, 56, 0.2);
+    box-shadow: 0 10px 40px rgba(122, 42, 56, 0.15);
   }
 
   .item-thumb {
@@ -398,23 +521,27 @@
     justify-content: center;
     padding: 10px;
     flex-shrink: 0;
-    background: radial-gradient(circle, #2a1a24 0%, #0a0a0c 100%);
+    background: var(--viewer-bg);
     overflow: hidden;
+    transition: background 0.3s;
   }
+
   .item-thumb img {
     width: 100%; height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
   }
+
   .item-thumb-fallback {
     width: 100%; height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
   .item-thumb-fallback svg {
     width: 40px; height: 40px;
-    stroke: rgba(255,255,255,0.2);
+    stroke: var(--text-faint);
     fill: none;
     stroke-width: 1.5;
     stroke-linecap: round;
@@ -422,6 +549,7 @@
   }
 
   .item-info { min-width: 0; }
+
   .item-name {
     font-size: 16px;
     font-weight: 600;
@@ -430,38 +558,44 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--text-primary);
+    transition: color 0.3s;
   }
+
   .item-specs {
     font-size: 13px;
-    color: rgba(255,255,255,0.45);
+    color: var(--text-muted);
     display: flex;
     flex-wrap: wrap;
     gap: 6px 10px;
     margin-bottom: 10px;
+    transition: color 0.3s;
   }
+
   .item-specs span {
     display: inline-flex;
     align-items: center;
     gap: 4px;
   }
+
   .item-specs span + span::before {
     content: "·";
     margin-right: 6px;
-    color: rgba(255,255,255,0.2);
+    color: var(--text-faint);
   }
 
-  /* Управление количеством */
   .item-qty {
     display: flex;
     align-items: center;
     gap: 8px;
   }
+
   .qty-btn {
     width: 28px; height: 28px;
     border-radius: 8px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: #fff;
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
+    color: var(--text-primary);
     cursor: pointer;
     font-family: inherit;
     display: flex;
@@ -469,26 +603,33 @@
     justify-content: center;
     font-size: 16px;
     font-weight: 600;
-    transition: all 0.15s;
+    transition: all 0.15s, background 0.3s, border-color 0.3s;
   }
+
   .qty-btn:hover:not(:disabled) {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.2);
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
   }
+
   .qty-btn:disabled {
     opacity: 0.3;
     cursor: not-allowed;
   }
+
   .qty-value {
     min-width: 24px;
     text-align: center;
     font-size: 14px;
     font-weight: 600;
+    color: var(--text-primary);
+    transition: color 0.3s;
   }
+
   .qty-hint {
     font-size: 11px;
-    color: rgba(255,255,255,0.3);
+    color: var(--text-faint);
     margin-left: 4px;
+    transition: color 0.3s;
   }
 
   .item-right {
@@ -497,31 +638,37 @@
     align-items: flex-end;
     gap: 10px;
   }
+
   .item-price {
     font-size: 18px;
     font-weight: 700;
     letter-spacing: -0.4px;
     white-space: nowrap;
+    color: var(--text-primary);
+    transition: color 0.3s;
   }
+
   .item-remove {
     padding: 6px 10px;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid var(--border-input);
     border-radius: 8px;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     font-size: 12px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s, color 0.3s, border-color 0.3s;
     font-family: inherit;
     display: flex;
     align-items: center;
     gap: 6px;
   }
+
   .item-remove:hover {
     background: rgba(255, 90, 90, 0.1);
     border-color: rgba(255, 90, 90, 0.4);
     color: #ff5a5a;
   }
+
   .item-remove svg {
     width: 12px; height: 12px;
     fill: none;
@@ -530,27 +677,28 @@
     stroke-linecap: round;
   }
 
-  /* Продолжить покупки */
   .continue-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 12px 20px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
     border-radius: 12px;
-    color: rgba(255,255,255,0.8);
+    color: var(--text-secondary);
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.2s;
+    transition: all 0.2s, background 0.3s, color 0.3s, border-color 0.3s;
     margin-top: 8px;
     font-family: inherit;
   }
+
   .continue-btn:hover {
-    background: rgba(255,255,255,0.08);
-    color: #fff;
+    background: var(--bg-hover);
+    color: var(--text-primary);
   }
+
   .continue-btn svg {
     width: 16px; height: 16px;
     stroke: currentColor;
@@ -560,12 +708,11 @@
     stroke-linejoin: round;
   }
 
-  /* ===== SIDEBAR ===== */
   .cart-sidebar {
     position: sticky;
     top: 100px;
-    background: #101014;
-    border: 1px solid rgba(255,255,255,0.05);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 24px;
     padding: 28px 26px;
     display: flex;
@@ -573,122 +720,150 @@
     gap: 18px;
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.5s;
+    transition: all 0.5s, background 0.3s, border-color 0.3s;
   }
+
   .cart-sidebar.visible {
     opacity: 1;
     transform: translateY(0);
   }
+
   .sidebar-title {
     font-size: 20px;
     font-weight: 700;
     letter-spacing: -0.5px;
+    color: var(--text-primary);
+    transition: color 0.3s;
   }
+
   .sidebar-row {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    color: rgba(255,255,255,0.6);
+    color: var(--text-secondary);
     padding: 6px 0;
+    transition: color 0.3s;
   }
+
   .sidebar-row b {
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 600;
+    transition: color 0.3s;
   }
+
   .sidebar-row.discount b {
     color: #4ade80;
   }
+
   .sidebar-divider {
     height: 1px;
-    background: rgba(255,255,255,0.08);
+    background: var(--border);
     margin: 8px 0;
+    transition: background 0.3s;
   }
+
   .sidebar-total {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     font-size: 15px;
-    color: rgba(255,255,255,0.6);
+    color: var(--text-secondary);
+    transition: color 0.3s;
   }
+
   .sidebar-total b {
     font-size: 28px;
     font-weight: 800;
     letter-spacing: -1px;
-    color: #fff;
+    color: var(--text-primary);
+    transition: color 0.3s;
   }
 
-  /* Форма */
   .form-group {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
+
   .form-label {
     font-size: 12px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     font-weight: 600;
     margin-bottom: 4px;
+    transition: color 0.3s;
   }
+
   .form-input {
     width: 100%;
     padding: 12px 16px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
     border-radius: 12px;
-    color: #fff;
+    color: var(--text-primary);
     font-size: 14px;
     font-family: inherit;
-    transition: all 0.2s;
+    transition: all 0.2s, background 0.3s, border-color 0.3s, color 0.3s;
     outline: none;
   }
-  .form-input::placeholder { color: rgba(255,255,255,0.3); }
+
+  .form-input::placeholder { color: var(--text-faint); }
+
   .form-input:focus {
     border-color: rgba(212, 107, 124, 0.6);
-    background: rgba(255,255,255,0.06);
+    background: var(--bg-hover);
     box-shadow: 0 0 0 3px rgba(122, 42, 56, 0.2);
   }
+
   .form-input.error {
     border-color: rgba(255, 90, 90, 0.7);
     background: rgba(255, 90, 90, 0.05);
   }
+
   textarea.form-input {
     resize: vertical;
     min-height: 70px;
     font-family: inherit;
   }
 
-  /* Радио-кнопки «Город» */
   .radio-group {
     display: flex;
     gap: 8px;
   }
+
   .radio-btn {
     flex: 1;
     padding: 12px 12px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
     border-radius: 12px;
-    color: rgba(255,255,255,0.7);
+    color: var(--text-secondary);
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.25s;
+    transition: all 0.25s, background 0.3s, color 0.3s, border-color 0.3s;
     font-family: inherit;
     text-align: center;
   }
+
   .radio-btn:hover {
-    background: rgba(255,255,255,0.07);
-    color: #fff;
+    background: var(--bg-hover);
+    color: var(--text-primary);
   }
+
   .radio-btn.active {
     background: rgba(107, 37, 48, 0.4);
     border-color: rgba(180, 80, 100, 0.6);
-    color: #fff;
+    color: var(--text-primary);
   }
 
-  /* Галочка ПД */
+  html.light-theme .radio-btn.active {
+    background: rgba(122, 42, 56, 0.12);
+    border-color: rgba(122, 42, 56, 0.4);
+    color: #7a2a38;
+  }
+
   .checkbox-row {
     display: flex;
     align-items: flex-start;
@@ -697,9 +872,11 @@
     cursor: pointer;
     user-select: none;
     font-size: 13px;
-    color: rgba(255,255,255,0.6);
+    color: var(--text-secondary);
     line-height: 1.5;
+    transition: color 0.3s;
   }
+
   .checkbox-row input {
     width: 18px; height: 18px;
     accent-color: #7a2a38;
@@ -707,14 +884,18 @@
     flex-shrink: 0;
     margin-top: 2px;
   }
+
   .checkbox-row a {
     color: #d46b7c;
     text-decoration: none;
   }
+
   .checkbox-row a:hover { text-decoration: underline; }
+
   .checkbox-row.error {
     color: #ff8080;
   }
+
   .checkbox-row.error input {
     outline: 2px solid rgba(255, 90, 90, 0.7);
     outline-offset: 2px;
@@ -739,14 +920,17 @@
     gap: 10px;
     box-shadow: 0 12px 36px rgba(122, 42, 56, 0.5);
   }
+
   .btn-checkout:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 16px 48px rgba(122, 42, 56, 0.7);
   }
+
   .btn-checkout:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
+
   .btn-checkout svg {
     width: 18px; height: 18px;
     fill: currentColor;
@@ -754,16 +938,18 @@
 
   .checkout-note {
     font-size: 12px;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     text-align: center;
     line-height: 1.5;
+    transition: color 0.3s;
   }
 
-  /* ===== ФУТЕР ===== */
   footer {
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid var(--border);
     padding: 48px 40px;
+    transition: border-color 0.3s;
   }
+
   .footer-inner {
     max-width: 1280px;
     margin: 0 auto;
@@ -773,31 +959,41 @@
     gap: 20px;
     flex-wrap: wrap;
   }
+
   .footer-logo {
     font-size: 18px;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
+    transition: color 0.3s;
   }
+
   .footer-logo svg { width: 18px; height: 22px; fill: #7a2a38; }
+
   .footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+
   .footer-links a {
-    color: rgba(255,255,255,0.5);
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 13px;
     transition: color 0.15s;
   }
-  .footer-links a:hover { color: #fff; }
-  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.35); }
 
-  /* ===== МОДАЛКА ===== */
+  .footer-links a:hover { color: var(--text-primary); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: color 0.3s;
+  }
+
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+    background: var(--overlay-bg);
     backdrop-filter: blur(8px);
     z-index: 1000;
     display: flex;
@@ -808,12 +1004,14 @@
     pointer-events: none;
     transition: opacity 0.3s;
   }
+
   .modal-overlay.show {
     opacity: 1;
     pointer-events: auto;
   }
+
   .modal {
-    background: #101014;
+    background: var(--modal-bg);
     border: 1px solid rgba(180, 80, 100, 0.3);
     border-radius: 28px;
     padding: 48px 40px 40px;
@@ -823,12 +1021,14 @@
     position: relative;
     overflow: hidden;
     transform: scale(0.85) translateY(20px);
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
   }
+
   .modal-overlay.show .modal {
     transform: scale(1) translateY(0);
   }
+
   .modal::before {
     content: "";
     position: absolute;
@@ -840,10 +1040,16 @@
     pointer-events: none;
     animation: modalGlow 3s ease-in-out infinite;
   }
+
+  html.light-theme .modal::before {
+    background: radial-gradient(circle, rgba(122, 42, 56, 0.2), transparent 65%);
+  }
+
   @keyframes modalGlow {
     0%, 100% { opacity: 0.7; }
     50% { opacity: 1; }
   }
+
   .modal-check {
     width: 88px; height: 88px;
     margin: 0 auto 28px;
@@ -858,11 +1064,13 @@
     box-shadow: 0 20px 50px rgba(122, 42, 56, 0.5);
     animation: checkPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   @keyframes checkPop {
     0% { transform: scale(0); }
     60% { transform: scale(1.15); }
     100% { transform: scale(1); }
   }
+
   .modal-check::before {
     content: "";
     position: absolute;
@@ -872,10 +1080,12 @@
     animation: pulseRing 2s ease-in-out infinite;
     z-index: -1;
   }
+
   @keyframes pulseRing {
     0%, 100% { transform: scale(1); opacity: 0.6; }
     50% { transform: scale(1.2); opacity: 1; }
   }
+
   .modal-check svg {
     width: 44px; height: 44px;
     fill: none;
@@ -887,9 +1097,11 @@
     stroke-dashoffset: 60;
     animation: drawCheck 0.5s ease-out 0.3s forwards;
   }
+
   @keyframes drawCheck {
     to { stroke-dashoffset: 0; }
   }
+
   .modal h2 {
     font-size: 26px;
     font-weight: 700;
@@ -897,42 +1109,48 @@
     margin-bottom: 12px;
     position: relative;
     z-index: 1;
+    color: var(--text-primary);
+    transition: color 0.3s;
   }
+
   .modal p {
     font-size: 15px;
-    color: rgba(255,255,255,0.6);
+    color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 8px;
     position: relative;
     z-index: 1;
+    transition: color 0.3s;
   }
+
   .modal .modal-note {
     font-size: 13px;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     margin-bottom: 28px;
     position: relative;
     z-index: 1;
   }
+
   .modal-btn {
     padding: 15px 32px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
     border-radius: 14px;
-    color: #fff;
+    color: var(--text-primary);
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s, background 0.3s, color 0.3s, border-color 0.3s;
     font-family: inherit;
     position: relative;
     z-index: 1;
   }
+
   .modal-btn:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.25);
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
   }
 
-  /* ===== АДАПТИВ ===== */
   @media (max-width: 1000px) {
     .cart-layout { grid-template-columns: 1fr; }
     .cart-sidebar { position: static; }
@@ -954,14 +1172,16 @@
       gap: 14px;
       padding: 14px;
     }
+
     .item-thumb { width: 80px; height: 80px; }
+
     .item-right {
       grid-column: 1 / -1;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid var(--border);
     }
 
     .cart-sidebar { padding: 24px 20px; }
@@ -977,7 +1197,6 @@
 </head>
 <body>
 
-  <!-- ШАПКА -->
   <header>
     <div class="header-inner">
       <a href="index.html" class="logo">
@@ -991,21 +1210,24 @@
         <a href="index.html#contacts">Контакты</a>
       </nav>
 
-      <a href="cart.html" class="cart-link">
-        <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-        <span class="cart-text">Корзина</span>
-        <span class="count hidden" id="cartCount">0</span>
-      </a>
+      <div class="header-right">
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Переключить тему"></button>
 
-      <button class="burger-btn" id="burgerBtn" aria-label="Меню">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+        <a href="cart.html" class="cart-link">
+          <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          <span class="cart-text">Корзина</span>
+          <span class="count hidden" id="cartCount">0</span>
+        </a>
+
+        <button class="burger-btn" id="burgerBtn" aria-label="Меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- МОБИЛЬНОЕ МЕНЮ -->
   <div class="mobile-overlay" id="mobileOverlay"></div>
   <nav class="mobile-menu" id="mobileMenu">
     <a href="catalog.html">
@@ -1026,23 +1248,20 @@
     </a>
   </nav>
 
-  <!-- ЗАГОЛОВОК -->
   <section class="page-hero">
     <div class="breadcrumbs">
       <a href="index.html">Главная</a>
       <span>·</span>
-      <span style="color: rgba(255,255,255,0.7);">Корзина</span>
+      <span style="color: var(--text-primary);">Корзина</span>
     </div>
     <h1 class="page-title">Корзина</h1>
     <p class="page-subtitle" id="pageSubtitle">Проверьте заказ и оформите доставку</p>
   </section>
 
-  <!-- КОРЗИНА -->
   <section class="cart-wrap">
     <div id="cartContent"></div>
   </section>
 
-  <!-- ФУТЕР -->
   <footer>
     <div class="footer-inner">
       <a href="index.html" class="footer-logo">
@@ -1062,7 +1281,6 @@
     </div>
   </footer>
 
-  <!-- МОДАЛКА УСПЕХА -->
   <div class="modal-overlay" id="modalSuccess">
     <div class="modal">
       <div class="modal-check">
@@ -1091,13 +1309,11 @@
     const db = firebase.database();
   </script>
 
-    <script>
-    // ===== НАСТРОЙКИ =====
+  <script>
     const WHATSAPP_NUMBER = '79991234567';
     const STORAGE_KEY = 'isakha_cart';
     const MAX_QTY = 3;
 
-    // ===== УТИЛИТЫ =====
     function formatPrice(n) {
       return (n || 0).toLocaleString('ru-RU') + ' ₽';
     }
@@ -1116,7 +1332,6 @@
       return 'товаров';
     }
 
-    // ===== КОРЗИНА =====
     function getCart() {
       try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
       catch (e) { return []; }
@@ -1148,14 +1363,12 @@
       return cart.reduce((sum, item) => sum + (item.qty || 1), 0);
     }
 
-    // Скидка от суммы
     function getDiscount(sum) {
       if (sum >= 200000) return { percent: 5, amount: Math.round(sum * 0.05) };
       if (sum >= 100000) return { percent: 3, amount: Math.round(sum * 0.03) };
       return { percent: 0, amount: 0 };
     }
 
-    // ===== ЗВУК =====
     function playBuySound() {
       try {
         const audio = new Audio('apple-pay.mp3');
@@ -1164,7 +1377,6 @@
       } catch (e) {}
     }
 
-    // ===== МАСКА ТЕЛЕФОНА =====
     function formatPhone(value) {
       let digits = value.replace(/\D/g, '');
       if (digits.startsWith('8')) digits = '7' + digits.slice(1);
@@ -1200,7 +1412,6 @@
       });
     }
 
-    // ===== ОТРИСОВКА КОРЗИНЫ =====
     let selectedCity = 'Якутск';
 
     function renderCart() {
@@ -1373,7 +1584,6 @@
         </div>
       `;
 
-      // Анимация появления
       setTimeout(() => {
         document.querySelectorAll('.cart-item').forEach((el, i) => {
           setTimeout(() => el.classList.add('visible'), i * 60);
@@ -1382,14 +1592,11 @@
         if (sidebar) sidebar.classList.add('visible');
       }, 50);
 
-      // Обработчики кнопок
       bindCartActions();
 
-      // Поле телефона
       const phoneInput = document.getElementById('fieldPhone');
       if (phoneInput) bindPhoneInput(phoneInput);
 
-      // Радио «Город»
       const cityGroup = document.getElementById('cityGroup');
       if (cityGroup) {
         cityGroup.querySelectorAll('.radio-btn').forEach(btn => {
@@ -1398,7 +1605,6 @@
             btn.classList.add('active');
             selectedCity = btn.dataset.city;
 
-            // Меняем плейсхолдер адреса
             const addr = document.getElementById('fieldAddress');
             if (selectedCity === 'Район') {
               addr.placeholder = 'г. Нюрба, ул. Ленина, 5';
@@ -1409,7 +1615,6 @@
         });
       }
 
-      // Галочка ПД
       const pdCheckbox = document.getElementById('fieldPD');
       const pdRow = document.getElementById('pdRow');
       if (pdCheckbox) {
@@ -1418,14 +1623,11 @@
         });
       }
 
-      // Оформление
       const btnCheckout = document.getElementById('btnCheckout');
       if (btnCheckout) btnCheckout.addEventListener('click', handleCheckout);
     }
 
-    // ===== ДЕЙСТВИЯ С КОРЗИНОЙ =====
     function bindCartActions() {
-      // Удаление
       document.querySelectorAll('.item-remove').forEach(btn => {
         btn.addEventListener('click', () => {
           const idx = parseInt(btn.dataset.index, 10);
@@ -1437,7 +1639,6 @@
         });
       });
 
-      // Очистить всё
       const clearBtn = document.getElementById('clearCartBtn');
       if (clearBtn) {
         clearBtn.addEventListener('click', () => {
@@ -1448,7 +1649,6 @@
         });
       }
 
-      // +/- количество
       document.querySelectorAll('.qty-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const idx = parseInt(btn.dataset.index, 10);
@@ -1470,7 +1670,6 @@
       });
     }
 
-    // ===== ОФОРМЛЕНИЕ ЗАКАЗА =====
     let isSubmitting = false;
 
     function handleCheckout() {
@@ -1486,11 +1685,9 @@
       const pdCheckbox = document.getElementById('fieldPD');
       const pdRow = document.getElementById('pdRow');
 
-      // Сброс ошибок
       [name, phone, address].forEach(el => el.classList.remove('error'));
       pdRow.classList.remove('error');
 
-      // Валидация
       let valid = true;
       let firstErrorEl = null;
 
@@ -1511,19 +1708,16 @@
         return;
       }
 
-      // Блокируем повторные нажатия
       isSubmitting = true;
       const btn = document.getElementById('btnCheckout');
       btn.disabled = true;
 
-      // Звук — сразу
       playBuySound();
 
       const sum = total(cart);
       const discount = getDiscount(sum);
       const finalSum = sum - discount.amount;
 
-      // Сборка заказа
       const order = {
         name: name.value.trim(),
         phone: phone.value.trim(),
@@ -1549,17 +1743,14 @@
         status: 'new'
       };
 
-      // Сохраняем в Firebase
       db.ref('orders').push(order).then(() => {
         console.log('Заказ сохранён');
       }).catch(err => {
         console.error('Ошибка сохранения:', err);
       });
 
-      // Модалка
       document.getElementById('modalSuccess').classList.add('show');
 
-      // Сообщение в WhatsApp
       let message = '🛒 *Новый заказ с сайта iSakha*\n\n';
       message += `👤 *Имя:* ${order.name}\n`;
       message += `📞 *Телефон:* ${order.phone}\n`;
@@ -1594,19 +1785,15 @@
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(url, '_blank');
 
-      // Очищаем корзину
       setTimeout(() => {
         saveCart([]);
         updateCartCount();
       }, 1000);
     }
 
-    // ===== ЗАКРЫТИЕ МОДАЛКИ =====
     document.getElementById('modalClose').addEventListener('click', () => {
       document.getElementById('modalSuccess').classList.remove('show');
-      // Сбрасываем флаг только когда модалка закрыта
       isSubmitting = false;
-      // Перерисовываем — корзина теперь пуста
       renderCart();
     });
 
@@ -1618,7 +1805,6 @@
       }
     });
 
-    // ===== МОБИЛЬНОЕ МЕНЮ =====
     const burgerBtn = document.getElementById('burgerBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileOverlay = document.getElementById('mobileOverlay');
@@ -1649,7 +1835,6 @@
       });
     });
 
-    // ===== СЖАТИЕ ШАПКИ =====
     const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 40) {
@@ -1659,7 +1844,6 @@
       }
     });
 
-    // ===== СТАРТ =====
     updateCartCount();
     renderCart();
   </script>

@@ -11,29 +11,72 @@
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%236b2530' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z'/%3E%3C/svg%3E">
 
+<script src="theme.js"></script>
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-primary: #08080a;
+    --bg-card: #101014;
+    --bg-input: rgba(255, 255, 255, 0.04);
+    --bg-hover: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.65);
+    --text-muted: rgba(255, 255, 255, 0.4);
+    --text-faint: rgba(255, 255, 255, 0.3);
+    --border: rgba(255, 255, 255, 0.05);
+    --border-input: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+    --header-bg: rgba(8, 8, 10, 0.7);
+    --highlight-bg: rgba(122, 42, 56, 0.15);
+    --contact-item-bg: rgba(255, 255, 255, 0.03);
+    --overlay-bg: rgba(0, 0, 0, 0.6);
+    --mobile-menu-bg: #101014;
+  }
+
+  html.light-theme {
+    --bg-primary: #f5f5f7;
+    --bg-card: #ffffff;
+    --bg-input: rgba(0, 0, 0, 0.04);
+    --bg-hover: rgba(0, 0, 0, 0.06);
+    --text-primary: #1a1a1c;
+    --text-secondary: #6a6a72;
+    --text-muted: #8a8a92;
+    --text-faint: #b0b0b8;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-input: rgba(0, 0, 0, 0.1);
+    --border-hover: rgba(0, 0, 0, 0.2);
+    --header-bg: rgba(245, 245, 247, 0.85);
+    --highlight-bg: rgba(122, 42, 56, 0.08);
+    --contact-item-bg: rgba(0, 0, 0, 0.02);
+    --overlay-bg: rgba(0, 0, 0, 0.4);
+    --mobile-menu-bg: #ffffff;
+  }
+
   html { scroll-behavior: smooth; }
+
   body {
-    background: #08080a;
+    background: var(--bg-primary);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-    color: #fff;
+    color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
     line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
   }
 
-  /* ===== ШАПКА ===== */
   header {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
     padding: 18px 40px;
-    background: rgba(8, 8, 10, 0.7);
+    background: var(--header-bg);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    transition: padding 0.3s;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s, padding 0.3s, border-color 0.3s;
   }
+
   .header-inner {
     max-width: 1280px;
     margin: 0 auto;
@@ -42,57 +85,93 @@
     justify-content: space-between;
     gap: 24px;
   }
+
   .logo {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.5px;
-    color: #fff;
+    color: var(--text-primary);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
+    transition: color 0.3s;
   }
+
   .logo svg { width: 22px; height: 26px; fill: #7a2a38; }
+
   .nav { display: flex; gap: 28px; }
+
   .nav a {
-    color: rgba(255,255,255,0.65);
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
     transition: color 0.15s;
   }
-  .nav a:hover { color: #fff; }
+
+  .nav a:hover { color: var(--text-primary); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .theme-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s, background 0.3s, border-color 0.3s, color 0.3s;
+    flex-shrink: 0;
+  }
+
+  .theme-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+  }
+
+  .theme-btn svg { width: 20px; height: 20px; }
+
   .back-link {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 10px 18px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
     border-radius: 12px;
-    color: rgba(255,255,255,0.85);
+    color: var(--text-primary);
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.15s;
+    transition: all 0.15s, background 0.3s, border-color 0.3s;
   }
+
   .back-link:hover {
-    background: rgba(255,255,255,0.08);
-    color: #fff;
-    border-color: rgba(255,255,255,0.2);
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
   }
+
   .back-link svg {
     width: 16px; height: 16px;
     fill: currentColor;
   }
 
-  /* ===== ЗАГОЛОВОК ===== */
   .page-hero {
     padding: 140px 40px 40px;
     max-width: 900px;
     margin: 0 auto;
     position: relative;
   }
+
   .page-hero::before {
     content: "";
     position: absolute;
@@ -103,23 +182,31 @@
     pointer-events: none;
     z-index: 0;
   }
+
+  html.light-theme .page-hero::before {
+    background: radial-gradient(circle, rgba(122, 42, 56, 0.15), transparent 65%);
+  }
+
   .breadcrumbs {
     display: flex;
     gap: 8px;
     align-items: center;
     font-size: 13px;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     margin-bottom: 20px;
     position: relative;
     z-index: 1;
     flex-wrap: wrap;
   }
+
   .breadcrumbs a {
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     text-decoration: none;
     transition: color 0.15s;
   }
-  .breadcrumbs a:hover { color: #fff; }
+
+  .breadcrumbs a:hover { color: var(--text-primary); }
+
   .page-title {
     font-size: clamp(32px, 4.5vw, 52px);
     font-weight: 700;
@@ -128,19 +215,21 @@
     margin-bottom: 12px;
     position: relative;
     z-index: 1;
-    background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+    background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-  .page-subtitle {
-    font-size: 15px;
-    color: rgba(255,255,255,0.5);
-    position: relative;
-    z-index: 1;
+    transition: background 0.3s;
   }
 
-  /* ===== КОНТЕНТ ===== */
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s;
+  }
+
   .content {
     max-width: 900px;
     margin: 0 auto;
@@ -148,12 +237,13 @@
   }
 
   .privacy-card {
-    background: #101014;
-    border: 1px solid rgba(255,255,255,0.05);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 28px;
     padding: 48px 44px;
     position: relative;
     overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
   }
 
   .privacy-card::before {
@@ -164,6 +254,10 @@
     background: radial-gradient(circle, rgba(122, 42, 56, 0.25), transparent 65%);
     filter: blur(80px);
     pointer-events: none;
+  }
+
+  html.light-theme .privacy-card::before {
+    background: radial-gradient(circle, rgba(122, 42, 56, 0.08), transparent 65%);
   }
 
   .privacy-card > * {
@@ -183,13 +277,18 @@
     margin-bottom: 32px;
   }
 
+  html.light-theme .last-updated {
+    background: rgba(122, 42, 56, 0.1);
+  }
+
   h2 {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.5px;
     margin-top: 36px;
     margin-bottom: 14px;
-    color: #fff;
+    color: var(--text-primary);
+    transition: color 0.3s;
   }
 
   h2:first-of-type {
@@ -212,10 +311,15 @@
     vertical-align: middle;
   }
 
+  html.light-theme h2 .num {
+    background: linear-gradient(135deg, rgba(122, 42, 56, 0.15), rgba(74, 21, 32, 0.1));
+  }
+
   p {
     font-size: 15px;
-    color: rgba(255,255,255,0.65);
+    color: var(--text-secondary);
     margin-bottom: 14px;
+    transition: color 0.3s;
   }
 
   ul {
@@ -228,7 +332,8 @@
     position: relative;
     padding: 6px 0 6px 24px;
     font-size: 15px;
-    color: rgba(255,255,255,0.65);
+    color: var(--text-secondary);
+    transition: color 0.3s;
   }
 
   ul li::before {
@@ -243,8 +348,9 @@
   }
 
   strong {
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 600;
+    transition: color 0.3s;
   }
 
   a {
@@ -259,13 +365,14 @@
 
   .highlight-box {
     padding: 20px 24px;
-    background: rgba(122, 42, 56, 0.15);
+    background: var(--highlight-bg);
     border-left: 3px solid #7a2a38;
     border-radius: 12px;
     margin: 24px 0;
     font-size: 14px;
-    color: rgba(255,255,255,0.75);
+    color: var(--text-secondary);
     line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
   }
 
   .highlight-box strong {
@@ -275,7 +382,8 @@
   .contact-block {
     margin-top: 40px;
     padding-top: 32px;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid var(--border);
+    transition: border-color 0.3s;
   }
 
   .contact-list {
@@ -289,16 +397,16 @@
     align-items: center;
     gap: 14px;
     padding: 14px 18px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: var(--contact-item-bg);
+    border: 1px solid var(--border);
     border-radius: 12px;
     text-decoration: none;
     color: inherit;
-    transition: all 0.2s;
+    transition: all 0.2s, background 0.3s, border-color 0.3s;
   }
 
   .contact-item:hover {
-    background: rgba(255,255,255,0.06);
+    background: var(--bg-hover);
     border-color: rgba(180, 80, 100, 0.3);
     text-decoration: none;
   }
@@ -315,6 +423,10 @@
     flex-shrink: 0;
   }
 
+  html.light-theme .contact-icon {
+    background: linear-gradient(135deg, rgba(122, 42, 56, 0.15), rgba(74, 21, 32, 0.1));
+  }
+
   .contact-icon svg {
     width: 18px; height: 18px;
     stroke: #d46b7c;
@@ -328,20 +440,23 @@
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 2px;
+    transition: color 0.3s;
   }
 
   .contact-text span {
     font-size: 13px;
-    color: rgba(255,255,255,0.5);
+    color: var(--text-secondary);
+    transition: color 0.3s;
   }
 
-  /* ===== ФУТЕР ===== */
   footer {
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid var(--border);
     padding: 48px 40px;
+    transition: border-color 0.3s;
   }
+
   .footer-inner {
     max-width: 1280px;
     margin: 0 auto;
@@ -351,27 +466,37 @@
     gap: 20px;
     flex-wrap: wrap;
   }
+
   .footer-logo {
     font-size: 18px;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
+    transition: color 0.3s;
   }
+
   .footer-logo svg { width: 18px; height: 22px; fill: #7a2a38; }
+
   .footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+
   .footer-links a {
-    color: rgba(255,255,255,0.5);
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 13px;
     transition: color 0.15s;
   }
-  .footer-links a:hover { color: #fff; }
-  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.35); }
 
-  /* ===== АДАПТИВ ===== */
+  .footer-links a:hover { color: var(--text-primary); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: color 0.3s;
+  }
+
   @media (max-width: 800px) {
     .nav { display: none; }
   }
@@ -390,7 +515,6 @@
 </head>
 <body>
 
-  <!-- ШАПКА -->
   <header>
     <div class="header-inner">
       <a href="index.html" class="logo">
@@ -404,29 +528,31 @@
         <a href="index.html#contacts">Контакты</a>
       </nav>
 
-      <a href="index.html" class="back-link">
-        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        На главную
-      </a>
+      <div class="header-right">
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Переключить тему"></button>
+
+        <a href="index.html" class="back-link">
+          <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          На главную
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- ЗАГОЛОВОК -->
   <section class="page-hero">
     <div class="breadcrumbs">
       <a href="index.html">Главная</a>
       <span>·</span>
-      <span style="color: rgba(255,255,255,0.7);">Политика конфиденциальности</span>
+      <span style="color: var(--text-primary);">Политика конфиденциальности</span>
     </div>
     <h1 class="page-title">Политика конфиденциальности</h1>
     <p class="page-subtitle">Как мы собираем, используем и защищаем ваши данные</p>
   </section>
 
-  <!-- КОНТЕНТ -->
   <section class="content">
     <div class="privacy-card">
 
-      <div class="last-updated">Обновлено: 27 сентября 2026</div>
+      <div class="last-updated">Обновлено: 30 сентября 2026</div>
 
       <h2><span class="num">1</span>Общие положения</h2>
       <p>Настоящая Политика конфиденциальности описывает, как сайт <strong>iSakha</strong> (далее — «Сайт») собирает, использует и защищает персональные данные пользователей.</p>
@@ -475,7 +601,7 @@
       <p>Для реализации любого из этих прав свяжитесь с нами по контактам ниже.</p>
 
       <h2><span class="num">7</span>Файлы cookie и локальное хранилище</h2>
-      <p>Сайт использует <strong>localStorage</strong> браузера для хранения содержимого вашей корзины. Эти данные хранятся только на вашем устройстве и не передаются на сервер без оформления заказа.</p>
+      <p>Сайт использует <strong>localStorage</strong> браузера для хранения содержимого вашей корзины и выбранной темы оформления. Эти данные хранятся только на вашем устройстве и не передаются на сервер без оформления заказа.</p>
 
       <h2><span class="num">8</span>Согласие на обработку</h2>
       <p>Отправляя заявку через форму, вы подтверждаете, что:</p>
@@ -526,7 +652,6 @@
     </div>
   </section>
 
-  <!-- ФУТЕР -->
   <footer>
     <div class="footer-inner">
       <a href="index.html" class="footer-logo">
@@ -545,16 +670,5 @@
     </div>
   </footer>
 
-  <script>
-    // Сжатие шапки при скролле
-    const header = document.querySelector('header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        header.style.padding = '12px 40px';
-      } else {
-        header.style.padding = '18px 40px';
-      }
-    });
-  </script>
 </body>
 </html>

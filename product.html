@@ -45,7 +45,7 @@
     --border: rgba(0, 0, 0, 0.08);
     --border-input: rgba(0, 0, 0, 0.1);
     --border-hover: rgba(0, 0, 0, 0.2);
-    --viewer-bg: radial-gradient(circle at 50% 35%, #ffffff 0%, #f0eef2 55%, #e2e0e5 100%);
+    --viewer-bg: radial-gradient(circle at 50% 35%, #ffffff 0%, #ebebed 55%, #dedee0 100%);
     --btn-secondary-bg: rgba(255,255,255,0.9);
     --shadow-card: 0 40px 100px rgba(0,0,0,0.15);
   }
@@ -1155,6 +1155,47 @@
       return `${nameSlug}-${colorSlug}.glb`;
     }
 
+    // ===== SCHEMA.ORG РАЗМЕТКА =====
+    function addSchemaMarkup() {
+      const p = currentProduct;
+      if (!p) return;
+
+      // Удаляем старую разметку
+      const old = document.getElementById('productSchema');
+      if (old) old.remove();
+
+      const availability = p.available !== false
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock';
+
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": p.name,
+        "description": (p.specs || []).map(s => `${s.label}: ${s.value}`).join('. ') || p.name,
+        "image": p.photo ? [p.photo] : [],
+        "sku": p.id,
+        "brand": {
+          "@type": "Brand",
+          "name": "Apple"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": window.location.href,
+          "priceCurrency": "RUB",
+          "price": currentPrice || p.price,
+          "availability": availability,
+          "itemCondition": "https://schema.org/NewCondition"
+        }
+      };
+
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.id = 'productSchema';
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    }
+
     document.querySelectorAll('.acc-head').forEach(head => {
       head.addEventListener('click', () => {
         head.parentElement.classList.toggle('open');
@@ -1283,6 +1324,7 @@
       updateWhatsappLink();
       renderSimilar();
       applyColorStyles();
+      addSchemaMarkup();
     }
 
     function renderSpecs(specs) {
@@ -1388,6 +1430,9 @@
       priceDisplay.textContent = formatPrice(price);
       oldPriceDisplay.textContent = formatPrice(oldPrice);
       discountDisplay.textContent = '−' + discount + '%';
+
+      // Обновляем цену в Schema.org
+      addSchemaMarkup();
     }
 
     let modelLoadTimer = null;
@@ -1487,10 +1532,9 @@
       const isDark = customHex ? isDarkHex(customHex) : DARK_COLORS.includes((colorValue || '').toLowerCase().trim());
       const isLightTheme = document.documentElement.classList.contains('light-theme');
 
-      // Фон витрины — зависит от темы
       if (isLightTheme) {
         viewer.style.setProperty('--viewer-bg',
-          `radial-gradient(circle at 50% 35%, #ffffff 0%, #f0eef2 55%, #e2e0e5 100%)`);
+          `radial-gradient(circle at 50% 35%, ${style.hex}22 0%, #ffffff 45%, #ebebed 100%)`);
       } else {
         viewer.style.setProperty('--viewer-bg',
           `radial-gradient(circle at 50% 35%, ${style.hex}33 0%, #10080c 45%, #08080a 100%)`);
@@ -1634,15 +1678,6 @@
         `;
       }).join('');
     }
-
-    // Переприменяем стили при смене темы
-    const themeObserver = new MutationObserver(() => {
-      if (currentProduct) applyColorStyles();
-    });
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
 
     updateCartCount();
   </script>

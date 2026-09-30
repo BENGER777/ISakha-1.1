@@ -8,7 +8,7 @@
 <meta name="description" content="Оригинальные iPhone в Якутске. Доставка по городу.">
 <meta name="author" content="iSakha">
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%236b2530' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%237a2a38' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z'/%3E%3C/svg%3E">
 
 <script src="theme.js"></script>
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
@@ -31,6 +31,8 @@
     --viewer-bg: radial-gradient(circle at 50% 35%, #2a1a24 0%, #10080c 45%, #08080a 100%);
     --btn-secondary-bg: rgba(20,20,24,0.85);
     --shadow-card: 0 40px 100px rgba(0,0,0,0.7);
+    --overlay-bg: rgba(0, 0, 0, 0.75);
+    --modal-bg: #101014;
   }
 
   html.light-theme {
@@ -48,6 +50,8 @@
     --viewer-bg: radial-gradient(circle at 50% 35%, #ffffff 0%, #ebebed 55%, #dedee0 100%);
     --btn-secondary-bg: rgba(255,255,255,0.9);
     --shadow-card: 0 40px 100px rgba(0,0,0,0.15);
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --modal-bg: #ffffff;
   }
 
   body {
@@ -180,48 +184,53 @@
     --poster-color: transparent;
     --progress-bar-color: transparent;
     --progress-mask: transparent;
-  }
-
-  .viewer-skeleton {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--viewer-bg);
+    opacity: 0;
     transition: opacity 0.5s;
   }
 
-  .viewer-skeleton.hidden {
-    opacity: 0;
+  .model-viewer.loaded { opacity: 1; }
+
+  /* ===== КРУТИЛКА-КОЛЬЦО ===== */
+  .loader-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    width: 60px;
+    height: 60px;
+    opacity: 1;
+    transition: opacity 0.4s;
     pointer-events: none;
   }
 
-  .skeleton-phone {
-    width: 200px;
-    height: 410px;
-    border-radius: 42px;
-    background: linear-gradient(90deg, rgba(128,128,128,0.08) 0%, rgba(128,128,128,0.18) 50%, rgba(128,128,128,0.08) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    position: relative;
+  .loader-ring.hidden {
+    opacity: 0;
   }
 
-  .skeleton-phone::before {
+  .loader-ring::before {
     content: "";
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 90px;
-    height: 90px;
-    border-radius: 22px;
-    background: rgba(128,128,128,0.1);
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #7a2a38;
+    border-right-color: rgba(122, 42, 56, 0.4);
+    animation: spinRing 0.9s linear infinite;
   }
 
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+  .loader-ring::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-bottom-color: rgba(122, 42, 56, 0.3);
+    animation: spinRing 1.4s linear infinite reverse;
+  }
+
+  @keyframes spinRing {
+    to { transform: rotate(360deg); }
   }
 
   .viewer-fallback {
@@ -840,6 +849,170 @@
     box-shadow: 0 16px 48px rgba(122, 42, 56, 0.7);
   }
 
+  /* ===== МОДАЛКА УСПЕХА ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal {
+    background: var(--modal-bg);
+    border: 1px solid rgba(180, 80, 100, 0.3);
+    border-radius: 28px;
+    padding: 48px 40px 40px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transform: scale(0.85) translateY(20px);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+  }
+
+  .modal-overlay.show .modal {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(122, 42, 56, 0.5), transparent 65%);
+    filter: blur(60px);
+    pointer-events: none;
+    animation: modalGlow 3s ease-in-out infinite;
+  }
+
+  html.light-theme .modal::before {
+    background: radial-gradient(circle, rgba(122, 42, 56, 0.2), transparent 65%);
+  }
+
+  @keyframes modalGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  .modal-check {
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7a2a38, #4a1520);
+    border: 2px solid rgba(212, 107, 124, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 20px 50px rgba(122, 42, 56, 0.5);
+    animation: checkPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes checkPop {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  .modal-check::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 107, 124, 0.35), transparent 70%);
+    animation: pulseRing 2s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  @keyframes pulseRing {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+
+  .modal-check svg {
+    width: 44px;
+    height: 44px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: drawCheck 0.5s ease-out 0.3s forwards;
+  }
+
+  @keyframes drawCheck {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .modal h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    color: var(--text-primary);
+    transition: color 0.3s;
+  }
+
+  .modal p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s;
+  }
+
+  .modal .modal-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .modal-btn {
+    padding: 15px 32px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
+    border-radius: 14px;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s, background 0.3s, color 0.3s, border-color 0.3s;
+    font-family: inherit;
+    position: relative;
+    z-index: 1;
+  }
+
+  .modal-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+  }
+
   @media (max-width: 860px) {
     body { padding: 20px 16px 60px; }
 
@@ -862,6 +1035,11 @@
     .similar-image { height: 160px; }
 
     .not-found { margin: 60px auto; padding: 40px 24px; }
+
+    .modal { padding: 40px 28px 32px; }
+    .modal h2 { font-size: 22px; }
+    .modal-check { width: 72px; height: 72px; }
+    .modal-check svg { width: 36px; height: 36px; }
   }
 
   @media (max-width: 480px) {
@@ -884,7 +1062,7 @@
   </div>
 
   <div id="loadingScreen" style="max-width:500px; margin:120px auto; text-align:center; padding:60px 40px;">
-    <div style="display:inline-block; width:40px; height:40px; border:3px solid rgba(128,128,128,0.15); border-top-color:#d46b7c; border-radius:50%; animation:spin 1s linear infinite;"></div>
+    <div style="display:inline-block; width:40px; height:40px; border:3px solid rgba(128,128,128,0.15); border-top-color:#7a2a38; border-radius:50%; animation:spin 1s linear infinite;"></div>
     <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
     <p style="margin-top:20px; color: var(--text-muted); font-size:14px;">Загрузка товара...</p>
   </div>
@@ -913,6 +1091,10 @@
 
     <div class="card">
       <div class="viewer" id="viewer">
+
+        <!-- Крутилка -->
+        <div class="loader-ring" id="loaderRing"></div>
+
         <model-viewer
           id="modelViewer"
           class="model-viewer"
@@ -926,10 +1108,6 @@
           interaction-prompt="none"
           rotation-per-second="20deg">
         </model-viewer>
-
-        <div class="viewer-skeleton" id="viewerSkeleton">
-          <div class="skeleton-phone"></div>
-        </div>
 
         <div class="viewer-fallback" id="viewerFallback">
           <img id="fallbackPhoto" src="" alt="">
@@ -1018,6 +1196,19 @@
 
   </div>
 
+  <!-- МОДАЛКА УСПЕХА -->
+  <div class="modal-overlay" id="modalSuccess">
+    <div class="modal">
+      <div class="modal-check">
+        <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2>Заказ оформлен!</h2>
+      <p>Скоро с вами свяжутся в WhatsApp</p>
+      <p class="modal-note">Обычно отвечаем в течение 15 минут</p>
+      <button class="modal-btn" id="modalClose">Понятно</button>
+    </div>
+  </div>
+
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
   <script>
@@ -1035,7 +1226,7 @@
   </script>
 
   <script>
-    const WHATSAPP_NUMBER = '79991234567';
+    const WHATSAPP_NUMBER = '79142768524';
     const STORAGE_KEY = 'isakha_cart';
 
     const COLOR_MAP = {
@@ -1057,7 +1248,7 @@
     const mainContent = document.getElementById('mainContent');
     const viewer = document.getElementById('viewer');
     const modelViewer = document.getElementById('modelViewer');
-    const viewerSkeleton = document.getElementById('viewerSkeleton');
+    const loaderRing = document.getElementById('loaderRing');
     const viewerFallback = document.getElementById('viewerFallback');
     const fallbackPhoto = document.getElementById('fallbackPhoto');
     const colorBadge = document.getElementById('colorBadge');
@@ -1155,12 +1346,11 @@
       return `${nameSlug}-${colorSlug}.glb`;
     }
 
-    // ===== SCHEMA.ORG РАЗМЕТКА =====
+    // ===== SCHEMA.ORG =====
     function addSchemaMarkup() {
       const p = currentProduct;
       if (!p) return;
 
-      // Удаляем старую разметку
       const old = document.getElementById('productSchema');
       if (old) old.remove();
 
@@ -1175,10 +1365,7 @@
         "description": (p.specs || []).map(s => `${s.label}: ${s.value}`).join('. ') || p.name,
         "image": p.photo ? [p.photo] : [],
         "sku": p.id,
-        "brand": {
-          "@type": "Brand",
-          "name": "Apple"
-        },
+        "brand": { "@type": "Brand", "name": "Apple" },
         "offers": {
           "@type": "Offer",
           "url": window.location.href,
@@ -1431,7 +1618,6 @@
       oldPriceDisplay.textContent = formatPrice(oldPrice);
       discountDisplay.textContent = '−' + discount + '%';
 
-      // Обновляем цену в Schema.org
       addSchemaMarkup();
     }
 
@@ -1446,8 +1632,10 @@
         modelLoadTimer = null;
       }
 
+      // Показываем крутилку, скрываем fallback
+      loaderRing.classList.remove('hidden');
       viewerFallback.classList.remove('show');
-      viewerSkeleton.classList.remove('hidden');
+      modelViewer.classList.remove('loaded');
 
       let modelFile = '';
       const colorOption = (p.options || []).find(o => isColorOption(o.name));
@@ -1464,8 +1652,9 @@
         modelFile = p.model;
       }
 
+      // Нет модели — показываем фото
       if (!modelFile) {
-        viewerSkeleton.classList.add('hidden');
+        loaderRing.classList.add('hidden');
         if (p.photo) {
           fallbackPhoto.src = p.photo;
           viewerFallback.classList.add('show');
@@ -1485,7 +1674,8 @@
           modelLoadTimer = null;
         }
         viewerFallback.classList.remove('show');
-        setTimeout(() => viewerSkeleton.classList.add('hidden'), 300);
+        loaderRing.classList.add('hidden');
+        setTimeout(() => modelViewer.classList.add('loaded'), 100);
       };
 
       modelViewer._onError = () => {
@@ -1494,7 +1684,7 @@
           clearTimeout(modelLoadTimer);
           modelLoadTimer = null;
         }
-        viewerSkeleton.classList.add('hidden');
+        loaderRing.classList.add('hidden');
         if (p.photo) {
           fallbackPhoto.src = p.photo;
           viewerFallback.classList.add('show');
@@ -1506,15 +1696,16 @@
 
       modelViewer.src = modelFile;
 
+      // Если долго не грузится — fallback через 12 секунд
       modelLoadTimer = setTimeout(() => {
         if (!loaded) {
-          viewerSkeleton.classList.add('hidden');
+          loaderRing.classList.add('hidden');
           if (p.photo) {
             fallbackPhoto.src = p.photo;
             viewerFallback.classList.add('show');
           }
         }
-      }, 10000);
+      }, 12000);
     }
 
     function applyColorStyles(colorValue, customHex) {
@@ -1678,6 +1869,17 @@
         `;
       }).join('');
     }
+
+    // ===== МОДАЛКА (закрытие) =====
+    document.getElementById('modalClose').addEventListener('click', () => {
+      document.getElementById('modalSuccess').classList.remove('show');
+    });
+
+    document.getElementById('modalSuccess').addEventListener('click', (e) => {
+      if (e.target.id === 'modalSuccess') {
+        e.target.classList.remove('show');
+      }
+    });
 
     updateCartCount();
   </script>

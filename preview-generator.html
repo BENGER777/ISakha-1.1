@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Генератор превью — iSakha</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%237a2a38' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06z'/%3E%3C/svg%3E">
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    color: #1a1a1c;
+    min-height: 100vh;
+    padding: 40px 24px;
+  }
+
+  .app {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .app-header {
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .app-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+  }
+
+  .app-subtitle {
+    font-size: 14px;
+    color: #8a8a92;
+    margin-top: 4px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ===== ЛЕВАЯ ЧАСТЬ — УПРАВЛЕНИЕ ===== */
+  .panel {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 24px;
+    padding: 28px 24px;
+  }
+
+  .section-title {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8a8a92;
+    font-weight: 700;
+    margin-bottom: 14px;
+    margin-top: 20px;
+  }
+
+  .section-title:first-child { margin-top: 0; }
+
+  .products-list {
+    display: grid;
+    gap: 8px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  .products-list::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .products-list::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+  }
+
+  .product-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #f5f5f7;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1c;
+  }
+
+  .product-btn:hover {
+    background: #ebebed;
+  }
+
+  .product-btn.active {
+    background: rgba(122, 42, 56, 0.1);
+    border-color: rgba(122, 42, 56, 0.4);
+    color: #7a2a38;
+  }
+
+  .product-btn .thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .product-btn .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .product-btn .info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .product-btn .name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .product-btn .price {
+    font-size: 12px;
+    color: #8a8a92;
+    margin-top: 2px;
+  }
+
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .template-btn {
+    padding: 14px 12px;
+    background: #f5f5f7;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1c;
+  }
+
+  .template-btn:hover {
+    background: #ebebed;
+  }
+
+  .template-btn.active {
+    background: rgba(122, 42, 56, 0.1);
+    border-color: rgba(122, 42, 56, 0.4);
+    color: #7a2a38;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: #f5f5f7;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: #1a1a1c;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+  }
+
+  .form-input:focus {
+    border-color: rgba(122, 42, 56, 0.5);
+    background: #ffffff;
+  }
+
+  .form-input::placeholder { color: #b0b0b8; }
+
+  .btn-download {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #7a2a38, #4a1520);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    box-shadow: 0 8px 24px rgba(122, 42, 56, 0.3);
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(122, 42, 56, 0.5);
+  }
+
+  .btn-download:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-download svg {
+    width: 18px; height: 18px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ===== ПРАВАЯ ЧАСТЬ — ПРЕВЬЮ ===== */
+  .preview-wrap {
+    position: sticky;
+    top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+  }
+
+  .preview {
+    width: 540px;
+    height: 540px;
+    background: #f5f5f7;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== ШАБЛОН 1 — С ТОВАРОМ ===== */
+  .preview.template-product {
+    padding: 40px;
+    justify-content: space-between;
+  }
+
+  .preview.template-product .preview-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    color: #1a1a1c;
+  }
+
+  .preview.template-product .preview-logo svg {
+    width: 28px; height: 33px;
+    fill: #7a2a38;
+  }
+
+  .preview.template-product .preview-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .preview.template-product .preview-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+  }
+
+  .preview.template-product .preview-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .preview.template-product .preview-name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    color: #1a1a1c;
+  }
+
+  .preview.template-product .preview-price {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: #7a2a38;
+  }
+
+  .preview.template-product .preview-tag {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8a8a92;
+    font-weight: 600;
+  }
+
+  /* ===== ШАБЛОН 2 — ТОЛЬКО ФОТО ===== */
+  .preview.template-photo {
+    padding: 0;
+  }
+
+  .preview.template-photo .photo-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 45%, #ffffff 0%, #ebebed 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+  }
+
+  .preview.template-photo .photo-bg img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.2));
+  }
+
+  .preview.template-photo .photo-logo {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    color: #1a1a1c;
+    z-index: 2;
+  }
+
+  .preview.template-photo .photo-logo svg {
+    width: 22px; height: 26px;
+    fill: #7a2a38;
+  }
+
+  .preview.template-photo .photo-price-badge {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    padding: 12px 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #7a2a38;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 2;
+  }
+
+  /* ===== ШАБЛОН 3 — АКЦИЯ ===== */
+  .preview.template-promo {
+    padding: 50px 40px;
+    background: linear-gradient(135deg, #7a2a38, #4a1520);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .preview.template-promo .promo-logo {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    opacity: 0.9;
+    margin-bottom: 20px;
+  }
+
+  .preview.template-promo .promo-title {
+    font-size: 64px;
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1;
+  }
+
+  .preview.template-promo .promo-subtitle {
+    font-size: 20px;
+    font-weight: 500;
+    opacity: 0.9;
+    line-height: 1.4;
+    max-width: 380px;
+  }
+
+  .preview.template-promo .promo-code {
+    margin-top: 20px;
+    padding: 14px 28px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 16px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    backdrop-filter: blur(10px);
+  }
+
+  /* ===== ШАБЛОН 4 — МИНИМАЛИЗМ ===== */
+  .preview.template-minimal {
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .preview.template-minimal .minimal-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: #1a1a1c;
+    margin-bottom: 30px;
+  }
+
+  .preview.template-minimal .minimal-logo svg {
+    width: 50px; height: 58px;
+    fill: #7a2a38;
+  }
+
+  .preview.template-minimal .minimal-tagline {
+    font-size: 22px;
+    font-weight: 500;
+    color: #8a8a92;
+    line-height: 1.4;
+    max-width: 400px;
+  }
+
+  .preview.template-minimal .minimal-divider {
+    width: 60px;
+    height: 2px;
+    background: #7a2a38;
+    margin: 30px 0;
+    border-radius: 2px;
+  }
+
+  .preview.template-minimal .minimal-detail {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8a8a92;
+    font-weight: 600;
+  }
+
+  /* ===== АДАПТИВ ===== */
+  @media (max-width: 1100px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+
+    .preview-wrap {
+      position: static;
+      padding: 20px 0;
+    }
+
+    .preview {
+      width: 100%;
+      max-width: 540px;
+      aspect-ratio: 1;
+      height: auto;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .preview.template-product .preview-name { font-size: 22px; }
+    .preview.template-product .preview-price { font-size: 26px; }
+    .preview.template-promo .promo-title { font-size: 48px; }
+    .preview.template-minimal .minimal-logo { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app">
+    <div class="app-header">
+      <div>
+        <div class="app-title">Генератор превью</div>
+        <div class="app-subtitle">Создай картинку для Instagram за 30 секунд</div>
+      </div>
+    </div>
+
+    <div class="layout">
+
+      <!-- ЛЕВАЯ ЧАСТЬ — УПРАВЛЕНИЕ -->
+      <div class="panel">
+
+        <div class="section-title">1. Выбери товар</div>
+        <div class="products-list" id="productsList">
+          <div style="padding: 20px; text-align: center; color: #8a8a92; font-size: 14px;">
+            Загрузка товаров...
+          </div>
+        </div>
+
+        <div class="section-title">2. Выбери шаблон</div>
+        <div class="template-grid">
+          <button class="template-btn active" data-template="product" onclick="setTemplate('product', this)">
+            С товаром
+          </button>
+          <button class="template-btn" data-template="photo" onclick="setTemplate('photo', this)">
+            Только фото
+          </button>
+          <button class="template-btn" data-template="promo" onclick="setTemplate('promo', this)">
+            Акция
+          </button>
+          <button class="template-btn" data-template="minimal" onclick="setTemplate('minimal', this)">
+            Минимализм
+          </button>
+        </div>
+
+        <div class="section-title">3. Настройки</div>
+
+        <div id="settingsProduct">
+          <input type="text" class="form-input" id="customName" placeholder="Название (по умолчанию из товара)">
+          <input type="text" class="form-input" id="customPrice" placeholder="Цена (по умолчанию из товара)">
+        </div>
+
+        <div id="settingsPromo" style="display: none;">
+          <input type="text" class="form-input" id="promoTitle" placeholder="Заголовок (Скидка 10%)" value="Скидка 10%">
+          <input type="text" class="form-input" id="promoSubtitle" placeholder="Подзаголовок (на первый заказ)" value="на первый заказ">
+          <input type="text" class="form-input" id="promoCode" placeholder="Промокод (START)" value="START">
+        </div>
+
+        <button class="btn-download" id="btnDownload" onclick="downloadPreview()">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Скачать PNG
+        </button>
+
+      </div>
+
+      <!-- ПРАВАЯ ЧАСТЬ — ПРЕВЬЮ -->
+      <div class="preview-wrap">
+        <div class="preview template-product" id="preview">
+
+          <div class="preview-logo">
+            <svg viewBox="0 0 24 30"><path d="M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06z"/></svg>
+            iSakha
+          </div>
+
+          <div class="preview-image">
+            <img id="previewImage" src="" alt="">
+          </div>
+
+          <div class="preview-bottom">
+            <div class="preview-tag">Новинка 2026</div>
+            <div class="preview-name" id="previewName">iPhone 18 Pro Max</div>
+            <div class="preview-price" id="previewPrice">от 149 990 ₽</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAEyfipwLGvrFaRlQ6catsNFotIm9Az-8U",
+      authDomain: "isakha-a113f.firebaseapp.com",
+      databaseURL: "https://isakha-a113f-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "isakha-a113f",
+      storageBucket: "isakha-a113f.firebasestorage.app",
+      messagingSenderId: "1018948076953",
+      appId: "1:1018948076953:web:2efbb684af4834518dff08"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+
+  <script>
+    let allProducts = {};
+    let currentProduct = null;
+    let currentTemplate = 'product';
+
+    function formatPrice(n) {
+      return (n || 0).toLocaleString('ru-RU') + ' ₽';
+    }
+
+    function escapeHtml(s) {
+      if (!s) return '';
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    // ===== ЗАГРУЗКА ТОВАРОВ =====
+    db.ref('products').on('value', (snap) => {
+      allProducts = snap.val() || {};
+      renderProductsList();
+
+      // Автоматически выбираем первый товар
+      const ids = Object.keys(allProducts);
+      if (ids.length > 0 && !currentProduct) {
+        selectProduct(ids[0]);
+      }
+    });
+
+    function renderProductsList() {
+      const list = document.getElementById('productsList');
+      const items = Object.entries(allProducts).filter(([id, p]) => p.available !== false);
+
+      if (items.length === 0) {
+        list.innerHTML = '<div style="padding: 20px; text-align: center; color: #8a8a92; font-size: 14px;">Нет товаров в каталоге</div>';
+        return;
+      }
+
+      list.innerHTML = items.map(([id, p]) => `
+        <button class="product-btn ${currentProduct && currentProduct.id === id ? 'active' : ''}" onclick="selectProduct('${id}')">
+          <div class="thumb">
+            ${p.photo ? `<img src="${escapeHtml(p.photo)}" alt="">` : ''}
+          </div>
+          <div class="info">
+            <div class="name">${escapeHtml(p.name)}</div>
+            <div class="price">${formatPrice(p.price)}</div>
+          </div>
+        </button>
+      `).join('');
+    }
+
+    function selectProduct(id) {
+      const p = allProducts[id];
+      if (!p) return;
+      currentProduct = { id, ...p };
+      renderProductsList();
+      updatePreview();
+    }
+
+    // ===== СМЕНА ШАБЛОНА =====
+    function setTemplate(template, btn) {
+      currentTemplate = template;
+      document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Показываем нужные настройки
+      document.getElementById('settingsProduct').style.display = template === 'product' ? 'block' : 'none';
+      document.getElementById('settingsPromo').style.display = template === 'promo' ? 'block' : 'none';
+
+      updatePreview();
+    }
+
+    // ===== ОБНОВЛЕНИЕ ПРЕВЬЮ =====
+    function updatePreview() {
+      const preview = document.getElementById('preview');
+      const p = currentProduct;
+
+      // Смена класса шаблона
+      preview.className = 'preview template-' + currentTemplate;
+
+      if (currentTemplate === 'product') {
+        renderProductTemplate(p);
+      } else if (currentTemplate === 'photo') {
+        renderPhotoTemplate(p);
+      } else if (currentTemplate === 'promo') {
+        renderPromoTemplate();
+      } else if (currentTemplate === 'minimal') {
+        renderMinimalTemplate();
+      }
+    }
+
+    function renderProductTemplate(p) {
+      if (!p) return;
+
+      const customName = document.getElementById('customName').value.trim();
+      const customPrice = document.getElementById('customPrice').value.trim();
+
+      document.getElementById('preview').innerHTML = `
+        <div class="preview-logo">
+          <svg viewBox="0 0 24 30"><path d="M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06z"/></svg>
+          iSakha
+        </div>
+        <div class="preview-image">
+          ${p.photo ? `<img src="${escapeHtml(p.photo)}" alt="">` : ''}
+        </div>
+        <div class="preview-bottom">
+          <div class="preview-tag">${escapeHtml(p.category || 'Новинка 2026')}</div>
+          <div class="preview-name">${escapeHtml(customName || p.name)}</div>
+          <div class="preview-price">${escapeHtml(customPrice || ('от ' + formatPrice(p.price)))}</div>
+        </div>
+      `;
+    }
+
+    function renderPhotoTemplate(p) {
+      if (!p) return;
+
+      const customPrice = document.getElementById('customPrice').value.trim();
+
+      document.getElementById('preview').innerHTML = `
+        <div class="photo-bg">
+          ${p.photo ? `<img src="${escapeHtml(p.photo)}" alt="">` : ''}
+        </div>
+        <div class="photo-logo">
+          <svg viewBox="0 0 24 30"><path d="M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06z"/></svg>
+          iSakha
+        </div>
+        <div class="photo-price-badge">${escapeHtml(customPrice || ('от ' + formatPrice(p.price)))}</div>
+      `;
+    }
+
+    function renderPromoTemplate() {
+      const title = document.getElementById('promoTitle').value.trim() || 'Скидка 10%';
+      const subtitle = document.getElementById('promoSubtitle').value.trim() || 'на первый заказ';
+      const code = document.getElementById('promoCode').value.trim() || 'START';
+
+      document.getElementById('preview').innerHTML = `
+        <div class="promo-logo">iSakha</div>
+        <div class="promo-title">${escapeHtml(title)}</div>
+        <div class="promo-subtitle">${escapeHtml(subtitle)}</div>
+        <div class="promo-code">${escapeHtml(code)}</div>
+      `;
+    }
+
+    function renderMinimalTemplate() {
+      document.getElementById('preview').innerHTML = `
+        <div class="minimal-logo">
+          <svg viewBox="0 0 24 30"><path d="M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06z"/></svg>
+          iSakha
+        </div>
+        <div class="minimal-tagline">Оригинальные iPhone<br>в Якутске</div>
+        <div class="minimal-divider"></div>
+        <div class="minimal-detail">Скоро открытие</div>
+      `;
+    }
+
+    // ===== СКАЧИВАНИЕ =====
+    async function downloadPreview() {
+      const btn = document.getElementById('btnDownload');
+      const preview = document.getElementById('preview');
+
+      btn.disabled = true;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = 'Готовим...';
+
+      try {
+        // Временно увеличиваем масштаб для качественной картинки
+        const canvas = await html2canvas(preview, {
+          scale: 2,
+          backgroundColor: null,
+          useCORS: true,
+          allowTaint: true,
+          logging: false
+        });
+
+        // Скачиваем
+        const link = document.createElement('a');
+        link.download = 'isakha-preview-' + Date.now() + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+      } catch (err) {
+        console.error('Ошибка:', err);
+        alert('Не удалось создать картинку. Попробуй ещё раз.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    // Обновление превью при вводе в поля
+    ['customName', 'customPrice', 'promoTitle', 'promoSubtitle', 'promoCode'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updatePreview);
+    });
+  </script>
+</body>
+</html>

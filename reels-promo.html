@@ -17,6 +17,7 @@
     overflow: hidden;
     background: #f5f5f7;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    color: #1a1a1c;
   }
 
   body {
@@ -26,7 +27,7 @@
   }
 
   /* ===== КОНТЕЙНЕР 9:16 ===== */
-  .reels {
+  .stage {
     width: 1080px;
     height: 1920px;
     max-width: 100vw;
@@ -35,98 +36,180 @@
     background: #f5f5f7;
     position: relative;
     overflow: hidden;
-    transform-origin: center center;
   }
 
-  /* Автомасштаб под окно */
   @media (max-aspect-ratio: 9/16) {
-    .reels { width: 100vw; height: auto; }
+    .stage { width: 100vw; height: auto; }
   }
   @media (min-aspect-ratio: 9/16) {
-    .reels { height: 100vh; width: auto; }
+    .stage { height: 100vh; width: auto; }
   }
 
-  /* ===== ОБЩИЕ КЛАССЫ СЦЕН ===== */
-  .scene {
+  /* ===== СВЕТОВЫЕ ПЯТНА (постоянный фон) ===== */
+  .bg-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .bg-glow::before {
+    content: "";
+    position: absolute;
+    top: 10%; left: 50%;
+    width: 1200px; height: 1200px;
+    transform: translate(-50%, 0);
+    background: radial-gradient(circle, rgba(122, 42, 56, 0.06) 0%, transparent 60%);
+    filter: blur(80px);
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+
+  .bg-glow::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 30%;
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(80, 120, 180, 0.04) 0%, transparent 65%);
+    filter: blur(80px);
+    animation: glowPulse 5s ease-in-out infinite 1s;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.8; transform: scale(1) translate(-50%, 0); }
+    50% { opacity: 1; transform: scale(1.15) translate(-50%, 0); }
+  }
+
+  /* ===== СЛОИ СЦЕН ===== */
+  .layer {
     position: absolute;
     inset: 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    pointer-events: none;
+    visibility: hidden;
+    z-index: 1;
   }
 
-  /* ===== ЦВЕТА И ШРИФТЫ ===== */
-  :root {
-    --bg: #f5f5f7;
-    --text: #1a1a1c;
-    --text-muted: #8a8a92;
-    --accent: #7a2a38;
+  .layer.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ===== КИНЕМАТОГРАФИЧНЫЕ ПЕРЕХОДЫ ===== */
+  /* Zoom-in */
+  .enter-zoom-in {
+    animation: enterZoomIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes enterZoomIn {
+    from { opacity: 0; filter: blur(20px); transform: scale(1.4); }
+    to { opacity: 1; filter: blur(0); transform: scale(1); }
+  }
+
+  /* Zoom-out */
+  .enter-zoom-out {
+    animation: enterZoomOut 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes enterZoomOut {
+    from { opacity: 0; filter: blur(20px); transform: scale(0.6); }
+    to { opacity: 1; filter: blur(0); transform: scale(1); }
+  }
+
+  /* Whip-pan (со стороны) */
+  .enter-pan-right {
+    animation: enterPanRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes enterPanRight {
+    from { opacity: 0; filter: blur(30px); transform: translateX(400px); }
+    to { opacity: 1; filter: blur(0); transform: translateX(0); }
+  }
+
+  .enter-pan-left {
+    animation: enterPanLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes enterPanLeft {
+    from { opacity: 0; filter: blur(30px); transform: translateX(-400px); }
+    to { opacity: 1; filter: blur(0); transform: translateX(0); }
+  }
+
+  /* Выезд снизу */
+  .enter-slide-up {
+    animation: enterSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes enterSlideUp {
+    from { opacity: 0; filter: blur(20px); transform: translateY(200px); }
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+
+  /* Выход — размытие + уход */
+  .exit-blur-up {
+    animation: exitBlurUp 0.5s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  }
+  @keyframes exitBlurUp {
+    from { opacity: 1; filter: blur(0); transform: translateY(0); }
+    to { opacity: 0; filter: blur(30px); transform: translateY(-150px) scale(0.95); }
+  }
+
+  .exit-blur-down {
+    animation: exitBlurDown 0.5s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  }
+  @keyframes exitBlurDown {
+    from { opacity: 1; filter: blur(0); transform: translateY(0); }
+    to { opacity: 0; filter: blur(30px); transform: translateY(150px) scale(1.05); }
   }
 
   /* ===== СЦЕНА 1 — ЛОГОТИП ===== */
-  .scene-1 {
-    animation: scene1Cycle 18s infinite;
-  }
-
-  .logo-big {
+  .logo-mark {
     display: flex;
     align-items: center;
     gap: 40px;
-    animation: logoAppear 18s infinite;
+    transform-origin: center center;
   }
 
-  .logo-big svg {
-    width: 200px;
-    height: 240px;
-    fill: var(--accent);
-    animation: appleRotate 4s ease-in-out;
+  .logo-mark svg {
+    width: 240px;
+    height: 290px;
+    fill: #7a2a38;
+    filter: drop-shadow(0 40px 80px rgba(122, 42, 56, 0.2));
   }
 
-  .logo-big .logo-text {
-    font-size: 220px;
+  .logo-mark .word {
+    font-size: 260px;
     font-weight: 700;
-    letter-spacing: -10px;
-    color: var(--text);
+    letter-spacing: -14px;
     line-height: 1;
+    color: #1a1a1c;
   }
 
-  @keyframes appleRotate {
-    0% { transform: rotateY(0deg) scale(0.8); opacity: 0; }
-    30% { transform: rotateY(180deg) scale(1); opacity: 1; }
-    100% { transform: rotateY(360deg) scale(1); opacity: 1; }
+  /* Анимация появления букв — каждая по очереди */
+  .logo-mark .word span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(60px) rotate(8deg);
+    animation: letterIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
 
-  @keyframes logoAppear {
-    0% { opacity: 0; transform: translateY(40px); }
-    5% { opacity: 1; transform: translateY(0); }
-    15% { opacity: 1; transform: translateY(0); }
-    18% { opacity: 0; transform: translateY(-40px); }
-    100% { opacity: 0; transform: translateY(-40px); }
-  }
+  .logo-mark .word span:nth-child(1) { animation-delay: 0.3s; }
+  .logo-mark .word span:nth-child(2) { animation-delay: 0.4s; }
+  .logo-mark .word span:nth-child(3) { animation-delay: 0.5s; }
+  .logo-mark .word span:nth-child(4) { animation-delay: 0.6s; }
+  .logo-mark .word span:nth-child(5) { animation-delay: 0.7s; }
+  .logo-mark .word span:nth-child(6) { animation-delay: 0.8s; }
 
-  @keyframes scene1Cycle {
-    0% { opacity: 1; }
-    16% { opacity: 1; }
-    18% { opacity: 0; }
-    100% { opacity: 0; }
+  @keyframes letterIn {
+    0% { opacity: 0; transform: translateY(60px) rotate(8deg); filter: blur(12px); }
+    100% { opacity: 1; transform: translateY(0) rotate(0); filter: blur(0); }
   }
 
   /* ===== СЦЕНА 2 — БОЛЬШАЯ МОДЕЛЬ ===== */
-  .scene-2 {
-    animation: scene2Cycle 18s infinite;
-  }
-
-  .model-big {
-    width: 900px;
-    height: 1400px;
+  .big-model {
+    width: 1100px;
+    height: 1600px;
     position: relative;
-    animation: modelBigAppear 18s infinite;
   }
 
-  .model-big model-viewer {
+  .big-model model-viewer {
     width: 100%;
     height: 100%;
     background: transparent;
@@ -135,410 +218,535 @@
     --progress-mask: transparent;
   }
 
-  @keyframes modelBigAppear {
-    0% { opacity: 0 ; transform: scale(0.7); }
-    20% { opacity:  .1; transform: scale(1); }
-    32model% { opacity: 1; transform: scale(0.5) translateY(-250px); }
-    40% { opacity: 0; transform: scale(0.5) translateY(-250px); }
-    100% { opacity: 0; }
-  }
-
-  @keyframes scene2Cycle {
-    0% { opacity: 0; }
-    18% { opacity: 1; }
-    32% { opacity: 1; }
-    36% { opacity: 0; }
-    100% { opacity: 0; }
-  }
-
-  /* ===== СЦЕНА 3 — ТЕКСТ + МОДЕЛЬ В УГЛУ ===== */
-  .scene-3 {
-    animation: scene3Cycle 18s infinite;
-  }
-
--corner {
-    position: absolute;
-    top: 200px;
-    right: -100px;
-    width: 700px;
-    height: 900px;
-  }
-
-  .model-corner model-viewer {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    --poster-color: transparent;
-  }
-
-  .text-typing {
-    position: absolute;
-    bottom: 500px;
-    left: 80px;
-    right: 80px;
-    text-align: left;
-  }
-
-  .text-typing .line {
-    font-size: 96px;
-    font-weight: 700;
-    letter-spacing: -4px;
-    color: var(--text);
-    line-height: 1.15;
-    margin-bottom: 20px;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 0;
-  }
-
-  .text-typing .line-1 {
-    animation: typeLine1 18s steps(30) infinite;
-  }
-
-  .text-typing .line-2 {
-    color: var(--accent);
-    animation: typeLine2 18s steps(20) infinite;
-  }
-
-  @keyframes typeLine1 {
-    0%, 33% { width: 0; }
-    42% { width: 100%; }
-    100% { width: 100%; }
-  }
-
-  @keyframes typeLine2 {
-    0%, 40% { width: 0; }
-    48% { width: 100%; }
-    100% { width: 100%; }
-  }
-
-  @keyframes scene3Cycle {
-    0% { opacity: 0; }
-    33% { opacity: 1; }
-    50% { opacity: 1; }
-    54% { opacity: 0; }
-    100% { opacity: 0; }
-  }
-
-  /* ===== СЦЕНА 4 — ЦЕНА + ПЕРЕКЛЮЧЕНИЕ ЦВЕТОВ ===== */
-  .scene-4 {
-    animation: scene4Cycle 18s infinite;
-  }
-
-  .model-switch {
-    position: absolute;
-    top: 150px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 700px;
-    height: 900px;
-  }
-
-  .model-switch model-viewer {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    --poster-color: transparent;
+  /* Блик пробегающий по модели */
+  .shine {
     position: absolute;
     inset: 0;
+    pointer-events: none;
+    overflow: hidden;
   }
 
-  .mv-burgundy { animation: showBurgundy 18s infinite; }
-  .mv-silver { animation: showSilver 18s infinite; }
-  .mv-glacier { animation: showGlacier 18s infinite; }
-  .mv-black { animation: showBlack 18s infinite; }
-
-  @keyframes showBurgundy {
-    0%, 54% { opacity: 1; }
-    56%, 100% { opacity: 0; }
-  }
-  @keyframes showSilver {
-    0%, 55% { opacity: 0; }
-    56%, 62% { opacity: 1; }
-    63%, 100% { opacity: 0; }
-  }
-  @keyframes showGlacier {
-    0%, 62% { opacity: 0; }
-    63%, 69% { opacity: 1; }
-    70%, 100% { opacity: 0; }
-  }
-  @keyframes showBlack {
-    0%, 69% { opacity: 0; }
-    70%, 76% { opacity: 1; }
-    78%, 100% { opacity: 0; }
-  }
-
-  .price-block {
+  .shine::before {
+    content: "";
     position: absolute;
-    bottom: 400px;
-    left: 0;
-    right: 0;
-    text-align: center;
+    top: -50%; left: -50%;
+    width: 60%; height: 200%;
+    background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    transform: rotate(15deg);
+    animation: shineMove 2s ease-in-out 1s;
   }
 
-  .price-label {
-    font-size: 32px;
-    font-weight: 600;
-    letter-spacing: 4px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: priceLabelShow 18s infinite;
+  @keyframes shineMove {
+    0% { left: -60%; }
+    100% { left: 160%; }
   }
 
-  .price-value {
+  /* ===== СЦЕНА 3 — ТЕКСТ С МОНТАЖНЫМ ЭФФЕКТОМ ===== */
+  .text-massive {
+    text-align: left;
+    padding: 0 80px;
+    max-width: 100%;
+  }
+
+  .text-massive .row {
     font-size: 140px;
     font-weight: 800;
     letter-spacing: -6px;
-    color: var(--text);
-    line-height: 1;
+    line-height: 1.02;
+    margin-bottom: 20px;
+    overflow: hidden;
+    display: block;
   }
 
-  .price-value .currency {
-    font-size: 90px;
+  .text-massive .row-inner {
+    display: inline-block;
+    transform: translateY(100%);
+    animation: rowSlide 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .text-massive .row:nth-child(1) .row-inner { animation-delay: 0.2s; }
+  .text-massive .row:nth-child(2) .row-inner { animation-delay: 0.35s; }
+  .text-massive .row:nth-child(3) .row-inner { animation-delay: 0.5s; }
+
+  @keyframes rowSlide {
+    0% { transform: translateY(100%); filter: blur(10px); }
+    100% { transform: translateY(0); filter: blur(0); }
+  }
+
+  .text-massive .accent { color: #7a2a38; }
+  .text-massive .muted { color: #b0b0b8; font-weight: 500; }
+
+  /* ===== СЦЕНА 4 — КАРУСЕЛЬ ЦВЕТОВ ===== */
+  .color-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .color-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+
+  .color-slide model-viewer {
+    width: 1100px;
+    height: 1600px;
+    background: transparent;
+    --poster-color: transparent;
+    --progress-bar-color: transparent;
+    --progress-mask: transparent;
+  }
+
+  /* Морфинг между цветами — быстрый blur-swap */
+  .color-slide.show {
+    animation: colorSlide 2s ease-in-out forwards;
+  }
+
+  @keyframes colorSlide {
+    0% { opacity: 0; filter: blur(40px); transform: scale(1.1); }
+    15% { opacity: 1; filter: blur(0); transform: scale(1); }
+    80% { opacity: 1; filter: blur(0); transform: scale(1); }
+    100% { opacity: 0; filter: blur(40px); transform: scale(1.05); }
+  }
+
+  /* Метка цвета снизу */
+  .color-label {
+    position: absolute;
+    bottom: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 60px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #7a2a38;
+    opacity: 0;
+    animation: labelIn 2s ease-in-out forwards;
+  }
+
+  @keyframes labelIn {
+    0%, 15% { opacity: 0; transform: translate(-50%, 20px); }
+    25%, 75% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+  }
+
+  /* ===== СЦЕНА 5 — ЦЕНА (наезд камеры) ===== */
+  .price-hero {
+    text-align: center;
+  }
+
+  .price-hero .label {
+    font-size: 42px;
     font-weight: 600;
-    color: var(--accent);
-    margin-left: 20px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: #8a8a92;
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeInUp 0.7s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  @keyframes priceLabelShow {
-    0%, 55% { opacity: 0; }
-    60%, 76% { opacity: 1; }
-    78%, 100% { opacity: 0; }
+  .price-hero .value {
+    font-size: 280px;
+    font-weight: 800;
+    letter-spacing: -14px;
+    line-height: 1;
+    color: #1a1a1c;
+    font-variant-numeric: tabular-nums;
   }
 
-  @keyframes scene4Cycle {
-    0% { opacity: 0; }
-    54% { opacity: 1; }
-    76% { opacity: 1; }
-    80% { opacity: 0; }
-    100% { opacity: 0; }
+  .price-hero .value .currency {
+    font-size: 160px;
+    font-weight: 700;
+    color: #7a2a38;
+    letter-spacing: -4px;
+    margin-left: 30px;
   }
 
-  /* ===== СЦЕНА 5 — ФИНАЛ ===== */
-  .scene-5 {
-    animation: scene5Cycle 18s infinite;
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
 
-  .final-logo {
+  /* ===== СЦЕНА 6 — ФИНАЛ ===== */
+  .final {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+  }
+
+  .final .mark {
     display: flex;
     align-items: center;
     gap: 24px;
-    margin-bottom: 60px;
-    animation: finalFadeUp 18s infinite;
+    opacity: 0;
+    animation: fadeInUp 0.8s 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  .final-logo svg {
-    width: 100px;
-    height: 120px;
-    fill: var(--accent);
+  .final .mark svg {
+    width: 140px;
+    height: 170px;
+    fill: #7a2a38;
   }
 
-  .final-logo .final-text {
-    font-size: 110px;
+  .final .mark .word {
+    font-size: 160px;
     font-weight: 700;
-    letter-spacing: -5px;
-    color: var(--text);
+    letter-spacing: -8px;
     line-height: 1;
+    color: #1a1a1c;
   }
 
-  .final-model {
-    width: 700px;
-    height: 900px;
-    margin-bottom: 60px;
-    animation: finalModelIn 18s infinite;
+  .final .model-final {
+    width: 800px;
+    height: 1100px;
+    opacity: 0;
+    animation: fadeInUp 0.9s 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  .final-model model-viewer {
+  .final .model-final model-viewer {
     width: 100%;
     height: 100%;
     background: transparent;
     --poster-color: transparent;
   }
 
-  .final-tagline {
-    font-size: 48px;
+  .final .tagline {
+    font-size: 56px;
     font-weight: 600;
     letter-spacing: -1px;
-    color: var(--text-muted);
+    color: #1a1a1c;
     text-align: center;
     line-height: 1.3;
-    margin-bottom: 30px;
-    animation: finalFadeUp 18s infinite;
+    opacity: 0;
+    animation: fadeInUp 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  .final-tagline .accent {
-    color: var(--accent);
-    font-weight: 700;
+  .final .tagline .accent {
+    color: #7a2a38;
+    font-weight: 800;
   }
 
-  .final-url {
-    font-size: 32px;
+  .final .url {
+    font-size: 36px;
     font-weight: 500;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    animation: finalFadeUp 18s infinite;
+    letter-spacing: 3px;
+    color: #b0b0b8;
+    opacity: 0;
+    animation: fadeInUp 0.8s 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  @keyframes finalFadeUp {
-    0%, 79% { opacity: 0; transform: translateY(30px); }
-    84% { opacity: 1; transform: translateY(0); }
-    96% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(0); }
+  /* ===== ЧЁРНЫЙ ДИСК (переход "шторка") ===== */
+  .transition-curtain {
+    position: absolute;
+    inset: 0;
+    background: #1a1a1c;
+    z-index: 50;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    pointer-events: none;
   }
 
-  @keyframes finalModelIn {
-    0%, 79% { opacity: 0; transform: scale(0.9); }
-    84% { opacity: 1; transform: scale(1); }
-    96% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1); }
+  .transition-curtain.play {
+    animation: curtain 0.6s cubic-bezier(0.83, 0, 0.17, 1);
   }
 
-  @keyframes scene5Cycle {
-    0% { opacity: 0; }
-    78% { opacity: 1; }
-    97% { opacity: 1; }
-    100% { opacity: 0; }
+  @keyframes curtain {
+    0% { transform: scaleY(0); transform-origin: bottom; }
+    45% { transform: scaleY(1); transform-origin: bottom; }
+    55% { transform: scaleY(1); transform-origin: top; }
+    100% { transform: scaleY(0); transform-origin: top; }
   }
 
-  /* ===== ЗЕРНО / ШУМ (для премиума) ===== */
+  /* ===== ЗЕРНО ===== */
   .grain {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.03;
+    opacity: 0.05;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     z-index: 100;
     mix-blend-mode: multiply;
+    animation: grainShift 0.5s steps(2) infinite;
+  }
+
+  @keyframes grainShift {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-2px, 2px); }
+    100% { transform: translate(2px, -2px); }
   }
 </style>
 </head>
 <body>
 
-  <div class="reels">
+  <div class="stage" id="stage">
 
-    <!-- СЦЕНА 1 — Логотип -->
-    <div class="scene scene-1">
-      <div class="logo-big">
+    <!-- Фон со свечениями -->
+    <div class="bg-glow"></div>
+
+    <!-- СЛОЙ 1 — Логотип -->
+    <div class="layer" id="layer1">
+      <div class="logo-mark">
         <svg viewBox="0 0 24 30">
           <path d="M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z"/>
         </svg>
-        <div class="logo-text">iSakha</div>
+        <div class="word">
+          <span>i</span><span>S</span><span>a</span><span>k</span><span>h</span><span>a</span>
+        </div>
       </div>
     </div>
 
-    <!-- СЦЕНА 2 — Большая модель -->
-    <div class="scene scene-2">
-      <div class="model-big">
+    <!-- СЛОЙ 2 — Большая модель -->
+    <div class="layer" id="layer2">
+      <div class="big-model">
         <model-viewer
           src="iphone-18-pro-max-burgundy.glb"
-          alt="iPhone 18 Pro Max"
-          auto-rotate autoplay camera-controls touch-action="pan-y"
-          shadow-intensity="1" exposure="1" interaction-prompt="none"
-          rotation-per-second="40deg">
-        </model-viewer>
-      </div>
-    </div>
-
-    <!-- СЦЕНА 3 — Текст с печатной машинкой -->
-    <div class="scene scene-3">
-      <div class="model-corner">
-        <model-viewer
-          src="iphone-18-pro-max-burgundy.glb"
-          alt="iPhone 18 Pro Max"
-          auto-rotate autoplay camera-controls touch-action="pan-y"
-          shadow-intensity="1" exposure="1" interaction-prompt="none"
-          rotation-per-second="30deg">
-        </model-viewer>
-      </div>
-      <div class="text-typing">
-        <div class="line line-1">Оригинальные</div>
-        <div class="line line-2">iPhone в Якутске</div>
-      </div>
-    </div>
-
-    <!-- СЦЕНА 4 — Цена + переключение цветов -->
-    <div class="scene scene-4">
-      <div class="model-switch">
-        <model-viewer class="mv-burgundy" src="iphone-18-pro-max-burgundy.glb" alt="Burgundy" auto-rotate autoplay touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" rotation-per-second="40deg"></model-viewer>
-        <model-viewer class="mv-silver" src="iphone-18-pro-max-silver.glb" alt="Silver" auto-rotate autoplay touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" rotation-per-second="40deg"></model-viewer>
-        <model-viewer class="mv-glacier" src="iphone-18-pro-max-glacier.glb" alt="Glacier" auto-rotate autoplay touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" rotation-per-second="40deg"></model-viewer>
-        <model-viewer class="mv-black" src="iphone-18-pro-max-black.glb" alt="Black" auto-rotate autoplay touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" rotation-per-second="40deg"></model-viewer>
-      </div>
-      <div class="price-block">
-        <div class="price-label">Цена</div>
-        <div class="price-value" id="priceCounter">0 <span class="currency">₽</span></div>
-      </div>
-    </div>
-
-    <!-- СЦЕНА 5 — Финал -->
-    <div class="scene scene-5">
-      <div class="final-logo">
-        <svg viewBox="0 0 24 30">
-          <path d="M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z"/>
-        </svg>
-        <div class="final-text">iSakha</div>
-      </div>
-      <div class="final-model">
-        <model-viewer
-          src="iphone-18-pro-max-black.glb"
-          alt="iPhone 18 Pro Max"
+          alt="iPhone"
           auto-rotate autoplay touch-action="pan-y"
-          shadow-intensity="1" exposure="1" interaction-prompt="none"
-          rotation-per-second="30deg">
+          shadow-intensity="0.8" exposure="1.1" interaction-prompt="none"
+          rotation-per-second="35deg">
         </model-viewer>
+        <div class="shine"></div>
       </div>
-      <div class="final-tagline">
-        <span class="accent">Скоро открытие</span>
-      </div>
-      <div class="final-url">benger777.github.io/ISakha-1.1</div>
     </div>
 
-    <!-- Зерно для премиума -->
+    <!-- СЛОЙ 3 — Текст -->
+    <div class="layer" id="layer3">
+      <div class="text-massive">
+        <div class="row"><span class="row-inner">Оригинальные</span></div>
+        <div class="row"><span class="row-inner">iPhone</span></div>
+        <div class="row"><span class="row-inner accent">в Якутске</span></div>
+      </div>
+    </div>
+
+    <!-- СЛОЙ 4 — Карусель цветов -->
+    <div class="layer" id="layer4">
+      <div class="color-carousel">
+        <div class="color-slide" id="slideBurgundy">
+          <model-viewer src="iphone-18-pro-max-burgundy.glb" alt="Burgundy" auto-rotate autoplay touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" rotation-per-second="45deg"></model-viewer>
+        </div>
+        <div class="color-slide" id="slideSilver">
+          <model-viewer src="iphone-18-pro-max-silver.glb" alt="Silver" auto-rotate autoplay touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" rotation-per-second="45deg"></model-viewer>
+        </div>
+        <div class="color-slide" id="slideGlacier">
+          <model-viewer src="iphone-18-pro-max-glacier.glb" alt="Glacier" auto-rotate autoplay touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" rotation-per-second="45deg"></model-viewer>
+        </div>
+        <div class="color-slide" id="slideBlack">
+          <model-viewer src="iphone-18-pro-max-black.glb" alt="Black" auto-rotate autoplay touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" rotation-per-second="45deg"></model-viewer>
+        </div>
+      </div>
+    </div>
+
+    <!-- СЛОЙ 5 — Цена -->
+    <div class="layer" id="layer5">
+      <div class="price-hero">
+        <div class="label">Цена</div>
+        <div class="value" id="priceValue">0<span class="currency">₽</span></div>
+      </div>
+    </div>
+
+    <!-- СЛОЙ 6 — Финал -->
+    <div class="layer" id="layer6">
+      <div class="final">
+        <div class="mark">
+          <svg viewBox="0 0 24 30">
+            <path d="M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06z"/>
+          </svg>
+          <div class="word">iSakha</div>
+        </div>
+        <div class="model-final">
+          <model-viewer
+            src="iphone-18-pro-max-black.glb"
+            alt="iPhone"
+            auto-rotate autoplay touch-action="pan-y"
+            shadow-intensity="0.8" interaction-prompt="none"
+            rotation-per-second="30deg">
+          </model-viewer>
+        </div>
+        <div class="tagline">
+          <span class="accent">Скоро открытие</span>
+        </div>
+        <div class="url">isakha.ru</div>
+      </div>
+    </div>
+
+    <!-- Шторка для резких переходов -->
+    <div class="transition-curtain" id="curtain"></div>
+
+    <!-- Зерно -->
     <div class="grain"></div>
 
   </div>
 
   <script>
-    // ===== СЧЁТЧИК ЦЕНЫ =====
-    const priceEl = document.getElementById('priceCounter');
-    const targetPrice = 149990;
-    let counterStarted = false;
+    // ===== УПРАВЛЕНИЕ ТАЙМЛАЙНОМ =====
 
-    function startCounter() {
-      if (counterStarted) return;
-      counterStarted = true;
+    const layers = {
+      1: document.getElementById('layer1'),
+      2: document.getElementById('layer2'),
+      3: document.getElementById('layer3'),
+      4: document.getElementById('layer4'),
+      5: document.getElementById('layer5'),
+      6: document.getElementById('layer6'),
+    };
 
-      const duration = 1500;
-      const startTime = performance.now();
+    const curtain = document.getElementById('curtain');
+    const priceValue = document.getElementById('priceValue');
 
-      function animate(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        // Плавное замедление в конце
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const value = Math.round(targetPrice * eased);
-
-        priceEl.innerHTML = value.toLocaleString('ru-RU') + ' <span class="currency">₽</span>';
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
-      }
-
-      requestAnimationFrame(animate);
+    // Сброс всех слоёв
+    function resetLayers() {
+      Object.values(layers).forEach(l => {
+        l.classList.remove('active', 'enter-zoom-in', 'enter-zoom-out', 'enter-pan-right', 'enter-pan-left', 'enter-slide-up', 'exit-blur-up', 'exit-blur-down');
+      });
     }
 
-    // Запускаем счётчик когда сцена 4 появляется
-    setTimeout(startCounter, 10200);
+    // Показать слой с анимацией
+    function showLayer(num, enterClass) {
+      const layer = layers[num];
+      layer.classList.add('active');
+      layer.classList.add(enterClass);
+    }
 
-    // Перезапуск счётчика каждый цикл (каждые 18 сек)
+    // Убрать слой с анимацией
+    function hideLayer(num, exitClass) {
+      const layer = layers[num];
+      layer.classList.remove('enter-zoom-in', 'enter-zoom-out', 'enter-pan-right', 'enter-pan-left', 'enter-slide-up');
+      layer.classList.add(exitClass);
+      setTimeout(() => {
+        layer.classList.remove('active');
+        layer.classList.remove('exit-blur-up', 'exit-blur-down');
+      }, 500);
+    }
+
+    // Эффект "шторка"
+    function playCurtain() {
+      curtain.classList.remove('play');
+      void curtain.offsetWidth;
+      curtain.classList.add('play');
+    }
+
+    // Счётчик цены
+    let counterAnimation = null;
+    function startPriceCounter() {
+      if (counterAnimation) cancelAnimationFrame(counterAnimation);
+      const target = 149990;
+      const duration = 1600;
+      const start = performance.now();
+
+      function animate(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4); // сильное замедление
+        const value = Math.round(target * eased);
+        priceValue.innerHTML = value.toLocaleString('ru-RU') + '<span class="currency">₽</span>';
+        if (progress < 1) {
+          counterAnimation = requestAnimationFrame(animate);
+        }
+      }
+      counterAnimation = requestAnimationFrame(animate);
+    }
+
+    // Сброс счётчика
+    function resetPrice() {
+      if (counterAnimation) cancelAnimationFrame(counterAnimation);
+      priceValue.innerHTML = '0<span class="currency">₽</span>';
+    }
+
+    // ===== ТАЙМЛАЙН =====
+    // Общая длительность: 15 секунд, потом цикл
+
+    function playTimeline() {
+      // СБРОС
+      resetLayers();
+      resetPrice();
+
+      // ===== 0.0s — СЦЕНА 1: Логотип =====
+      showLayer(1, 'enter-zoom-in');
+
+      // ===== 2.5s — Переход к модели =====
+      setTimeout(() => {
+        hideLayer(1, 'exit-blur-up');
+        showLayer(2, 'enter-zoom-out');
+      }, 2500);
+
+      // ===== 5.0s — Переход к тексту =====
+      setTimeout(() => {
+        hideLayer(2, 'exit-blur-up');
+        playCurtain();
+      }, 5000);
+
+      setTimeout(() => {
+        showLayer(3, 'enter-slide-up');
+      }, 5250);
+
+      // ===== 7.5s — Карусель цветов =====
+      setTimeout(() => {
+        hideLayer(3, 'exit-blur-down');
+        playCurtain();
+      }, 7500);
+
+      setTimeout(() => {
+        showLayer(4, 'enter-pan-right');
+        runColorCarousel();
+      }, 7750);
+
+      // ===== 10.5s — Цена =====
+      setTimeout(() => {
+        hideLayer(4, 'exit-blur-up');
+        playCurtain();
+      }, 10500);
+
+      setTimeout(() => {
+        showLayer(5, 'enter-zoom-out');
+        setTimeout(startPriceCounter, 400);
+      }, 10750);
+
+      // ===== 13s — Финал =====
+      setTimeout(() => {
+        hideLayer(5, 'exit-blur-up');
+        showLayer(6, 'enter-zoom-in');
+      }, 13000);
+
+      // ===== 15s — Плавное затухание к началу =====
+      setTimeout(() => {
+        const stage = document.getElementById('stage');
+        stage.style.transition = 'opacity 0.6s';
+        stage.style.opacity = '0';
+        setTimeout(() => {
+          stage.style.opacity = '1';
+          stage.style.transition = 'none';
+        }, 700);
+      }, 14700);
+    }
+
+    // ===== КАРУСЕЛЬ ЦВЕТОВ =====
+    function runColorCarousel() {
+      const slides = ['slideBurgundy', 'slideSilver', 'slideGlacier', 'slideBlack'];
+
+      slides.forEach((id, i) => {
+        const el = document.getElementById(id);
+        el.classList.remove('show');
+        void el.offsetWidth;
+
+        setTimeout(() => {
+          el.classList.add('show');
+        }, i * 700);
+      });
+    }
+
+    // ===== ЗАПУСК + ЦИКЛ =====
+    playTimeline();
+
     setInterval(() => {
-      counterStarted = false;
-      priceEl.innerHTML = '0 <span class="currency">₽</span>';
-      setTimeout(startCounter, 200);
-    }, 18000);
+      playTimeline();
+    }, 15500);
+
   </script>
 </body>
 </html>

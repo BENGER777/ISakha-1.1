@@ -9,7 +9,7 @@
 <meta name="author" content="iSakha">
 <meta name="robots" content="noindex">
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%236b2530' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath fill='%237a2a38' d='M17.05 15.6c-.03-3.2 2.6-4.73 2.72-4.8-1.48-2.17-3.79-2.47-4.6-2.5-1.96-.2-3.82 1.15-4.82 1.15-1 0-2.53-1.12-4.16-1.09-2.14.03-4.11 1.25-5.21 3.16-2.22 3.85-.57 9.55 1.6 12.68 1.06 1.53 2.32 3.25 3.97 3.19 1.6-.07 2.2-1.03 4.13-1.03 1.93 0 2.47 1.03 4.16.99 1.72-.03 2.8-1.56 3.85-3.1 1.21-1.78 1.71-3.5 1.74-3.59-.04-.02-3.34-1.28-3.38-5.06zM14.03 6.4c.88-1.07 1.47-2.55 1.31-4.03-1.27.05-2.8.84-3.71 1.91-.81.94-1.53 2.45-1.34 3.9 1.42.11 2.86-.72 3.74-1.78z'/%3E%3C/svg%3E">
 
 <script src="theme.js"></script>
 
@@ -1310,7 +1310,7 @@
   </script>
 
   <script>
-    const WHATSAPP_NUMBER = '79991234567';
+    const WHATSAPP_NUMBER = '79142768524';
     const STORAGE_KEY = 'isakha_cart';
     const MAX_QTY = 3;
 
@@ -1743,14 +1743,14 @@
         status: 'new'
       };
 
+      // Сохраняем в Firebase
       db.ref('orders').push(order).then(() => {
         console.log('Заказ сохранён');
       }).catch(err => {
         console.error('Ошибка сохранения:', err);
       });
 
-      document.getElementById('modalSuccess').classList.add('show');
-
+      // Отправляем в WhatsApp (без перехода)
       let message = '🛒 *Новый заказ с сайта iSakha*\n\n';
       message += `👤 *Имя:* ${order.name}\n`;
       message += `📞 *Телефон:* ${order.phone}\n`;
@@ -1783,7 +1783,20 @@
       message += `🚚 Доставка: ${order.city === 'Якутск' ? 'бесплатно по городу' : 'обсуждается отдельно'}\n`;
 
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
+
+      // Отправляем через fetch без перехода (в фоне)
+      // Используем скрытый iframe или просто помечаем для себя
+      // Проще: сохраняем URL в переменную и пользователь сам кликает в WhatsApp
+      // Но мы покажем модалку — и запишем данные
+
+      // Показываем модалку
+      document.getElementById('modalSuccess').classList.add('show');
+
+      // Открываем WhatsApp в фоне (не в новом окне, а в iframe — чтобы не мешать)
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = url;
+      document.body.appendChild(iframe);
 
       setTimeout(() => {
         saveCart([]);

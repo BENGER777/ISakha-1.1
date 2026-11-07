@@ -452,8 +452,9 @@
 
   .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    align-items: stretch;
   }
 
   .skeleton-card {
@@ -820,12 +821,8 @@
     stroke-linejoin: round;
   }
 
-  @media (max-width: 1100px) {
-    .catalog-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-
   @media (max-width: 900px) {
-    .catalog-grid { grid-template-columns: repeat(2, 1fr); }
+    .catalog-grid { grid-template-columns: 1fr; max-width: 760px; margin: 0 auto; }
   }
 
   @media (max-width: 800px) {
@@ -876,325 +873,221 @@
   }
 
 
-  /* ===== iSakha Collection / editorial masonry refresh ===== */
-  .page-hero {
-    padding-top: 142px;
-    padding-bottom: 36px;
-  }
-
-  .collection-kicker {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    margin: 0 0 20px;
-    color: var(--text-muted);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.8px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .kicker-line {
-    width: 28px;
-    height: 1px;
-    background: #9b5261;
-    display: inline-block;
-  }
-
-  .collection-heading-row {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .page-title {
-    font-size: clamp(40px, 5.3vw, 66px);
-    letter-spacing: -2.8px;
-    margin-bottom: 13px;
-  }
-
-  .title-period { color: #9b5261; -webkit-text-fill-color: #9b5261; }
-
-  .page-subtitle {
-    font-size: 15px;
-    max-width: 420px;
-  }
-
-  .collection-index {
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-    padding-bottom: 4px;
-    color: var(--text-muted);
-    flex-shrink: 0;
-  }
-
-  .collection-index span {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    font-weight: 700;
-  }
-
-  .collection-index b {
-    color: var(--text-primary);
-    font-size: 25px;
-    line-height: 1;
-    font-weight: 500;
-    letter-spacing: -1px;
-  }
-
-  .filters-bar {
-    max-width: 1280px;
-    padding-bottom: 18px;
-    gap: 10px;
-  }
-
-  .search-box input,
-  .sort-select {
-    min-height: 48px;
-    border-radius: 13px;
-  }
-
-  .categories { padding-bottom: 24px; }
-  .category-btn { padding: 9px 17px; font-size: 12px; }
-  .category-btn.active { box-shadow: 0 5px 16px rgba(122, 42, 56, .25); }
-
-  .catalog {
-    max-width: 1280px;
-    padding-bottom: 112px;
-  }
-
+  /* iSakha horizontal catalog cards — preserve the original site design system */
   .catalog-grid {
-    display: block;
-    columns: 3 270px;
-    column-gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    align-items: stretch;
   }
 
-  .product-card,
   .skeleton-card {
-    display: inline-flex;
-    width: 100%;
-    vertical-align: top;
-    break-inside: avoid;
-    margin: 0 0 20px;
+    display: grid;
+    grid-template-columns: 42% minmax(0, 1fr);
+    min-height: 248px;
+    border-radius: 22px;
   }
+  .skeleton-card .skeleton-image { height: 100%; min-height: 248px; }
+  .skeleton-card .skeleton-info { padding: 26px 22px; align-self: center; }
 
   .product-card {
-    flex-direction: column;
-    border-radius: 23px;
-    border-color: var(--border);
-    box-shadow: 0 8px 26px rgba(0, 0, 0, .035);
-    opacity: 1;
-    transform: none;
-    overflow: hidden;
-    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    min-width: 0;
+    min-height: 248px;
+    border-radius: 22px;
+    transform: translateY(24px);
   }
+  .product-card.visible { transform: translateY(0); }
+  .product-card:hover { transform: translateY(-4px); }
 
-  .product-card.visible { opacity: 1; transform: none; }
-  .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 22px 48px rgba(72, 28, 38, .12);
-    border-color: rgba(155, 82, 97, .35);
-  }
-
-  .product-image {
-    height: auto;
-    aspect-ratio: 1 / 1.02;
-    flex: 0 0 auto;
+  .product-image.product-gallery {
+    height: 100%;
+    min-height: 248px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
     background: var(--viewer-bg);
-    isolation: isolate;
   }
-
-  .masonry-tall .product-image { aspect-ratio: .88 / 1; }
-  .masonry-landscape .product-image { aspect-ratio: 1.2 / 1; }
-  .masonry-square .product-image { aspect-ratio: 1 / 1; }
-  .masonry-portrait .product-image { aspect-ratio: .94 / 1; }
-  .masonry-wide .product-image { aspect-ratio: 1.14 / 1; }
-
-  .product-photo {
-    position: absolute;
-    inset: 0;
+  .product-image.product-gallery-multiple { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .product-gallery-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.025);
+  }
+  .product-gallery-main .product-photo {
     width: 100%;
     height: 100%;
-    padding: clamp(20px, 7%, 48px);
+    min-height: 210px;
     object-fit: contain;
-    filter: drop-shadow(0 22px 34px rgba(0,0,0,.20));
-    z-index: 1;
-    transition: transform .65s cubic-bezier(.2,.75,.25,1), filter .4s;
+    padding: 12px;
   }
-
-  html.light-theme .product-photo { filter: drop-shadow(0 18px 28px rgba(0,0,0,.12)); }
-  .product-card:hover .product-photo { transform: scale(1.055) translateY(-3px); }
-
-  .product-image-index {
+  .product-gallery-extra {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.045);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-gallery-extra img {
+    width: 100%;
+    height: 100%;
+    min-height: 210px;
+    object-fit: contain;
+    padding: 12px;
+    transition: transform .35s ease;
+  }
+  .product-card:hover .product-gallery-extra img { transform: scale(1.05); }
+  .product-gallery-placeholder {
+    color: var(--text-muted);
+    background: var(--bg-input);
+  }
+  .product-gallery-placeholder svg {
+    width: min(46%, 88px);
+    height: auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: .55;
+  }
+  .product-color-badge {
+    top: 18px;
+    left: 18px;
+    max-width: calc(100% - 36px);
+  }
+  .product-gallery-count {
     position: absolute;
     z-index: 4;
-    top: 17px;
     right: 18px;
-    color: var(--text-muted);
-    font-size: 10px;
-    letter-spacing: 1px;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .product-color-badge {
-    top: 16px;
-    left: 16px;
-    max-width: calc(100% - 68px);
-    padding: 7px 11px;
-    border-radius: 999px;
-    font-size: 9px;
-    letter-spacing: 1px;
-    background: rgba(16, 16, 20, .44);
-    border-color: rgba(255,255,255,.15);
-    backdrop-filter: blur(16px);
-  }
-
-  html.light-theme .product-color-badge {
-    background: rgba(255,255,255,.72);
-    color: #3a3033;
-    border-color: rgba(0,0,0,.06);
-  }
-
-  .product-image-shade {
-    position: absolute;
-    inset: auto 0 0;
-    height: 24%;
-    z-index: 2;
-    pointer-events: none;
-    background: linear-gradient(180deg, transparent, rgba(8,8,10,.07));
-  }
-
-  .product-photo-placeholder {
-    position: relative;
-    z-index: 1;
-    font-size: clamp(26px, 4vw, 44px);
-    letter-spacing: -2px;
-    font-weight: 650;
-    color: var(--text-muted);
+    bottom: 18px;
+    padding: 5px 9px;
+    border-radius: 9px;
+    color: #fff;
+    background: rgba(0,0,0,.58);
+    border: 1px solid rgba(255,255,255,.16);
+    font-size: 11px;
+    backdrop-filter: blur(8px);
   }
 
   .product-info {
-    padding: 20px 21px 21px;
+    min-width: 0;
+    min-height: 100%;
+    padding: 24px 22px 22px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    flex: 1;
-  }
-
-  .product-name {
-    font-size: clamp(16px, 1.45vw, 19px);
-    line-height: 1.2;
-    white-space: normal;
-    margin-bottom: 6px;
-    letter-spacing: -.55px;
-  }
-
-  .product-spec {
-    font-size: 12px;
-    line-height: 1.45;
-    white-space: normal;
-    margin-bottom: 0;
-  }
-
-  .product-bottom {
-    align-items: center;
-    margin-top: auto;
-    gap: 10px;
-  }
-
-  .product-price {
-    font-size: clamp(16px, 1.6vw, 21px);
-    letter-spacing: -.7px;
-  }
-
-  .product-cta {
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
-    gap: 9px;
-    padding: 9px 12px;
-    border-radius: 999px;
-    font-size: 11px;
-    white-space: nowrap;
-    background: transparent;
+    align-items: flex-start;
+  }
+  .product-kicker {
+    margin-bottom: 10px;
+    color: #b56a7a;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+  .product-name {
+    width: 100%;
+    margin-bottom: 9px;
+    font-size: clamp(16px, 1.3vw, 20px);
+    line-height: 1.25;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .product-spec {
+    width: 100%;
+    margin-bottom: 18px;
+    white-space: normal;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .product-bottom {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 4px;
+    flex-wrap: wrap;
+  }
+  .product-cta { white-space: nowrap; }
+
+  @media (max-width: 1100px) {
+    .catalog-grid { gap: 16px; }
+    .product-card { min-height: 226px; }
+    .product-image.product-gallery { min-height: 226px; }
+    .product-gallery-main .product-photo { min-height: 190px; }
+    .product-info { padding: 20px 18px; }
+    .product-price { font-size: 19px; }
   }
 
-  .product-cta svg {
-    width: 15px;
-    height: 15px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 1.7;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: transform .25s;
-  }
-
-  .product-card:hover .product-cta svg { transform: translateX(3px); }
-
-  .skeleton-card { display: block; border-radius: 23px; }
-  .skeleton-image { height: auto; aspect-ratio: 1 / 1; }
-  .empty-catalog { column-span: all; width: 100%; }
-
-  @media (max-width: 900px) {
-    .catalog-grid { columns: 2 250px; column-gap: 16px; }
-    .page-hero { padding-left: 28px; padding-right: 28px; }
-    .filters-bar, .categories, .catalog { padding-left: 28px; padding-right: 28px; }
-    .collection-index { margin-bottom: 5px; }
+  @media (max-width: 820px) {
+    .catalog-grid { grid-template-columns: 1fr; max-width: 720px; margin: 0 auto; }
+    .product-card { min-height: 250px; }
+    .product-image.product-gallery { min-height: 250px; }
+    .product-gallery-main .product-photo { min-height: 220px; }
+    .product-info { padding: 26px 28px; }
+    .product-name { font-size: 20px; }
   }
 
   @media (max-width: 700px) {
-    header { padding: 13px 18px; }
-    .page-hero { padding: 112px 20px 25px; }
-    .collection-kicker { margin-bottom: 15px; font-size: 9px; }
-    .collection-heading-row { align-items: flex-end; gap: 10px; }
-    .page-title { font-size: clamp(34px, 8vw, 46px); letter-spacing: -1.9px; margin-bottom: 9px; }
-    .page-subtitle { font-size: 13px; max-width: 260px; line-height: 1.5; }
-    .collection-index { gap: 6px; }
-    .collection-index span { font-size: 7px; letter-spacing: 1px; }
-    .collection-index b { font-size: 20px; }
-    .filters-bar { padding: 0 20px 15px; gap: 8px; }
-    .search-box { min-width: 0; flex: 1 1 100%; }
-    .search-box input { min-height: 44px; padding-top: 11px; padding-bottom: 11px; }
-    .sort-select { min-height: 42px; padding-top: 10px; padding-bottom: 10px; font-size: 12px; }
-    .categories { padding: 0 20px 17px; gap: 7px; }
-    .category-btn { padding: 8px 13px; font-size: 11px; }
-    .catalog { padding: 0 20px 82px; }
-    .catalog-grid { columns: 2; column-gap: 12px; }
-    .product-card { margin-bottom: 12px; border-radius: 17px; }
-    .product-info { padding: 13px 13px 14px; gap: 13px; }
-    .product-name { font-size: 14px; letter-spacing: -.35px; }
-    .product-spec { font-size: 10px; line-height: 1.35; }
-    .product-bottom { align-items: flex-start; flex-direction: column; gap: 9px; }
-    .product-price { font-size: 15px; }
-    .product-cta { align-self: stretch; padding: 8px 10px; font-size: 10px; justify-content: space-between; }
-    .product-color-badge { top: 9px; left: 9px; padding: 5px 8px; font-size: 8px; max-width: calc(100% - 48px); }
-    .product-image-index { top: 12px; right: 11px; font-size: 8px; }
-    .masonry-tall .product-image { aspect-ratio: .82 / 1; }
-    .masonry-landscape .product-image { aspect-ratio: 1 / .88; }
-    .masonry-square .product-image { aspect-ratio: .94 / 1; }
-    .masonry-portrait .product-image { aspect-ratio: .82 / 1; }
-    .masonry-wide .product-image { aspect-ratio: 1 / .88; }
-    .product-photo { padding: 9%; }
-    footer { padding: 36px 20px; }
-    .footer-inner { gap: 17px; }
-    .footer-links { justify-content: center; gap: 13px 18px; }
+    .catalog-grid { grid-template-columns: 1fr; gap: 14px; }
+    .skeleton-card { grid-template-columns: 38% minmax(0, 1fr); min-height: 184px; }
+    .skeleton-card .skeleton-image { min-height: 184px; }
+    .skeleton-card .skeleton-info { padding: 18px 14px; }
+    .product-card {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      min-height: 190px;
+      border-radius: 18px;
+      transform: translateY(16px);
+    }
+    .product-image.product-gallery {
+      min-height: 190px;
+      padding: 7px;
+      gap: 5px;
+    }
+    .product-gallery-main { border-radius: 11px; }
+    .product-gallery-main .product-photo { min-height: 172px; padding: 7px; }
+    .product-image.product-gallery { gap: 6px; }
+    .product-gallery-extra { border-radius: 11px; }
+    .product-gallery-extra img { min-height: 172px; padding: 7px; }
+    .product-color-badge { top: 12px; left: 12px; font-size: 8px; padding: 4px 7px; }
+    .product-gallery-count { right: 11px; bottom: 11px; font-size: 9px; padding: 4px 6px; }
+    .product-info { padding: 14px 13px 13px; }
+    .product-kicker { font-size: 8px; letter-spacing: .8px; margin-bottom: 6px; }
+    .product-name { font-size: 15px; line-height: 1.25; margin-bottom: 6px; }
+    .product-spec { font-size: 10px; line-height: 1.4; margin-bottom: 10px; }
+    .product-price { font-size: 15px; letter-spacing: -.35px; }
+    .product-cta { padding: 7px 9px; font-size: 10px; border-radius: 9px; }
+    .product-bottom { gap: 7px; }
   }
 
-  @media (max-width: 360px) {
-    .catalog-grid { columns: 1; }
-    .product-info { padding: 16px 16px 17px; }
-    .product-bottom { flex-direction: row; align-items: center; }
-    .product-cta { align-self: auto; }
+  @media (max-width: 370px) {
+    .catalog { padding-left: 14px; padding-right: 14px; }
+    .product-card { grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); min-height: 178px; }
+    .product-image.product-gallery { min-height: 178px; }
+    .product-gallery-main .product-photo,
+    .product-gallery-extra img { min-height: 160px; }
+    .product-info { padding: 12px 10px; }
+    .product-name { font-size: 14px; }
+    .product-spec { font-size: 9px; }
+    .product-price { font-size: 14px; }
+    .product-cta { padding: 6px 8px; font-size: 9px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .product-card, .product-photo, .product-cta svg { transition: none !important; animation: none !important; }
+    .product-card, .product-photo, .product-gallery-extra img { transition: none !important; }
   }
 
 </style>
@@ -1258,14 +1151,8 @@
       <span>·</span>
       <span style="color: var(--text-primary);">Каталог</span>
     </div>
-    <div class="collection-kicker"><span class="kicker-line"></span><span>ISAKHA / SELECTED IPHONE</span></div>
-    <div class="collection-heading-row">
-      <div>
-        <h1 class="page-title">Новая коллекция<span class="title-period">.</span></h1>
-        <p class="page-subtitle" id="catalogSubtitle">Только новые iPhone. Выберите свой.</p>
-      </div>
-      <div class="collection-index" aria-hidden="true"><span>COLLECTION</span><b>01</b></div>
-    </div>
+    <h1 class="page-title">Каталог iPhone</h1>
+    <p class="page-subtitle" id="catalogSubtitle">Оригинальные устройства с гарантией и доставкой</p>
   </section>
 
   <div class="filters-bar">
@@ -1287,10 +1174,10 @@
 
   <section class="catalog">
     <div class="catalog-grid" id="catalogGrid">
-      <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
     </div>
   </section>
 
@@ -1335,7 +1222,7 @@
 
   <script>
     function formatPrice(n) {
-      return (Number(n) || 0).toLocaleString('ru-RU') + ' ₽';
+      return (n || 0).toLocaleString('ru-RU') + ' ₽';
     }
 
     function escapeHtml(s) {
@@ -1438,6 +1325,24 @@
       renderCatalog();
     }
 
+    // Поддерживаем старое поле photo и дополнительные массивы photos / gallery / images.
+    // Поэтому старые товары продолжат отображаться без изменений, а карточки смогут
+    // показывать несколько кадров, когда они будут добавлены в данные товара.
+    function getProductPhotos(product) {
+      const source = product.photos || product.gallery || product.images || [];
+      const items = Array.isArray(source)
+        ? source
+        : (source && typeof source === 'object' ? Object.keys(source).sort().map(key => source[key]) : []);
+      const normalize = item => {
+        if (typeof item === 'string') return item.trim();
+        if (item && typeof item === 'object') {
+          return String(item.url || item.src || item.photo || item.image || '').trim();
+        }
+        return '';
+      };
+      return [...new Set([normalize(product.photo), ...items.map(normalize)].filter(Boolean))].slice(0, 6);
+    }
+
     function renderCatalog() {
       if (filteredProducts.length > 0) {
         const word = filteredProducts.length === 1 ? 'товар' :
@@ -1476,35 +1381,40 @@
         return;
       }
 
-      grid.innerHTML = filteredProducts.map((p, index) => {
+      grid.innerHTML = filteredProducts.map(p => {
         const firstSpec = (p.specs || [])[0];
-        const colorOption = (p.options || []).find(o => /^(цвет|color)$/i.test((o.name || '').trim()));
-        const colorValue = colorOption && colorOption.values && colorOption.values[0]
-          ? colorOption.values[0].value : '';
-        const specLine = [firstSpec ? firstSpec.value : '', colorValue].filter(Boolean).join(' · ');
-        const badge = colorValue || 'Новая модель';
-        const photo = p.photo || '';
-        const layouts = ['masonry-tall', 'masonry-landscape', 'masonry-square', 'masonry-portrait', 'masonry-wide'];
-        const layoutClass = layouts[index % layouts.length];
-        const productId = encodeURIComponent(p.id);
-        const productName = escapeHtml(p.name || 'iPhone');
+        const firstOption = (p.options || [])[0];
+        const optValue = firstOption && firstOption.values && firstOption.values[0]
+          ? firstOption.values[0].value : '';
+
+        const specLine = [firstSpec ? firstSpec.value : '', optValue].filter(Boolean).join(' · ');
+        const badge = optValue || p.category || 'Товар';
+        const description = p.description || specLine || 'Посмотрите характеристики и доступные варианты';
+        const photos = getProductPhotos(p);
+        const mainPhoto = photos[0] || '';
+        const extraPhotos = photos.slice(1, 2);
+        const galleryMarkup = mainPhoto
+          ? `<div class="product-gallery-main"><img src="${escapeHtml(mainPhoto)}" alt="${escapeHtml(p.name)}" class="product-photo" loading="lazy"></div>`
+          : `<div class="product-gallery-main product-gallery-placeholder"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="17" y="5" width="30" height="54" rx="6"/><path d="M27 11h10M29 52h6"/></svg></div>`;
+        const extraMarkup = extraPhotos.length
+          ? `<div class="product-gallery-extra"><img src="${escapeHtml(extraPhotos[0])}" alt="${escapeHtml(p.name)} — дополнительное фото" loading="lazy"></div>`
+          : '';
 
         return `
-          <a href="product.html?id=${productId}" class="product-card ${layoutClass}" aria-label="Открыть ${productName}">
-            <div class="product-image">
-              <div class="product-image-index">${String(index + 1).padStart(2, '0')}</div>
+          <a href="product.html?id=${encodeURIComponent(p.id)}" class="product-card">
+            <div class="product-image product-gallery ${extraPhotos.length ? 'product-gallery-multiple' : 'product-gallery-single'}">
+              ${galleryMarkup}
+              ${extraMarkup}
               <div class="product-color-badge">${escapeHtml(badge)}</div>
-              ${photo ? `<img src="${escapeHtml(photo)}" alt="${productName}" class="product-photo" loading="lazy">` : '<div class="product-photo-placeholder" aria-hidden="true">iPhone</div>'}
-              <div class="product-image-shade" aria-hidden="true"></div>
+              ${photos.length > 2 ? `<div class="product-gallery-count">+${photos.length - 2}</div>` : ''}
             </div>
             <div class="product-info">
-              <div class="product-copy">
-                <div class="product-name">${productName}</div>
-                <div class="product-spec">${escapeHtml(specLine) || 'Новая модель Apple'}</div>
-              </div>
+              <div class="product-kicker">${escapeHtml(p.category || 'iSAKHA COLLECTION')}</div>
+              <div class="product-name">${escapeHtml(p.name)}</div>
+              <div class="product-spec">${escapeHtml(description)}</div>
               <div class="product-bottom">
                 <div class="product-price">${formatPrice(p.price)}</div>
-                <span class="product-cta"><span>Смотреть</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                <div class="product-cta">Подробнее <span aria-hidden="true">↗</span></div>
               </div>
             </div>
           </a>

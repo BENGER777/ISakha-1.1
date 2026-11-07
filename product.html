@@ -1045,6 +1045,343 @@
   @media (max-width: 480px) {
     .similar-grid { grid-template-columns: 1fr; }
   }
+
+
+  /* ===== iSakha Product Studio / responsive configuration refresh ===== */
+  :root {
+    --isakha-accent: #8f4657;
+    --isakha-accent-soft: rgba(143, 70, 87, .12);
+  }
+
+  body { padding-top: 28px; }
+
+  .top-actions { max-width: 1280px; margin: 0 auto; left: 50%; right: auto; width: calc(100% - 48px); transform: translateX(-50%); }
+
+  .breadcrumbs-bar {
+    margin-top: 42px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    letter-spacing: .1px;
+  }
+
+  .card {
+    grid-template-columns: minmax(0, 1.03fr) minmax(430px, .97fr);
+    border-radius: 30px;
+    box-shadow: 0 28px 90px rgba(0,0,0,.10), 0 0 0 1px var(--border);
+  }
+
+  .viewer {
+    min-height: 720px;
+    background: var(--viewer-bg);
+  }
+
+  .viewer-hint {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 13px;
+    border-radius: 999px;
+    color: rgba(255,255,255,.76);
+    background: rgba(12,12,15,.34);
+    border: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(14px);
+    font-size: 10px;
+    letter-spacing: .2px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .viewer-hint-icon { font-size: 15px; line-height: 1; }
+  html.light-theme .viewer-hint { color: rgba(35,30,32,.65); background: rgba(255,255,255,.55); border-color: rgba(0,0,0,.07); }
+
+  .top-badge { top: 24px; left: 24px; }
+  .badge { padding: 8px 14px; font-size: 10px; letter-spacing: 1px; }
+
+  .info {
+    padding: clamp(32px, 3.4vw, 48px);
+    gap: 0;
+    min-width: 0;
+  }
+
+  .header { align-items: flex-start; margin-bottom: 24px; }
+  .title { font-size: clamp(27px, 2.4vw, 34px); letter-spacing: -1.2px; line-height: 1.08; }
+  .subtitle { font-size: 13px; }
+  .share-btn { width: 40px; height: 40px; border-radius: 50%; }
+
+  .specs-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px 18px;
+    padding: 17px 0;
+    margin-bottom: 25px;
+  }
+
+  .spec-item { font-size: 11px; letter-spacing: .1px; }
+  .spec-item b { font-size: 13px; margin-top: 4px; }
+
+  .config-heading { margin-bottom: 17px; }
+  .config-kicker {
+    color: #a56774;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    margin-bottom: 8px;
+  }
+  .config-heading h2 {
+    color: var(--text-primary);
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: -.65px;
+    font-weight: 650;
+    margin-bottom: 5px;
+  }
+  .config-heading p { color: var(--text-muted); font-size: 11px; line-height: 1.5; }
+
+  #optionsContainer { display: flex; flex-direction: column; gap: 22px; }
+  .option-block { gap: 11px; min-width: 0; }
+  .option-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .option-label { font-size: 10px; letter-spacing: 1.35px; color: var(--text-muted); }
+  .option-value-label { color: var(--text-primary); font-size: 12px; font-weight: 600; text-align: right; }
+  .option-value-label:empty { display: none; }
+  .option-row { gap: 8px; }
+
+  .color-choice {
+    min-width: 62px;
+    padding: 9px 9px 8px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid transparent;
+    border-radius: 13px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s, transform .2s;
+  }
+  .color-choice:hover { background: var(--bg-input); color: var(--text-primary); }
+  .color-choice.active { background: var(--bg-input); border-color: rgba(143,70,87,.38); color: var(--text-primary); }
+  .color-swatch {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid rgba(128,128,128,.18);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 3px 8px rgba(0,0,0,.12);
+    position: relative;
+  }
+  .color-choice.active .color-swatch::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border: 1.5px solid #a65e6e;
+    border-radius: 50%;
+  }
+  .color-choice-name { max-width: 90px; font-size: 10px; line-height: 1.2; text-align: center; }
+
+  .option-row--memory { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .memory-choice {
+    position: relative;
+    min-height: 73px;
+    padding: 13px 10px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 5px;
+    text-align: left;
+    border: 1px solid var(--border-input);
+    border-radius: 14px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color .2s, background .2s, transform .2s;
+  }
+  .memory-choice:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+  .memory-choice.active { border-color: rgba(166,94,110,.72); background: var(--isakha-accent-soft); }
+  .memory-value { font-size: 16px; font-weight: 650; letter-spacing: -.45px; line-height: 1; }
+  .memory-choice small, .sim-choice small { color: var(--text-muted); font-size: 10px; line-height: 1.3; }
+  .choice-check {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: transparent;
+    border: 1px solid var(--border-input);
+    font-size: 10px;
+    transition: all .2s;
+  }
+  .memory-choice.active .choice-check,
+  .sim-choice.active .choice-check { background: #8f4657; color: #fff; border-color: #8f4657; }
+
+  .option-row--sim { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .sim-choice {
+    min-height: 82px;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 13px 29px 13px 12px;
+    text-align: left;
+    border: 1px solid var(--border-input);
+    border-radius: 14px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color .2s, background .2s, transform .2s;
+  }
+  .sim-choice:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+  .sim-choice.active { border-color: rgba(166,94,110,.72); background: var(--isakha-accent-soft); }
+  .sim-choice-icon { width: 28px; height: 28px; flex: 0 0 28px; display: grid; place-items: center; border-radius: 9px; background: var(--bg-hover); color: var(--text-secondary); }
+  .sim-choice-icon svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .sim-choice-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; min-width: 0; }
+  .sim-choice-copy strong { font-size: 11px; font-weight: 650; line-height: 1.3; }
+  .sim-choice-copy small { max-width: 100%; }
+  .sim-choice .choice-check { top: 10px; right: 9px; }
+
+  .option-btn { border-radius: 13px; min-height: 42px; padding: 10px 14px; }
+  .option-btn.active { background: var(--isakha-accent-soft); border-color: rgba(166,94,110,.68); }
+
+  .selection-summary {
+    margin-top: 20px;
+    padding: 13px 14px 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--bg-input), transparent);
+  }
+  .selection-summary[hidden] { display: none; }
+  .summary-label { margin-bottom: 9px; color: var(--text-muted); font-size: 9px; letter-spacing: 1.3px; font-weight: 700; }
+  .summary-values { display: flex; flex-wrap: wrap; gap: 6px; }
+  .summary-chip { display: inline-flex; align-items: baseline; gap: 5px; padding: 6px 9px; border-radius: 8px; background: var(--bg-hover); color: var(--text-secondary); font-size: 10px; }
+  .summary-chip-label { color: var(--text-muted); }
+  .summary-chip b { color: var(--text-primary); font-weight: 600; }
+  .config-empty { padding: 16px; border: 1px dashed var(--border-input); border-radius: 14px; color: var(--text-muted); font-size: 12px; }
+
+  .price-block {
+    margin-top: 21px;
+    padding: 18px 0;
+    align-items: center;
+    gap: 9px 12px;
+  }
+  .price { font-size: clamp(30px, 3vw, 38px); letter-spacing: -1.4px; line-height: 1; }
+  .old-price { font-size: 13px; }
+  .discount { margin-left: 0; padding: 5px 8px; border-radius: 7px; font-size: 10px; }
+  .old-price[hidden], .discount[hidden] { display: none; }
+
+  .accordion { margin-top: 0; }
+  .acc-head { padding: 16px 0; font-size: 13px; }
+  .actions { margin-top: 19px; gap: 9px; }
+  .btn-cart { min-height: 54px; border-radius: 14px; font-size: 14px; }
+  .btn-whatsapp { min-height: 48px; border-radius: 13px; font-size: 12px; }
+
+  .similar-section { margin-top: 58px; }
+  .similar-title { font-size: 23px; }
+
+  @media (max-width: 1100px) {
+    .card { grid-template-columns: minmax(0, .95fr) minmax(390px, 1.05fr); }
+    .viewer { min-height: 660px; }
+    .info { padding: 32px 28px; }
+  }
+
+  @media (max-width: 860px) {
+    body { padding: 18px 15px 78px; }
+    .top-actions { top: 10px; width: calc(100% - 30px); padding: 0; }
+    .breadcrumbs-bar { margin: 37px auto 15px; }
+    .card { grid-template-columns: minmax(0, 1fr); border-radius: 24px; }
+    .viewer { min-height: clamp(320px, 72vw, 480px); }
+    .info { padding: 27px clamp(20px, 5vw, 34px) 30px; }
+    .header { margin-bottom: 20px; }
+    .title { font-size: clamp(25px, 4.5vw, 31px); }
+    .specs-list { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 21px; }
+    #optionsContainer { gap: 19px; }
+    .selection-summary { margin-top: 17px; }
+    .price-block { margin-top: 17px; }
+    .actions { position: sticky; bottom: max(10px, env(safe-area-inset-bottom)); z-index: 20; padding: 9px; margin-left: -9px; margin-right: -9px; border: 1px solid var(--border); border-radius: 18px; background: rgba(16,16,20,.88); backdrop-filter: blur(18px); box-shadow: 0 12px 35px rgba(0,0,0,.16); }
+    html.light-theme .actions { background: rgba(255,255,255,.88); }
+    .similar-section { margin-top: 42px; }
+  }
+
+  @media (max-width: 560px) {
+    body { padding: 15px 12px calc(70px + env(safe-area-inset-bottom)); }
+    .top-actions { width: calc(100% - 24px); top: 8px; }
+    .back-btn, .cart-btn { padding: 9px 12px; min-height: 40px; border-radius: 12px; font-size: 12px; }
+    .breadcrumbs-bar { margin-top: 36px; margin-bottom: 12px; font-size: 10px; }
+    .card { border-radius: 20px; }
+    .viewer { min-height: clamp(285px, 88vw, 390px); }
+    .top-badge { top: 14px; left: 14px; }
+    .badge { font-size: 9px; padding: 7px 11px; }
+    .viewer-hint { bottom: 14px; font-size: 9px; padding: 8px 11px; }
+    .info { padding: 23px 17px 23px; }
+    .header { gap: 10px; margin-bottom: 18px; }
+    .title { font-size: 25px; letter-spacing: -.9px; }
+    .subtitle { font-size: 11px; line-height: 1.45; }
+    .share-btn { width: 36px; height: 36px; }
+    .specs-list { gap: 11px 12px; padding: 14px 0; margin-bottom: 19px; }
+    .spec-item { font-size: 10px; }
+    .spec-item b { font-size: 12px; }
+    .config-heading { margin-bottom: 14px; }
+    .config-heading h2 { font-size: 19px; }
+    .config-heading p { font-size: 10px; }
+    #optionsContainer { gap: 18px; }
+    .option-block { gap: 9px; }
+    .option-heading { gap: 8px; }
+    .option-label { font-size: 9px; }
+    .option-value-label { font-size: 11px; }
+    .color-choice { min-width: 57px; padding: 8px 7px; }
+    .color-swatch { width: 27px; height: 27px; }
+    .color-choice-name { font-size: 9px; }
+    .option-row--memory { gap: 6px; }
+    .memory-choice { min-height: 67px; padding: 11px 8px; border-radius: 12px; }
+    .memory-value { font-size: 14px; }
+    .memory-choice small { font-size: 9px; }
+    .option-row--sim { grid-template-columns: 1fr; gap: 7px; }
+    .sim-choice { min-height: 64px; padding: 10px 31px 10px 11px; border-radius: 12px; align-items: center; }
+    .sim-choice-copy { gap: 3px; }
+    .sim-choice-copy strong { font-size: 11px; }
+    .sim-choice-copy small { font-size: 9px; }
+    .selection-summary { padding: 11px 12px 12px; margin-top: 15px; }
+    .summary-chip { font-size: 9px; padding: 6px 8px; }
+    .price-block { margin-top: 15px; padding: 16px 0; }
+    .price { font-size: 30px; }
+    .accordion { margin-top: 0; }
+    .acc-head { padding: 14px 0; font-size: 12px; }
+    .actions { margin-top: 16px; gap: 7px; padding: 8px; border-radius: 15px; bottom: max(7px, env(safe-area-inset-bottom)); }
+    .btn-cart { min-height: 49px; padding: 13px; font-size: 13px; }
+    .btn-whatsapp { min-height: 43px; font-size: 11px; }
+    .similar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .similar-image { height: 135px; }
+    .similar-info { padding: 12px; }
+    .similar-name { font-size: 12px; }
+    .similar-spec { font-size: 10px; }
+    .similar-price { font-size: 13px; }
+  }
+
+  @media (max-width: 360px) {
+    body { padding-left: 9px; padding-right: 9px; }
+    .top-actions { width: calc(100% - 18px); }
+    .info { padding-left: 14px; padding-right: 14px; }
+    .color-choice { min-width: 52px; }
+    .option-row--memory { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .memory-value { font-size: 13px; }
+    .similar-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .color-choice, .config-choice, .option-btn, .viewer-hint { transition: none !important; animation: none !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -1116,6 +1453,7 @@
         <div class="top-badge">
           <div class="badge" id="colorBadge">Товар</div>
         </div>
+        <div class="viewer-hint" id="viewerHint"><span class="viewer-hint-icon">↻</span> Потяните, чтобы рассмотреть</div>
       </div>
 
       <div class="info">
@@ -1131,7 +1469,16 @@
 
         <div class="specs-list" id="specsList"></div>
 
+        <div class="config-heading">
+          <div class="config-kicker">PERSONAL CONFIGURATION</div>
+          <h2>Выберите свою версию</h2>
+          <p>Соберите iPhone под себя — все изменения сразу отразятся в цене.</p>
+        </div>
         <div id="optionsContainer"></div>
+        <div class="selection-summary" id="selectionSummary" aria-live="polite">
+          <div class="summary-label">ВАША КОНФИГУРАЦИЯ</div>
+          <div class="summary-values" id="selectionValues"></div>
+        </div>
 
         <div class="price-block">
           <div class="price" id="priceDisplay">— ₽</div>
@@ -1277,7 +1624,7 @@
     let allProducts = {};
 
     function formatPrice(n) {
-      return (n || 0).toLocaleString('ru-RU') + ' ₽';
+      return (Number(n) || 0).toLocaleString('ru-RU') + ' ₽';
     }
 
     function escapeHtml(s) {
@@ -1528,40 +1875,89 @@
       `).join('');
     }
 
+    function getOptionKind(name) {
+      const normalized = (name || '').toLowerCase().trim();
+      if (isColorOption(normalized)) return 'color';
+      if (normalized.includes('памят') || normalized.includes('storage')) return 'memory';
+      if (normalized.includes('sim') || normalized.includes('сим')) return 'sim';
+      return 'generic';
+    }
+
+    function getSimDescription(value) {
+      const v = (value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+      if ((v.includes('esim') || v.includes('e-sim')) && !v.includes('физ')) {
+        return 'Электронная SIM без физического слота';
+      }
+      if ((v.includes('физ') || v.includes('nano')) && (v.includes('esim') || v.includes('e-sim'))) {
+        return 'Физическая карта и электронная SIM';
+      }
+      if (v.includes('две') || v.includes('dual')) return 'Поддержка двух SIM';
+      return 'Вариант подключения сети';
+    }
+
     function renderOptions(options) {
       if (!options.length) {
-        optionsContainer.innerHTML = '';
+        optionsContainer.innerHTML = '<div class="config-empty">Варианты этой модели уточняются.</div>';
         return;
       }
 
       optionsContainer.innerHTML = options.map(opt => {
-        const isColor = isColorOption(opt.name);
+        const kind = getOptionKind(opt.name);
         const valuesHtml = (opt.values || []).map(v => {
-          if (isColor) {
+          const safeValue = escapeHtml(v.value);
+          const price = Number(v.price || 0);
+          const priceLabel = price > 0 ? `<small>+${formatPrice(price)}</small>` : '';
+          if (kind === 'color') {
             const style = getColorStyle(v.value, v.hex);
-            return `<div class="color-dot" data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}" data-hex="${escapeHtml(v.hex || '')}" data-model="${escapeHtml(v.model || '')}" style="background: ${style.bg};" title="${escapeHtml(v.value)}"></div>`;
-          } else {
-            const price = v.price && v.price > 0 ? `<small>+${formatPrice(v.price)}</small>` : '';
-            return `<button class="option-btn" data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}">${escapeHtml(v.value)}${price}</button>`;
+            return `
+              <button type="button" class="color-choice" data-option="${escapeHtml(opt.name)}" data-value="${safeValue}" data-price="${price}" data-hex="${escapeHtml(v.hex || '')}" data-model="${escapeHtml(v.model || '')}" aria-label="Цвет ${safeValue}" aria-pressed="false">
+                <span class="color-swatch" style="background:${style.bg};"></span>
+                <span class="color-choice-name">${safeValue}</span>
+              </button>`;
           }
+          if (kind === 'memory') {
+            return `
+              <button type="button" class="config-choice memory-choice" data-option="${escapeHtml(opt.name)}" data-value="${safeValue}" data-price="${price}" aria-pressed="false">
+                <span class="memory-value">${safeValue}</span>
+                <span class="choice-check" aria-hidden="true">✓</span>
+                ${priceLabel}
+              </button>`;
+          }
+          if (kind === 'sim') {
+            return `
+              <button type="button" class="config-choice sim-choice" data-option="${escapeHtml(opt.name)}" data-value="${safeValue}" data-price="${price}" aria-pressed="false">
+                <span class="sim-choice-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><path d="M9 7h6v7H9zM9 18h6"></path></svg></span>
+                <span class="sim-choice-copy"><strong>${safeValue}</strong><small>${escapeHtml(getSimDescription(v.value))}</small>${priceLabel}</span>
+                <span class="choice-check" aria-hidden="true">✓</span>
+              </button>`;
+          }
+          return `
+            <button type="button" class="option-btn" data-option="${escapeHtml(opt.name)}" data-value="${safeValue}" data-price="${price}" aria-pressed="false">${safeValue}${priceLabel}</button>`;
         }).join('');
 
+        const selectedLabel = kind === 'color' ? 'ЦВЕТ' : kind === 'memory' ? 'ПАМЯТЬ' : kind === 'sim' ? 'SIM-КАРТА' : escapeHtml(opt.name).toUpperCase();
         return `
-          <div class="option-block">
-            <div class="option-label">${escapeHtml(opt.name)}<span class="option-value-label" data-for="${escapeHtml(opt.name)}"></span></div>
-            <div class="option-row">${valuesHtml}</div>
-          </div>
-        `;
+          <div class="option-block option-block--${kind}">
+            <div class="option-heading">
+              <div class="option-label">${selectedLabel}</div>
+              <div class="option-value-label" data-for="${escapeHtml(opt.name)}"></div>
+            </div>
+            <div class="option-row option-row--${kind}">${valuesHtml}</div>
+          </div>`;
       }).join('');
 
-      optionsContainer.querySelectorAll('.color-dot, .option-btn').forEach(el => {
+      optionsContainer.querySelectorAll('.color-choice, .config-choice, .option-btn').forEach(el => {
         el.addEventListener('click', () => {
           const optName = el.dataset.option;
           const value = el.dataset.value;
           const hex = el.dataset.hex || '';
 
-          optionsContainer.querySelectorAll(`[data-option="${CSS.escape(optName)}"]`).forEach(x => x.classList.remove('active'));
+          optionsContainer.querySelectorAll(`[data-option="${CSS.escape(optName)}"]`).forEach(x => {
+            x.classList.remove('active');
+            x.setAttribute('aria-pressed', 'false');
+          });
           el.classList.add('active');
+          el.setAttribute('aria-pressed', 'true');
 
           currentSelections[optName] = value;
 
@@ -1575,9 +1971,28 @@
           }
 
           recalcPrice();
+          updateSelectionSummary();
           updateWhatsappLink();
         });
       });
+    }
+
+    function updateSelectionSummary() {
+      const summary = document.getElementById('selectionSummary');
+      const values = document.getElementById('selectionValues');
+      if (!summary || !values || !currentProduct) return;
+      const options = currentProduct.options || [];
+      const chosen = options
+        .filter(opt => currentSelections[opt.name])
+        .map(opt => ({ name: opt.name, value: currentSelections[opt.name], kind: getOptionKind(opt.name) }));
+      if (!chosen.length) {
+        summary.hidden = true;
+        return;
+      }
+      summary.hidden = false;
+      values.innerHTML = chosen.map(item => `
+        <span class="summary-chip"><span class="summary-chip-label">${escapeHtml(item.name)}</span><b>${escapeHtml(item.value)}</b></span>
+      `).join('');
     }
 
     function applyDefaultSelections() {
@@ -1588,35 +2003,43 @@
           currentSelections[opt.name] = firstValue.value;
 
           const firstEl = optionsContainer.querySelector(`[data-option="${CSS.escape(opt.name)}"][data-value="${CSS.escape(firstValue.value)}"]`);
-          if (firstEl) firstEl.classList.add('active');
+          if (firstEl) {
+            firstEl.classList.add('active');
+            firstEl.setAttribute('aria-pressed', 'true');
+          }
 
           const labelEl = optionsContainer.querySelector(`.option-value-label[data-for="${CSS.escape(opt.name)}"]`);
           if (labelEl) labelEl.textContent = firstValue.value;
         }
       });
+      updateSelectionSummary();
     }
 
     function recalcPrice() {
       const p = currentProduct;
       if (!p) return;
 
-      let price = p.price || 0;
+      let price = Number(p.price) || 0;
 
       (p.options || []).forEach(opt => {
         const selected = currentSelections[opt.name];
         if (!selected) return;
         const value = (opt.values || []).find(v => v.value === selected);
-        if (value && value.price) price += value.price;
+        if (value && value.price) price += Number(value.price) || 0;
       });
 
       currentPrice = price;
 
-      const oldPrice = Math.round(price * 1.13);
-      const discount = Math.round((1 - price / oldPrice) * 100);
+      const oldPrice = Number(p.oldPrice || p.originalPrice || 0);
+      const hasRealOldPrice = Number.isFinite(oldPrice) && oldPrice > price;
 
       priceDisplay.textContent = formatPrice(price);
-      oldPriceDisplay.textContent = formatPrice(oldPrice);
-      discountDisplay.textContent = '−' + discount + '%';
+      oldPriceDisplay.textContent = hasRealOldPrice ? formatPrice(oldPrice) : '';
+      discountDisplay.textContent = hasRealOldPrice
+        ? '−' + Math.round((1 - price / oldPrice) * 100) + '%'
+        : '';
+      oldPriceDisplay.hidden = !hasRealOldPrice;
+      discountDisplay.hidden = !hasRealOldPrice;
 
       addSchemaMarkup();
     }
@@ -1828,7 +2251,7 @@
       if (!p) return;
 
       let similar = Object.entries(allProducts)
-        .filter(([id]) => id !== p.id)
+        .filter(([id, prod]) => id !== p.id && prod.available !== false)
         .filter(([id, prod]) => {
           if (!p.category) return true;
           return (prod.category || '') === p.category;

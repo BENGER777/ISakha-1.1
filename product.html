@@ -1634,6 +1634,7 @@
       renderSpecs(p.specs || []);
       renderOptions(p.options || []);
       applyDefaultSelections();
+      refreshConfigurationChoices();
       recalcPrice();
       renderModel();
       updateWhatsappLink();
@@ -1656,6 +1657,37 @@
       `).join('');
     }
 
+    function configFieldForOption(name) {
+      const n = String(name || '').toLowerCase();
+      if (/(памят|storage|объ[её]м|capacity|гб|gb)/i.test(n)) return 'storage';
+      if (/(sim|сим)/i.test(n)) return 'sim';
+      return null;
+    }
+
+    function isConfigurationValueAvailable(optionName, value) {
+      const field = configFieldForOption(optionName);
+      const configs = currentProduct && currentProduct.configurations;
+      if (!field || !Array.isArray(configs)) return true;
+      const otherField = field === 'storage' ? 'sim' : 'storage';
+      const otherName = (currentProduct.options || []).find(o => configFieldForOption(o.name) === otherField)?.name;
+      const otherValue = otherName ? currentSelections[otherName] : '';
+      return configs.some(c => c[field] === value && (!otherValue || c[otherField] === otherValue));
+    }
+
+    function refreshConfigurationChoices() {
+      if (!currentProduct || !Array.isArray(currentProduct.configurations)) return;
+      optionsContainer.querySelectorAll('[data-option][data-value]').forEach(el => {
+        const field = configFieldForOption(el.dataset.option);
+        if (!field) return;
+        const otherField = field === 'storage' ? 'sim' : 'storage';
+        const otherName = (currentProduct.options || []).find(o => configFieldForOption(o.name) === otherField)?.name;
+        const otherValue = otherName ? currentSelections[otherName] : '';
+        const available = currentProduct.configurations.some(c => c[field] === el.dataset.value && (!otherValue || c[otherField] === otherValue));
+        el.disabled = !available;
+        if (!available) { el.classList.remove('active'); el.setAttribute('aria-pressed','false'); }
+      });
+    }
+
     function renderOptions(options) {
       if (!options.length) {
         optionsContainer.innerHTML = '';
@@ -1666,7 +1698,8 @@
         const kind = getOptionKind(opt.name);
         const valuesHtml = (opt.values || []).map(v => {
           const price = v.price && v.price > 0 ? `<small>+${formatPrice(v.price)}</small>` : '';
-          const commonData = `data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}" data-hex="${escapeHtml(v.hex || '')}" data-model="${escapeHtml(v.model || '')}" aria-pressed="false"`;
+          const unavailable = currentProduct && currentProduct.configurations && ['storage','sim'].includes(kind) && !isConfigurationValueAvailable(opt.name, v.value);
+          const commonData = `data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}" data-hex="${escapeHtml(v.hex || '')}" data-model="${escapeHtml(v.model || '')}" aria-pressed="false" ${unavailable ? 'disabled' : ''}`;
 
           if (kind === 'color') {
             const style = getColorStyle(v.value, v.hex);
@@ -1713,6 +1746,27 @@
           el.setAttribute('aria-pressed', 'true');
 
           currentSelections[optName] = value;
+          if (currentProduct.configurations && configFieldForOption(optName)) {
+            const changedField = configFieldForOption(optName);
+            const otherField = changedField === 'storage' ? 'sim' : 'storage';
+            const otherOpt = (currentProduct.options || []).find(o => configFieldForOption(o.name) === otherField);
+            if (otherOpt) {
+              const currentOther = currentSelections[otherOpt.name];
+              const compatible = currentProduct.configurations.filter(c => c[changedField] === value);
+              if (!compatible.some(c => c[otherField] === currentOther)) {
+                const next = compatible[0] && compatible[0][otherField];
+                if (next) {
+                  currentSelections[otherOpt.name] = next;
+                  const nextEl = optionsContainer.querySelector(`[data-option="${CSS.escape(otherOpt.name)}"][data-value="${CSS.escape(next)}"]`);
+                  optionsContainer.querySelectorAll(`[data-option="${CSS.escape(otherOpt.name)}"]`).forEach(x => { x.classList.remove('active'); x.setAttribute('aria-pressed','false'); });
+                  if (nextEl) { nextEl.classList.add('active'); nextEl.setAttribute('aria-pressed','true'); }
+                  const otherLabel = optionsContainer.querySelector(`.option-value-label[data-for="${CSS.escape(otherOpt.name)}"]`);
+                  if (otherLabel) otherLabel.textContent = next;
+                }
+              }
+            }
+            refreshConfigurationChoices();
+          }
 
           const labelEl = optionsContainer.querySelector(`.option-value-label[data-for="${CSS.escape(optName)}"]`);
           if (labelEl) labelEl.textContent = value;
@@ -1753,8 +1807,21 @@
       if (!p) return;
 
       let price = p.price || 0;
-
+      if (Array.isArray(p.configurations) && p.configurations.length) {
+        const storageOpt = (p.options || []).find(o => configFieldForOption(o.name) === 'storage');
+        const simOpt = (p.options || []).find(o => configFieldForOption(o.name) === 'sim');
+        const storage = storageOpt ? currentSelections[storageOpt.name] : '';
+        const sim = simOpt ? currentSelections[simOpt.name] : '';
+        const match = p.configurations.find(c => c.storage === storage && c.sim === sim);
+        if (match) price = match.price;
+        else {
+          const compatible = p.configurations.filter(c => (!storage || c.storage === storage) && (!sim || c.sim === sim));
+          if (compatible.length) price = Math.min(...compatible.map(c => c.price));
+        }
+        // Регион и закупочная стоимость хранятся в конфигурации для учёта, но не выводятся покупателю.
+      }
       (p.options || []).forEach(opt => {
+        if (configFieldForOption(opt.name)) return;
         const selected = currentSelections[opt.name];
         if (!selected) return;
         const value = (opt.values || []).find(v => v.value === selected);
@@ -1762,14 +1829,11 @@
       });
 
       currentPrice = price;
-
       const oldPrice = Math.round(price * 1.13);
       const discount = Math.round((1 - price / oldPrice) * 100);
-
       priceDisplay.textContent = formatPrice(price);
       oldPriceDisplay.textContent = formatPrice(oldPrice);
       discountDisplay.textContent = '−' + discount + '%';
-
       addSchemaMarkup();
     }
 

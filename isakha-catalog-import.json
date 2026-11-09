@@ -1,0 +1,1214 @@
+{
+  "iphone-18-pro-black": {
+    "name": "iPhone 18 Pro Black",
+    "category": "iPhone 18 Pro",
+    "price": 116000,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-18-pro-black.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Black"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone 18 Pro"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
+            "price": 0
+          },
+          {
+            "value": "256 ГБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          },
+          {
+            "value": "SIM + eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 157500,
+        "price": 165000
+      },
+      {
+        "storage": "1 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 182500,
+        "price": 190000
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 201900,
+        "price": 209400
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 108500,
+        "price": 116000
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 119500,
+        "price": 127000
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 128000,
+        "price": 135500
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 138900,
+        "price": 146400
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-18-pro-silver": {
+    "name": "iPhone 18 Pro Silver",
+    "category": "iPhone 18 Pro",
+    "price": 115200,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-18-pro-silver.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Silver"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone 18 Pro"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
+            "price": 0
+          },
+          {
+            "value": "256 ГБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          },
+          {
+            "value": "SIM + eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 171900,
+        "price": 179400
+      },
+      {
+        "storage": "1 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 189200,
+        "price": 196700
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "eSIM",
+        "region": "JP",
+        "supplierCost": 208500,
+        "price": 216000
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 107700,
+        "price": 115200
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 118000,
+        "price": 125500
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 134700,
+        "price": 142200
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 142900,
+        "price": 150400
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-18-pro-glacier": {
+    "name": "iPhone 18 Pro Glacier",
+    "category": "iPhone 18 Pro",
+    "price": 116200,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-18-pro-glacier.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Glacier"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone 18 Pro"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
+            "price": 0
+          },
+          {
+            "value": "256 ГБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          },
+          {
+            "value": "SIM + eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 168000,
+        "price": 175500
+      },
+      {
+        "storage": "1 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 186000,
+        "price": 193500
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 229500,
+        "price": 237000
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 108700,
+        "price": 116200
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 119000,
+        "price": 126500
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 128000,
+        "price": 135500
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 140700,
+        "price": 148200
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-18-pro-burgundy": {
+    "name": "iPhone 18 Pro Burgundy",
+    "category": "iPhone 18 Pro",
+    "price": 115300,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-18-pro-burgundy.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Burgundy"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone 18 Pro"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
+            "price": 0
+          },
+          {
+            "value": "256 ГБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          },
+          {
+            "value": "SIM + eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 172100,
+        "price": 179600
+      },
+      {
+        "storage": "1 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 179700,
+        "price": 187200
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 214500,
+        "price": 222000
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 230400,
+        "price": 237900
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 107800,
+        "price": 115300
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 119900,
+        "price": 127400
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 127700,
+        "price": 135200
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 140900,
+        "price": 148400
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-18-pro-max-black": {
+    "name": "iPhone 18 Pro Max Black",
+    "category": "iPhone 18 Pro Max",
+    "price": 128400,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-18-pro-max-black.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Black"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone 18 Pro Max"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
+            "price": 0
+          },
+          {
+            "value": "256 ГБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          },
+          {
+            "value": "SIM + eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 181000,
+        "price": 188500
+      },
+      {
+        "storage": "1 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 189900,
+        "price": 197400
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 218900,
+        "price": 226400
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 120900,
+        "price": 128400
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 125900,
+        "price": 133400
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 145000,
+        "price": 152500
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-18-pro-max-silver": {
+    "name": "iPhone 18 Pro Max Silver",
+    "category": "iPhone 18 Pro Max",
+    "price": 128200,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-18-pro-max-silver.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Silver"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone 18 Pro Max"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
+            "price": 0
+          },
+          {
+            "value": "256 ГБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          },
+          {
+            "value": "SIM + eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 186900,
+        "price": 194400
+      },
+      {
+        "storage": "1 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 194900,
+        "price": 202400
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 222500,
+        "price": 230000
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 120700,
+        "price": 128200
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 125500,
+        "price": 133000
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 150000,
+        "price": 157500
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-18-pro-max-glacier": {
+    "name": "iPhone 18 Pro Max Glacier",
+    "category": "iPhone 18 Pro Max",
+    "price": 130400,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-18-pro-max-glacier.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Glacier"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone 18 Pro Max"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "256 ГБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          },
+          {
+            "value": "SIM + eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 194900,
+        "price": 202400
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 122900,
+        "price": 130400
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 128500,
+        "price": 136000
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 140200,
+        "price": 147700
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 150500,
+        "price": 158000
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-18-pro-max-burgundy": {
+    "name": "iPhone 18 Pro Max Burgundy",
+    "category": "iPhone 18 Pro Max",
+    "price": 128400,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-18-pro-max-burgundy.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Burgundy"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone 18 Pro Max"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
+            "price": 0
+          },
+          {
+            "value": "256 ГБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          },
+          {
+            "value": "SIM + eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 181100,
+        "price": 188600
+      },
+      {
+        "storage": "1 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "AU",
+        "supplierCost": 195900,
+        "price": 203400
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 260500,
+        "price": 268000
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 120900,
+        "price": 128400
+      },
+      {
+        "storage": "256 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "EU",
+        "supplierCost": 132200,
+        "price": 139700
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 145900,
+        "price": 153400
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "SIM + eSIM",
+        "region": "HK",
+        "supplierCost": 156500,
+        "price": 164000
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-duo-night-sky": {
+    "name": "iPhone Duo Night Sky",
+    "category": "iPhone Duo",
+    "price": 240000,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-duo-fold-night-sky.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Night Sky"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone Duo"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 324000,
+        "price": 331500
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 232500,
+        "price": 240000
+      }
+    ],
+    "catalogManaged": true
+  },
+  "iphone-duo-star-white": {
+    "name": "iPhone Duo Star White",
+    "category": "iPhone Duo",
+    "price": 236500,
+    "available": true,
+    "createdAt": 1794260000000,
+    "photo": "",
+    "model": "iphone-duo-fold-star-white.glb",
+    "specs": [
+      {
+        "label": "Цвет",
+        "value": "Star White"
+      },
+      {
+        "label": "Модель",
+        "value": "iPhone Duo"
+      }
+    ],
+    "options": [
+      {
+        "name": "Память",
+        "values": [
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
+            "price": 0
+          },
+          {
+            "value": "512 ГБ",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "SIM",
+        "values": [
+          {
+            "value": "eSIM",
+            "price": 0
+          }
+        ]
+      },
+      {
+        "name": "Гарантия",
+        "values": [
+          {
+            "value": "Без дополнительной гарантии",
+            "price": 0
+          },
+          {
+            "value": "1 месяц",
+            "price": 2500
+          },
+          {
+            "value": "3 месяца",
+            "price": 3500
+          },
+          {
+            "value": "6 месяцев",
+            "price": 5500
+          },
+          {
+            "value": "1 год",
+            "price": 10000
+          }
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "storage": "1 ТБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 300000,
+        "price": 307500
+      },
+      {
+        "storage": "2 ТБ",
+        "sim": "eSIM",
+        "region": "JP",
+        "supplierCost": 335000,
+        "price": 342500
+      },
+      {
+        "storage": "512 ГБ",
+        "sim": "eSIM",
+        "region": "US",
+        "supplierCost": 229000,
+        "price": 236500
+      }
+    ],
+    "catalogManaged": true
+  }
+}

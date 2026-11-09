@@ -1413,7 +1413,7 @@
               <div class="product-name">${escapeHtml(p.name)}</div>
               <div class="product-spec">${escapeHtml(description)}</div>
               <div class="product-bottom">
-                <div class="product-price">${formatPrice(p.price)}</div>
+                <div class="product-price">${p.catalogManaged ? 'От ' : ''}${formatPrice(p.price)}</div>
                 <div class="product-cta">Подробнее <span aria-hidden="true">↗</span></div>
               </div>
             </div>

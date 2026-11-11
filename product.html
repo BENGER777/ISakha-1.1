@@ -1689,7 +1689,12 @@
       const field = configFieldForOption(optionName);
       const configs = currentProduct && currentProduct.configurations;
       if (!field || !Array.isArray(configs)) return true;
-      const otherField = field === 'storage' ? 'sim' : 'storage';
+      // Память не блокируем из-за текущей SIM: при выборе памяти
+      // ниже автоматически подберётся совместимый вариант SIM.
+      if (field === 'storage') {
+        return configs.some(c => c.storage === value);
+      }
+      const otherField = 'storage';
       const otherName = (currentProduct.options || []).find(o => configFieldForOption(o.name) === otherField)?.name;
       const otherValue = otherName ? currentSelections[otherName] : '';
       return configs.some(c => c[field] === value && (!otherValue || c[otherField] === otherValue));

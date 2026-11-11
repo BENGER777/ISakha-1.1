@@ -1797,6 +1797,20 @@
     statNums.forEach(el => statObserver.observe(el));
 
     const popularGrid = document.getElementById('popularGrid');
+    // Резервные фото для популярных товаров, если поле photo в Firebase пустое.
+    const defaultProductPhotos = {
+      'iphone-18-pro-black': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-black-768x768.webp',
+      'iphone-18-pro-silver': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-silver-768x768.webp',
+      'iphone-18-pro-glacier': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-glacier-768x768.webp',
+      'iphone-18-pro-burgundy': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-burgundy-768x768.webp',
+      'iphone-18-pro-max-black': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-black-768x768.webp',
+      'iphone-18-pro-max-silver': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-silver-768x768.webp',
+      'iphone-18-pro-max-glacier': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-glacier-768x768.webp',
+      'iphone-18-pro-max-burgundy': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-burgundy.webp',
+      'iphone-duo-night-sky': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-duo-nightsky-768x768.webp',
+      'iphone-duo-star-white': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-duo-starwhite-768x768.webp'
+    };
+
 
     db.ref('products').on('value', (snap) => {
       const products = snap.val() || {};
@@ -1827,12 +1841,14 @@
 
         const specLine = [firstSpec ? firstSpec.value : '', optValue].filter(Boolean).join(' · ');
         const badge = optValue || p.category || 'Товар';
+        const fallbackPhoto = defaultProductPhotos[p.id] || '';
+        const productPhoto = String(p.photo || '').trim() || fallbackPhoto;
 
         return `
           <a href="product.html?id=${p.id}" class="popular-card">
             <div class="popular-image">
               <div class="popular-badge">${escapeHtml(badge)}</div>
-              ${p.photo ? `<img src="${escapeHtml(p.photo)}" alt="${escapeHtml(p.name)}" loading="lazy">` : ''}
+              ${productPhoto ? `<img src="${escapeHtml(productPhoto)}" data-fallback="${escapeHtml(fallbackPhoto)}" alt="${escapeHtml(p.name)}" loading="lazy" decoding="async" onerror="if(this.dataset.fallback && !this.dataset.fallbackUsed){this.dataset.fallbackUsed=\'1\';this.src=this.dataset.fallback;}else{this.remove();}">` : ''}
             </div>
             <div class="popular-info">
               <div class="popular-name">${escapeHtml(p.name)}</div>

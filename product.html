@@ -155,7 +155,8 @@
   .viewer {
     position: relative;
     background: var(--viewer-bg);
-    min-height: 620px;
+    height: clamp(420px, 68vh, 680px);
+    min-height: 420px;
     overflow: hidden;
     transition: background 0.6s ease;
   }
@@ -1017,7 +1018,7 @@
     body { padding: 20px 16px 60px; }
 
     .card { grid-template-columns: 1fr; }
-    .viewer { min-height: 420px; }
+    .viewer { height: min(62svh, 520px); min-height: 340px; }
     .info { padding: 28px 24px; gap: 18px; }
     .title { font-size: 24px; }
     .price { font-size: 30px; }
@@ -1226,7 +1227,9 @@
           shadow-intensity="1"
           exposure="1"
           interaction-prompt="none"
-          rotation-per-second="20deg">
+          rotation-per-second="20deg"
+          camera-orbit="auto auto 125%"
+          field-of-view="30deg">
         </model-viewer>
 
         <div class="viewer-fallback" id="viewerFallback">
@@ -1632,7 +1635,7 @@
       }
 
       renderSpecs(p.specs || []);
-      renderOptions(p.options || []);
+      renderOptions((p.options || []).filter(opt => !/гарант/i.test(opt.name || '')));
       applyDefaultSelections();
       refreshConfigurationChoices();
       recalcPrice();
@@ -1784,7 +1787,7 @@
     }
 
     function applyDefaultSelections() {
-      const options = currentProduct.options || [];
+      const options = (currentProduct.options || []).filter(opt => !/гарант/i.test(opt.name || ''));
       options.forEach(opt => {
         if (opt.values && opt.values.length) {
           const firstValue = opt.values[0];
@@ -1821,7 +1824,7 @@
         // Регион и закупочная стоимость хранятся в конфигурации для учёта, но не выводятся покупателю.
       }
       (p.options || []).forEach(opt => {
-        if (configFieldForOption(opt.name)) return;
+        if (/гарант/i.test(opt.name || '') || configFieldForOption(opt.name)) return;
         const selected = currentSelections[opt.name];
         if (!selected) return;
         const value = (opt.values || []).find(v => v.value === selected);
@@ -1963,7 +1966,7 @@
       if (!p) return;
 
       let text = `Здравствуйте! Интересует ${p.name}`;
-      const opts = Object.entries(currentSelections);
+      const opts = Object.entries(currentSelections).filter(([name]) => !/гарант/i.test(name));
       if (opts.length) {
         text += ': ' + opts.map(([k, v]) => `${k} — ${v}`).join(', ');
       }

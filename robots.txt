@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Вспомогательные файлы не предназначены для поисковой выдачи.
+Disallow: /isakha-catalog-import.json
+Disallow: /CATALOG-SETUP-RU.md
+Disallow: /preview-generator.html
+Disallow: /reels-promo.html
+Disallow: /screenshot-phone.html
+Disallow: /isakha-logo.html
+
+Sitemap: https://isakha14.ru/sitemap.xml

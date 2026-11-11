@@ -1825,7 +1825,10 @@
       const options = (currentProduct.options || []).filter(opt => !/гарант/i.test(opt.name || ''));
       options.forEach(opt => {
         if (opt.values && opt.values.length) {
-          const firstValue = opt.values[0];
+          const values = configFieldForOption(opt.name) === 'storage'
+            ? [...opt.values].sort((a, b) => getStorageSortValue(a.value) - getStorageSortValue(b.value))
+            : opt.values;
+          const firstValue = values[0];
           currentSelections[opt.name] = firstValue.value;
 
           const firstEl = optionsContainer.querySelector(`[data-option="${CSS.escape(opt.name)}"][data-value="${CSS.escape(firstValue.value)}"]`);

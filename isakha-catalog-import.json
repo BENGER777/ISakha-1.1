@@ -22,19 +22,19 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
-            "price": 0
-          },
-          {
-            "value": "2 ТБ",
-            "price": 0
-          },
-          {
             "value": "256 ГБ",
             "price": 0
           },
           {
             "value": "512 ГБ",
+            "price": 0
+          },
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
             "price": 0
           }
         ]
@@ -154,19 +154,19 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
-            "price": 0
-          },
-          {
-            "value": "2 ТБ",
-            "price": 0
-          },
-          {
             "value": "256 ГБ",
             "price": 0
           },
           {
             "value": "512 ГБ",
+            "price": 0
+          },
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
             "price": 0
           }
         ]
@@ -286,19 +286,19 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
-            "price": 0
-          },
-          {
-            "value": "2 ТБ",
-            "price": 0
-          },
-          {
             "value": "256 ГБ",
             "price": 0
           },
           {
             "value": "512 ГБ",
+            "price": 0
+          },
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
             "price": 0
           }
         ]
@@ -418,19 +418,19 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
-            "price": 0
-          },
-          {
-            "value": "2 ТБ",
-            "price": 0
-          },
-          {
             "value": "256 ГБ",
             "price": 0
           },
           {
             "value": "512 ГБ",
+            "price": 0
+          },
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
             "price": 0
           }
         ]
@@ -557,19 +557,19 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
-            "price": 0
-          },
-          {
-            "value": "2 ТБ",
-            "price": 0
-          },
-          {
             "value": "256 ГБ",
             "price": 0
           },
           {
             "value": "512 ГБ",
+            "price": 0
+          },
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
             "price": 0
           }
         ]
@@ -682,19 +682,19 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
-            "price": 0
-          },
-          {
-            "value": "2 ТБ",
-            "price": 0
-          },
-          {
             "value": "256 ГБ",
             "price": 0
           },
           {
             "value": "512 ГБ",
+            "price": 0
+          },
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
             "price": 0
           }
         ]
@@ -807,15 +807,15 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
-            "price": 0
-          },
-          {
             "value": "256 ГБ",
             "price": 0
           },
           {
             "value": "512 ГБ",
+            "price": 0
+          },
+          {
+            "value": "1 ТБ",
             "price": 0
           }
         ]
@@ -921,19 +921,19 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
-            "price": 0
-          },
-          {
-            "value": "2 ТБ",
-            "price": 0
-          },
-          {
             "value": "256 ГБ",
             "price": 0
           },
           {
             "value": "512 ГБ",
+            "price": 0
+          },
+          {
+            "value": "1 ТБ",
+            "price": 0
+          },
+          {
+            "value": "2 ТБ",
             "price": 0
           }
         ]
@@ -1053,11 +1053,11 @@
         "name": "Память",
         "values": [
           {
-            "value": "1 ТБ",
+            "value": "512 ГБ",
             "price": 0
           },
           {
-            "value": "512 ГБ",
+            "value": "1 ТБ",
             "price": 0
           }
         ]
@@ -1138,15 +1138,15 @@
         "name": "Память",
         "values": [
           {
+            "value": "512 ГБ",
+            "price": 0
+          },
+          {
             "value": "1 ТБ",
             "price": 0
           },
           {
             "value": "2 ТБ",
-            "price": 0
-          },
-          {
-            "value": "512 ГБ",
             "price": 0
           }
         ]

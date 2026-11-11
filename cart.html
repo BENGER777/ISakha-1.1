@@ -944,6 +944,10 @@
     transition: color 0.3s;
   }
 
+  .checkout-note.error {
+    color: #e05252;
+  }
+
   footer {
     border-top: 1px solid var(--border);
     padding: 48px 40px;
@@ -1287,8 +1291,8 @@
         <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
       </div>
       <h2>Заказ оформлен!</h2>
-      <p>Скоро с вами свяжутся в WhatsApp</p>
-      <p class="modal-note">Обычно отвечаем в течение 15 минут</p>
+      <p>Мы свяжемся с вами по указанному номеру телефона.</p>
+      <p class="modal-note">Заказ сохранён в системе iSakha.</p>
       <button class="modal-btn" id="modalClose">Понятно</button>
     </div>
   </div>
@@ -1310,7 +1314,6 @@
   </script>
 
   <script>
-    const WHATSAPP_NUMBER = '79142768524';
     const STORAGE_KEY = 'isakha_cart';
     const MAX_QTY = 3;
 
@@ -1577,8 +1580,8 @@
               Оформить заказ
             </button>
 
-            <div class="checkout-note">
-              Отправим заказ в WhatsApp — ответим в течение 15 минут
+            <div class="checkout-note" id="checkoutStatus">
+              Заказ сохранится в системе iSakha. Мы свяжемся с вами по указанному номеру телефона.
             </div>
           </aside>
         </div>
@@ -1672,7 +1675,7 @@
 
     let isSubmitting = false;
 
-    function handleCheckout() {
+    async function handleCheckout() {
       if (isSubmitting) return;
 
       const cart = getCart();
@@ -1684,9 +1687,12 @@
       const comment = document.getElementById('fieldComment');
       const pdCheckbox = document.getElementById('fieldPD');
       const pdRow = document.getElementById('pdRow');
+      const status = document.getElementById('checkoutStatus');
+      const btn = document.getElementById('btnCheckout');
 
       [name, phone, address].forEach(el => el.classList.remove('error'));
       pdRow.classList.remove('error');
+      if (status) status.classList.remove('error');
 
       let valid = true;
       let firstErrorEl = null;
@@ -1709,10 +1715,8 @@
       }
 
       isSubmitting = true;
-      const btn = document.getElementById('btnCheckout');
       btn.disabled = true;
-
-      playBuySound();
+      if (status) status.textContent = 'Сохраняем заказ…';
 
       const sum = total(cart);
       const discount = getDiscount(sum);
@@ -1743,65 +1747,30 @@
         status: 'new'
       };
 
-      // Сохраняем в Firebase
-      db.ref('orders').push(order).then(() => {
-        console.log('Заказ сохранён');
-      }).catch(err => {
-        console.error('Ошибка сохранения:', err);
-      });
+      try {
+        // Сначала дожидаемся подтверждения сохранения заказа в Firebase.
+        const orderRef = db.ref('orders').push();
+        await orderRef.set(order);
 
-      // Отправляем в WhatsApp (без перехода)
-      let message = '🛒 *Новый заказ с сайта iSakha*\n\n';
-      message += `👤 *Имя:* ${order.name}\n`;
-      message += `📞 *Телефон:* ${order.phone}\n`;
-      message += `🏙 *Город:* ${order.city}\n`;
-      message += `📍 *Адрес:* ${order.address}\n`;
-      if (order.comment) message += `💬 *Комментарий:* ${order.comment}\n`;
-      message += '\n━━━━━━━━━━━━━━━\n\n📦 *Товары:*\n\n';
-
-      order.items.forEach((item, i) => {
-        message += `${i + 1}. ${item.name}`;
-        if (item.qty > 1) message += ` ×${item.qty}`;
-        message += '\n';
-        if (item.colorName) message += `   Цвет: ${item.colorName}\n`;
-        if (item.storage) message += `   Память: ${item.storage}\n`;
-        if (item.sim) message += `   SIM: ${item.sim}\n`;
-        if (item.options) {
-          Object.entries(item.options).forEach(([k, v]) => {
-            message += `   ${k}: ${v}\n`;
-          });
-        }
-        message += `   Цена: ${formatPrice(item.price * item.qty)}\n\n`;
-      });
-
-      message += '━━━━━━━━━━━━━━━\n';
-      if (order.discount > 0) {
-        message += `💵 Сумма: ${formatPrice(order.sum)}\n`;
-        message += `🎁 Скидка ${order.discountPercent}%: −${formatPrice(order.discount)}\n`;
-      }
-      message += `💰 *Итого:* ${formatPrice(order.total)}\n`;
-      message += `🚚 Доставка: ${order.city === 'Якутск' ? 'бесплатно по городу' : 'обсуждается отдельно'}\n`;
-
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-      // Отправляем через fetch без перехода (в фоне)
-      // Используем скрытый iframe или просто помечаем для себя
-      // Проще: сохраняем URL в переменную и пользователь сам кликает в WhatsApp
-      // Но мы покажем модалку — и запишем данные
-
-      // Показываем модалку
-      document.getElementById('modalSuccess').classList.add('show');
-
-      // Открываем WhatsApp в фоне (не в новом окне, а в iframe — чтобы не мешать)
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = url;
-      document.body.appendChild(iframe);
-
-      setTimeout(() => {
         saveCart([]);
         updateCartCount();
-      }, 1000);
+        playBuySound();
+
+        if (status) status.textContent = 'Заказ сохранён. Мы свяжемся с вами по указанному номеру.';
+        document.getElementById('modalSuccess').classList.add('show');
+      } catch (err) {
+        console.error('Ошибка сохранения заказа:', err);
+        if (status) {
+          status.textContent = 'Не удалось сохранить заказ. Проверьте подключение к интернету и попробуйте ещё раз. Корзина сохранена.';
+          status.classList.add('error');
+        }
+        isSubmitting = false;
+        btn.disabled = false;
+        return;
+      }
+
+      isSubmitting = false;
+      btn.disabled = false;
     }
 
     document.getElementById('modalClose').addEventListener('click', () => {

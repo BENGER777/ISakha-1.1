@@ -1370,6 +1370,16 @@
       return [...new Set([normalize(product.photo) || fallbackPhoto, ...items.map(normalize)].filter(Boolean))].slice(0, 6);
     }
 
+    function getStorageSortValue(value) {
+      const text = String(value || '').toLowerCase().replace(/\\s+/g, '');
+      const match = text.match(/[0-9]+(?:[.,][0-9]+)?/);
+      if (!match) return Number.MAX_SAFE_INTEGER;
+      const amount = Number(match[0].replace(',', '.'));
+      if (/(тб|tb)/i.test(text)) return amount * 1024;
+      if (/(гб|gb)/i.test(text)) return amount;
+      return Number.MAX_SAFE_INTEGER;
+    }
+
     function renderCatalog() {
       if (filteredProducts.length > 0) {
         const word = filteredProducts.length === 1 ? 'товар' :
@@ -1410,9 +1420,14 @@
 
       grid.innerHTML = filteredProducts.map(p => {
         const firstSpec = (p.specs || [])[0];
-        const firstOption = (p.options || [])[0];
-        const optValue = firstOption && firstOption.values && firstOption.values[0]
-          ? firstOption.values[0].value : '';
+        const storageOption = (p.options || []).find(opt => /(памят|storage|объ[её]м|capacity)/i.test(opt.name || ''));
+        const firstOption = storageOption || (p.options || [])[0];
+        const firstOptionValues = firstOption && Array.isArray(firstOption.values)
+          ? [...firstOption.values] : [];
+        if (storageOption) {
+          firstOptionValues.sort((a, b) => getStorageSortValue(a.value) - getStorageSortValue(b.value));
+        }
+        const optValue = firstOptionValues[0] ? firstOptionValues[0].value : '';
 
         const specLine = [firstSpec ? firstSpec.value : '', optValue].filter(Boolean).join(' · ');
         const badge = optValue || p.category || 'Товар';

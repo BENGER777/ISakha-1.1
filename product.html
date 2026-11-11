@@ -1162,7 +1162,25 @@
   @media (max-width: 600px) {
     .color-dot.variant-color-choice { min-height: 48px; min-width: 78px; padding: 7px 9px; font-size: 11px; }
     .variant-color-swatch { flex-basis: 22px; width: 22px; height: 22px; }
-    .option-btn.variant-storage-choice { min-width: 82px; min-height: 56px; padding: 9px 11px; }
+    .option-block-storage .option-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      width: 100%;
+    }
+    .option-btn.variant-storage-choice {
+      width: 100%;
+      min-width: 0;
+      min-height: 48px;
+      padding: 8px 2px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      white-space: nowrap;
+      font-size: 11px;
+      border-radius: 10px;
+    }
+    .option-btn.variant-storage-choice .variant-choice-value { font-size: 11px; }
     .option-btn.variant-sim-choice { min-width: min(140px, 100%); min-height: 54px; padding: 10px 12px; }
   }
 
@@ -1691,6 +1709,15 @@
       });
     }
 
+    function getStorageSortValue(value) {
+      const text = String(value || '').toLowerCase().replace(/\\s+/g, '');
+      const amount = Number((text.match(/[0-9]+(?:[.,][0-9]+)?/) || [0])[0].toString().replace(',', '.'));
+      if (!amount) return Number.MAX_SAFE_INTEGER;
+      if (/(тб|tb)/i.test(text)) return amount * 1024;
+      if (/(гб|gb)/i.test(text)) return amount;
+      return Number.MAX_SAFE_INTEGER;
+    }
+
     function renderOptions(options) {
       if (!options.length) {
         optionsContainer.innerHTML = '';
@@ -1699,7 +1726,10 @@
 
       optionsContainer.innerHTML = options.map(opt => {
         const kind = getOptionKind(opt.name);
-        const valuesHtml = (opt.values || []).map(v => {
+        const optionValues = kind === 'storage'
+          ? [...(opt.values || [])].sort((a, b) => getStorageSortValue(a.value) - getStorageSortValue(b.value))
+          : (opt.values || []);
+        const valuesHtml = optionValues.map(v => {
           const price = v.price && v.price > 0 ? `<small>+${formatPrice(v.price)}</small>` : '';
           const unavailable = currentProduct && currentProduct.configurations && ['storage','sim'].includes(kind) && !isConfigurationValueAvailable(opt.name, v.value);
           const commonData = `data-option="${escapeHtml(opt.name)}" data-value="${escapeHtml(v.value)}" data-price="${v.price || 0}" data-hex="${escapeHtml(v.hex || '')}" data-model="${escapeHtml(v.model || '')}" aria-pressed="false" ${unavailable ? 'disabled' : ''}`;

@@ -1325,6 +1325,20 @@
       renderCatalog();
     }
 
+    // Прозрачные изображения товаров для карточек, если фото ещё не заполнено в Firebase.
+    const defaultProductPhotos = {
+          "iphone-18-pro-black": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-black-768x768.webp",
+          "iphone-18-pro-silver": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-silver-768x768.webp",
+          "iphone-18-pro-glacier": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-glacier-768x768.webp",
+          "iphone-18-pro-burgundy": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-burgundy-768x768.webp",
+          "iphone-18-pro-max-black": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-black-768x768.webp",
+          "iphone-18-pro-max-silver": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-silver-768x768.webp",
+          "iphone-18-pro-max-glacier": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-glacier-768x768.webp",
+          "iphone-18-pro-max-burgundy": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-burgundy.webp",
+          "iphone-duo-night-sky": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-duo-nightsky-768x768.webp",
+          "iphone-duo-star-white": "https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-duo-starwhite-768x768.webp"
+    };
+
     // Поддерживаем старое поле photo и дополнительные массивы photos / gallery / images.
     // Поэтому старые товары продолжат отображаться без изменений, а карточки смогут
     // показывать несколько кадров, когда они будут добавлены в данные товара.
@@ -1340,7 +1354,8 @@
         }
         return '';
       };
-      return [...new Set([normalize(product.photo), ...items.map(normalize)].filter(Boolean))].slice(0, 6);
+      const fallbackPhoto = defaultProductPhotos[product.id] || '';
+      return [...new Set([normalize(product.photo) || fallbackPhoto, ...items.map(normalize)].filter(Boolean))].slice(0, 6);
     }
 
     function renderCatalog() {

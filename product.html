@@ -1810,6 +1810,20 @@
     const similarSection = document.getElementById('similarSection');
     const similarGrid = document.getElementById('similarGrid');
 
+    // Резервные фото для похожих товаров, когда поле photo ещё не заполнено в Firebase.
+    const defaultProductPhotos = {
+      'iphone-18-pro-black': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-black-768x768.webp',
+      'iphone-18-pro-silver': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-silver-768x768.webp',
+      'iphone-18-pro-glacier': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-glacier-768x768.webp',
+      'iphone-18-pro-burgundy': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-burgundy-768x768.webp',
+      'iphone-18-pro-max-black': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-black-768x768.webp',
+      'iphone-18-pro-max-silver': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-silver-768x768.webp',
+      'iphone-18-pro-max-glacier': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-glacier-768x768.webp',
+      'iphone-18-pro-max-burgundy': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-18-pro-max-burgundy.webp',
+      'iphone-duo-night-sky': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-duo-nightsky-768x768.webp',
+      'iphone-duo-star-white': 'https://cloudgadgets.ru/wp-content/uploads/2026/09/iphone-duo-starwhite-768x768.webp'
+    };
+
     let currentProduct = null;
     let currentSelections = {};
     let currentPrice = 0;
@@ -2509,11 +2523,12 @@
         const optValue = firstOption && firstOption.values && firstOption.values[0]
           ? firstOption.values[0].value : '';
         const specLine = [specs, optValue].filter(Boolean).join(' · ');
+        const productPhoto = (prod.photo || '').trim() || defaultProductPhotos[id] || '';
 
         return `
-          <a href="product.html?id=${id}" class="similar-card">
+          <a href="product.html?id=${encodeURIComponent(id)}" class="similar-card">
             <div class="similar-image">
-              ${prod.photo ? `<img src="${escapeHtml(prod.photo)}" alt="${escapeHtml(prod.name)}" loading="lazy">` : ''}
+              ${productPhoto ? `<img src="${escapeHtml(productPhoto)}" alt="${escapeHtml(prod.name)}" loading="lazy">` : ''}
             </div>
             <div class="similar-info">
               <div class="similar-name">${escapeHtml(prod.name)}</div>

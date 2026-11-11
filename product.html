@@ -234,44 +234,6 @@
     to { transform: rotate(360deg); }
   }
 
-  .desktop-color-slot { display: none; }
-
-  @media (min-width: 861px) {
-    .desktop-color-slot {
-      display: block;
-      position: absolute;
-      z-index: 4;
-      left: 24px;
-      right: 24px;
-      bottom: 20px;
-      padding: 14px 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 16px;
-      background: rgba(18, 20, 25, .68);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-    }
-    .desktop-color-slot:empty { display: none; }
-    .desktop-color-slot .option-block-color { margin: 0; }
-    .desktop-color-slot .option-block-color .option-label {
-      color: #fff;
-      margin-bottom: 9px;
-    }
-    .desktop-color-slot .option-block-color .option-value-label { color: rgba(255,255,255,.8); }
-    .desktop-color-slot .option-block-color .option-row { gap: 8px; flex-wrap: wrap; }
-    .desktop-color-slot .color-dot.variant-color-choice {
-      min-height: 42px;
-      min-width: 0;
-      padding: 6px 10px;
-      border-color: rgba(255,255,255,.2);
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      font-size: 11px;
-      border-radius: 10px;
-    }
-    .desktop-color-slot .variant-color-swatch { flex-basis: 20px; width: 20px; height: 20px; }
-  }
-
   .viewer-fallback {
     position: absolute;
     inset: 0;
@@ -1295,7 +1257,6 @@
         <div class="top-badge">
           <div class="badge" id="colorBadge">Товар</div>
         </div>
-        <div class="desktop-color-slot" id="desktopColorSlot"></div>
       </div>
 
       <div class="info">
@@ -1439,7 +1400,6 @@
     const discountDisplay = document.getElementById('discountDisplay');
     const specsList = document.getElementById('specsList');
     const optionsContainer = document.getElementById('optionsContainer');
-    const desktopColorSlot = document.getElementById('desktopColorSlot');
     const cartCount = document.getElementById('cartCount');
     const cartBtn = document.getElementById('cartBtn');
     const btnCart = document.getElementById('btnCart');
@@ -1737,7 +1697,7 @@
 
     function refreshConfigurationChoices() {
       if (!currentProduct || !Array.isArray(currentProduct.configurations)) return;
-      document.querySelectorAll('#optionsContainer [data-option][data-value]').forEach(el => {
+      optionsContainer.querySelectorAll('[data-option][data-value]').forEach(el => {
         const field = configFieldForOption(el.dataset.option);
         if (!field) return;
         const otherField = field === 'storage' ? 'sim' : 'storage';
@@ -1758,15 +1718,7 @@
       return Number.MAX_SAFE_INTEGER;
     }
 
-    function placeDesktopColorSelector() {
-      const colorBlock = optionsContainer.querySelector('.option-block-color') || desktopColorSlot.querySelector('.option-block-color');
-      if (!colorBlock) return;
-      if (window.innerWidth > 860) desktopColorSlot.appendChild(colorBlock);
-      else optionsContainer.appendChild(colorBlock);
-    }
-
     function renderOptions(options) {
-      desktopColorSlot.innerHTML = '';
       if (!options.length) {
         optionsContainer.innerHTML = '';
         return;
@@ -1819,7 +1771,7 @@
           const value = el.dataset.value;
           const hex = el.dataset.hex || '';
 
-          document.querySelectorAll(`#optionsContainer [data-option="${CSS.escape(optName)}"], #desktopColorSlot [data-option="${CSS.escape(optName)}"]`).forEach(x => {
+          optionsContainer.querySelectorAll(`[data-option="${CSS.escape(optName)}"]`).forEach(x => {
             x.classList.remove('active');
             x.setAttribute('aria-pressed', 'false');
           });
@@ -1838,10 +1790,10 @@
                 const next = compatible[0] && compatible[0][otherField];
                 if (next) {
                   currentSelections[otherOpt.name] = next;
-                  const nextEl = document.querySelector(`#optionsContainer [data-option="${CSS.escape(otherOpt.name)}"][data-value="${CSS.escape(next)}"], #desktopColorSlot [data-option="${CSS.escape(otherOpt.name)}"][data-value="${CSS.escape(next)}"]`);
-                  document.querySelectorAll(`#optionsContainer [data-option="${CSS.escape(otherOpt.name)}"], #desktopColorSlot [data-option="${CSS.escape(otherOpt.name)}"]`).forEach(x => { x.classList.remove('active'); x.setAttribute('aria-pressed','false'); });
+                  const nextEl = optionsContainer.querySelector(`[data-option="${CSS.escape(otherOpt.name)}"][data-value="${CSS.escape(next)}"]`);
+                  optionsContainer.querySelectorAll(`[data-option="${CSS.escape(otherOpt.name)}"]`).forEach(x => { x.classList.remove('active'); x.setAttribute('aria-pressed','false'); });
                   if (nextEl) { nextEl.classList.add('active'); nextEl.setAttribute('aria-pressed','true'); }
-                  const otherLabel = document.querySelector(`#optionsContainer .option-value-label[data-for="${CSS.escape(otherOpt.name)}"], #desktopColorSlot .option-value-label[data-for="${CSS.escape(otherOpt.name)}"]`);
+                  const otherLabel = optionsContainer.querySelector(`.option-value-label[data-for="${CSS.escape(otherOpt.name)}"]`);
                   if (otherLabel) otherLabel.textContent = next;
                 }
               }
@@ -1849,7 +1801,7 @@
             refreshConfigurationChoices();
           }
 
-          const labelEl = document.querySelector(`#optionsContainer .option-value-label[data-for="${CSS.escape(optName)}"], #desktopColorSlot .option-value-label[data-for="${CSS.escape(optName)}"]`);
+          const labelEl = optionsContainer.querySelector(`.option-value-label[data-for="${CSS.escape(optName)}"]`);
           if (labelEl) labelEl.textContent = value;
 
           if (isColorOption(optName)) {
@@ -1862,7 +1814,6 @@
           updateWhatsappLink();
         });
       });
-      placeDesktopColorSelector();
     }
 
     function applyDefaultSelections() {
@@ -1872,13 +1823,13 @@
           const firstValue = opt.values[0];
           currentSelections[opt.name] = firstValue.value;
 
-          const firstEl = document.querySelector(`#optionsContainer [data-option="${CSS.escape(opt.name)}"][data-value="${CSS.escape(firstValue.value)}"], #desktopColorSlot [data-option="${CSS.escape(opt.name)}"][data-value="${CSS.escape(firstValue.value)}"]`);
+          const firstEl = optionsContainer.querySelector(`[data-option="${CSS.escape(opt.name)}"][data-value="${CSS.escape(firstValue.value)}"]`);
           if (firstEl) {
             firstEl.classList.add('active');
             firstEl.setAttribute('aria-pressed', 'true');
           }
 
-          const labelEl = document.querySelector(`#optionsContainer .option-value-label[data-for="${CSS.escape(opt.name)}"], #desktopColorSlot .option-value-label[data-for="${CSS.escape(opt.name)}"]`);
+          const labelEl = optionsContainer.querySelector(`.option-value-label[data-for="${CSS.escape(opt.name)}"]`);
           if (labelEl) labelEl.textContent = firstValue.value;
         }
       });

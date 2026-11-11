@@ -25,6 +25,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Verify product images and transparent backgrounds
+        run: |
+          python -m pip install --quiet Pillow
+          python - <<'PY'
+          import io
+          import json
+          import urllib.request
+          from pathlib import Path
+          from PIL import Image
+
+          products = json.loads(Path("isakha-catalog-import.json").read_text(encoding="utf-8"))
+          for product_id, product in products.items():
+              url = (product.get("photo") or "").strip()
+              if not url:
+                  raise SystemExit(f"{product_id}: не задана ссылка на фото")
+              request = urllib.request.Request(
+                  url,
+                  headers={"User-Agent": "Mozilla/5.0 iSakhaCatalogImageCheck/1.0"}
+              )
+              with urllib.request.urlopen(request, timeout=25) as response:
+                  if response.status != 200:
+                      raise SystemExit(f"{product_id}: HTTP {response.status}")
+                  data = response.read()
+              image = Image.open(io.BytesIO(data))
+              image.load()
+              if image.format != "WEBP":
+                  raise SystemExit(f"{product_id}: ожидался WebP, получен {image.format}")
+              if "A" not in image.getbands():
+                  raise SystemExit(f"{product_id}: изображение без альфа-канала (фон не прозрачный)")
+              alpha = image.getchannel("A")
+              if alpha.getextrema()[0] == 255:
+                  raise SystemExit(f"{product_id}: альфа-канал есть, но прозрачных пикселей нет")
+              print(f"OK {product_id}: {image.size[0]}x{image.size[1]}, прозрачный фон")
+          PY
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 

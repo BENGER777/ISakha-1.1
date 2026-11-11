@@ -1321,6 +1321,18 @@
           items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
       }
 
+      // Группируем модели по линейке: Pro → Pro Max → Duo.
+      // Стабильная сортировка сохраняет выбранный порядок (цена, название или новизна)
+      // внутри каждой группы.
+      function getProductGroupOrder(product) {
+        const label = `${product.category || ''} ${product.name || ''}`.toLowerCase();
+        if (/iphone\\s*duo/.test(label)) return 2;
+        if (/iphone\\s*18\\s*pro\\s*max|pro\\s*max/.test(label)) return 1;
+        if (/iphone\\s*18\\s*pro/.test(label)) return 0;
+        return 3;
+      }
+      items.sort((a, b) => getProductGroupOrder(a) - getProductGroupOrder(b));
+
       filteredProducts = items;
       renderCatalog();
     }
